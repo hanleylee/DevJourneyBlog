@@ -1,0 +1,90 @@
+.menu-root {
+    --memu-h1-text-color-light: rgb(44, 62, 80);
+    --memu-h1-text-color-dark: #cacaca;
+    --memu-h2-text-color-light: rgb(127, 140, 141);
+    --memu-h2-text-color-dark: rgb(127, 140, 141);
+    --memu-h3-text-color-light: #333333;
+    --memu-h3-text-color-dark: #828282;
+}
+
+.menu-root {
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* width: 180px; */
+}
+
+.menu-root .h1-link {
+    display: block;
+    color: var(--memu-h1-text-color-light);
+    font-family: "source sans pro", "helvetica neue", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 420;
+    height: auto;
+    line-height: 16px;
+    list-style-type: none;
+    margin-block-end: 11px;
+    margin-block-start: 11px;
+    padding-left: 5px;
+    padding-right: 3px;
+    /* border-bottom: 2px solid #00000000; */
+}
+
+.menu-root .h2-link.current+.menu-sub {
+    display: block;
+}
+
+.menu-root .h2-link {
+    color: var(--memu-h2-text-color-light);
+    cursor: pointer;
+    font-family: "source sans pro", "helvetica neue", Arial, sans-serif;
+    font-size: 12px;
+    height: auto;
+    line-height: 16px;
+    list-style-type: disc;
+    text-align: left;
+    /* text-decoration-color: rgb(127, 140, 141); */
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    margin-left: 12.5px;
+    display: block;
+    padding-left: 5px;
+    padding-right: 3px;
+    /* border-bottom: 2px solid #00000000; */
+}
+
+.menu-sub {
+    padding-left: 25px;
+    list-style-type: square;
+    display: none;
+}
+
+.menu-sub .h3-link {
+    color: var(--memu-h3-text-color-light);
+    cursor: pointer;
+    display: inline;
+    font-family: "source sans pro", "helvetica neue", Arial, sans-serif;
+    font-size: 11px;
+    height: auto;
+    line-height: 15px;
+    list-style-type: square;
+    text-align: left;
+    /* text-decoration-color: rgb(52, 73, 94); */
+    text-decoration-line: none;
+    text-decoration-style: solid;
+}
+
+@media (prefers-color-scheme: dark) {
+    .menu-root .h1-link {
+        color: var(--memu-h1-text-color-dark);
+    }
+
+    .menu-root .h2-link {
+        color: var(--memu-h2-text-color-dark);
+    }
+
+    .menu-root .h3-link {
+        color: var(--memu-h3-text-color-dark);
+    }
+}
