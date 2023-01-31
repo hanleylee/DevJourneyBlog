@@ -13,12 +13,15 @@ let package = Package(
             targets: ["DevJourneyBlog"]
         )
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/JohnSundell/Splash", from: "0.1.0")
+    ],
     targets: [
         .executableTarget(
             name: "DevJourneyBlog",
             dependencies: [
                 "Publish",
+                "Splash",
             ],
             path: "Sources"
         )
