@@ -7,7 +7,6 @@
 
 import Foundation
 import Publish
-import Sweep
 
 // 对于非本站页面都在新的tab中打开
 var hrefOpenNewTab = Modifier(target: .links){ html, markdown in

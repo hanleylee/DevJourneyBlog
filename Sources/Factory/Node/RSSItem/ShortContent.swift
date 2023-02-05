@@ -30,9 +30,7 @@ extension Node where Context: RSSItemContext {
                 ],
                 terminators: ["\""],
                 handler: { url, range in
-                    guard url.first == "/" else {
-                        return
-                    }
+                    guard url.first == "/" else { return }
 
                     let absoluteURL = baseURL.appendingPathComponent(String(url))
                     let isHref = (html[range.lowerBound] == "h")

@@ -8,7 +8,6 @@
 import Foundation
 import Plot
 import Publish
-import Sweep
 
 extension Node where Context == HTML.BodyContext {
 

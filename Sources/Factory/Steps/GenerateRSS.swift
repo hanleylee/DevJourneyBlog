@@ -9,7 +9,6 @@ import Files
 import Foundation
 import Plot
 import Publish
-import Sweep
 
 extension PublishingStep {
     static func generateShortRSSFeed(

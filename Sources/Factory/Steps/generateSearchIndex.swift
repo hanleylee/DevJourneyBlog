@@ -8,7 +8,6 @@
 import Foundation
 import Plot
 import Publish
-import Sweep
 
 extension PublishingStep {
     static func generateSearchIndex(includeCode: Bool = true) -> PublishingStep {

@@ -2,7 +2,7 @@ import Foundation
 import Markdown
 import Plot
 import Publish
-import SplashPublishPlugin
+import Sweep
 
 /// Delete all **strong** elements in a markup tree.
 struct StrongDeleter: MarkupRewriter {
@@ -11,7 +11,7 @@ struct StrongDeleter: MarkupRewriter {
     }
 }
 
-let source = """
+var source = """
 ---
 title: 版本管理工具 Git 的使用
 date: 2019-12-24
@@ -35,7 +35,7 @@ Now you see me, **now you don't**
 
 """
 let document = Document(parsing: source)
-// print(document.debugDescription())
+//print(document.debugDescription())
 let doc2 = Document(
     Paragraph(
         Text("This is a "),
@@ -44,10 +44,10 @@ let doc2 = Document(
         )
     )
 )
-//print(doc2.debugDescription())
-//var visitor = HTMLVisitor()
-//let doc3 = visitor.visit(doc2)
-//print(doc3)
+// print(doc2.debugDescription())
+// var visitor = HTMLVisitor()
+// let doc3 = visitor.visit(doc2)
+// print(doc3)
 
 struct DevJourneyBlog: Website {
     enum SectionID: String, WebsiteSectionID {

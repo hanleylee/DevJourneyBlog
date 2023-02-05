@@ -8,7 +8,6 @@
 import Foundation
 import Plot
 import Publish
-import Sweep
 
 struct ShortRSSFeedGenerator<Site: Website> {
     let includedSectionIDs: Set<Site.SectionID>
