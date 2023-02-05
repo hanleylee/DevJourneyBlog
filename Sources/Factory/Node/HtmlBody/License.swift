@@ -13,7 +13,7 @@ extension Node where Context == HTML.BodyContext {
         .div(
             .class("license"),
             .p(
-                .text("本博客文章采用"),
+                .text("本博客文章采用 "),
                 .a(
                     .text("CC 4.0 协议"),
                     .href("https://creativecommons.org/licenses/by-nc-sa/4.0/"),

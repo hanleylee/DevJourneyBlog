@@ -26,7 +26,7 @@ extension DevJourneyHTMLFactory {
                     .wrapper(
                         .viewContainer(
                             .centerContent(
-                                .itemList(for: context.allItems(sortedBy: \.date, order: .descending), on: context.site, limit: 10),
+                                .itemList(for: context, items: context.allItems(sortedBy: \.date, order: .descending), limit: 10),
                                 .indexFooter(context: context, showTitle: false)
                             ),
                             .sideNav(

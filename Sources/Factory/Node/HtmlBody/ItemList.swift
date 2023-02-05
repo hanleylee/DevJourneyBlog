@@ -10,10 +10,10 @@ import Plot
 import Publish
 
 extension Node where Context == HTML.BodyContext {
-    static func itemList<T: Website>(for items: [Item<T>], on site: T, limit: Int = .max) -> Node {
+    static func itemList<T: Website>(for context: PublishingContext<T>, items: [Item<T>], limit: Int = .max) -> Node {
         return .ul(
             .class("item-list"),
-            .forEach(items.prefix(limit)) { item in
+            .forEach(items.prefix(10)) { item in
                 .li(
                     .article(
                         .h1(
@@ -23,12 +23,13 @@ extension Node where Context == HTML.BodyContext {
                                 .text(item.title)
                             )
                         ),
-                        .tagList(for: item, on: site, displayDate: true),
-                        .p(.text(item.description)),
-                        .if(item.imagePath != nil,
-                            .div(
-                                .img(.src(item.imagePath?.absoluteString ?? ""))
-                            ))
+                        .tagList(for: item, on: context.site, displayDate: true),
+                        .div(
+                            .class("content"),
+                            .raw(context.markdownParser.parse(item.description).html)
+//                            .markdown(item.description)
+                        ),
+                        .if(item.imagePath != nil, .div(.img(.src(item.imagePath?.absoluteString ?? ""))))
                     )
                 )
             }

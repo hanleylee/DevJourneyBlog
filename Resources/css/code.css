@@ -1,12 +1,55 @@
 /* every thing about code highlight*/
+pre code {
+    font-family: monospace;
+    display: block;
+    padding: 0 20px;
+    color: #a9bcbc;
+    line-height: 1.4em;
+    font-size: 1.2em;
+    overflow-x: auto;
+    white-space: pre;
+    border-radius: 10px;
+    padding: 20px;
+    -webkit-overflow-scrolling: touch;
+}
 
-.content pre {
+pre code .keyword {
+    color: #e73289;
+}
+pre code .type {
+    color: #8281ca;
+}
+pre code .call {
+    color: #348fe5;
+}
+pre code .property {
+    color: #21ab9d;
+}
+pre code .number {
+    color: #db6f57;
+}
+pre code .string {
+    color: #fa641e;
+}
+pre code .comment {
+    color: #6b8a94;
+}
+pre code .dotAccess {
+    color: #92b300;
+}
+pre code .preprocessing {
+    color: #b68a00;
+}
+
+.content pre,
+.item-list pre {
     margin-top: 10px;
     margin-bottom: 10px;
     display: grid;
 }
 
-.content pre code {
+.content pre code,
+.item-list pre code {
     display: block;
     background-color: black;
     padding: 15px 12px;
@@ -20,7 +63,9 @@
     -webkit-overflow-scrolling: touch;
 }
 
-.content pre code .highlight {
+.content pre code .highlight,
+.item-list pre code .highlight,
+{
     display: inline-block;
     padding: 0 4px 2px 4px;
     border: 1px solid #546AFF;

@@ -36,12 +36,13 @@ extension DevJourneyHTMLFactory {
                         .div(
                             .class("tagResult"),
                             .itemList(
-                                for: context.items(
+                                for: context,
+                                items: context.items(
                                     taggedWith: page.tag,
                                     sortedBy: \.date,
                                     order: .descending
                                 ),
-                                on: context.site
+                                limit: .max
                             )
                         )
                     ),

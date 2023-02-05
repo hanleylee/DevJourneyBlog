@@ -145,8 +145,6 @@ body {
     padding-right: 10px;
 }
 
-
-
 div .publishDate {
     vertical-align: center;
 }
@@ -406,8 +404,8 @@ article .services .content>ul {
     /* border-top-right-radius: 7px;
     border-bottom-right-radius: 7px; */
     border-left: var(--blockquote-headline-color-light);
-    margin-left: -4px;
-    text-indent: 2em;
+    margin-left: 0px;
+    text-indent: 0em;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
@@ -628,7 +626,7 @@ a.browse-all:hover {
 }
 
 .content {
-    margin-bottom: 80px;
+    margin-bottom: 20px;
     /* text-align: justify; */
 }
 
@@ -715,7 +713,7 @@ a.browse-all:hover {
 blockquote {
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: -10px;
+    margin-left: 0px;
     margin-right: -10px;
     background-color: var(--blockquote-background-color-light);
     border-top-right-radius: 5px;
@@ -1455,7 +1453,7 @@ li.selectedTag a {
     position: fix;
     width: 400px;
     height: 246px;
-    background-image: url("/img/donateCode.png");
+    background-image: url("/img/wechat_reward.jpg");
     margin: 0 0 0 50px;
     display: none;
     z-index: 9999;
@@ -1608,48 +1606,6 @@ li.selectedTag a {
     border-radius: 1px;
     padding: 2px;
 }
-
-pre code {
-    font-family: monospace;
-    display: block;
-    padding: 0 20px;
-    color: #a9bcbc;
-    line-height: 1.4em;
-    font-size: 1.2em;
-    overflow-x: auto;
-    white-space: pre;
-    border-radius: 10px;
-    padding: 20px;
-    -webkit-overflow-scrolling: touch;
-}
-pre code .keyword {
-    color: #e73289;
-}
-pre code .type {
-    color: #8281ca;
-}
-pre code .call {
-    color: #348fe5;
-}
-pre code .property {
-    color: #21ab9d;
-}
-pre code .number {
-    color: #db6f57;
-}
-pre code .string {
-    color: #fa641e;
-}
-pre code .comment {
-    color: #6b8a94;
-}
-pre code .dotAccess {
-    color: #92b300;
-}
-pre code .preprocessing {
-    color: #b68a00;
-}
-
 
 @media (max-width:1000px) {
     .side-nav {
