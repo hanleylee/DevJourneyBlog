@@ -75,13 +75,13 @@
     padding: 0;
     border: 0;
     box-sizing: border-box;
+    font-family: 'Fira Code', LXGWWenKai, "Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
 }
 
 body {
     background: var(--header-background-color-light);
-    /*font-family: Helvetica, Arial;*/
     text-align: center;
-    font-family: "Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+/*    font-family: 'Fira Code', LXGWWenKai, "Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;*/
     line-height: 1.22857;
     font-size: 15px;
     color: var(--content-text-color-light);
@@ -159,7 +159,7 @@ header {
     background-size: 400px;
     line-height: 1.5em;
     padding: 0 20px;
-    height: 400px;
+    height: 350px;
 }
 
 header a {
@@ -307,12 +307,12 @@ header .logo img {
 
 .license {
     text-align: center;
-    font-size: 10px;
     padding: 20px 0 60px 0;
-    font-family: sans-serif;
+/*    font-family: sans-serif;*/
 }
 
 .license p {
+    font-size: 13px;
     text-align: center;
     text-indent: 0em;
 }
@@ -326,7 +326,7 @@ nav {
     margin-top: 30px;
     overflow: hidden;
     vertical-align: center;
-    font-family: sans-serif;
+/*    font-family: LXGWWenKai, sans-serif;*/
     font-weight: 400;
 }
 
@@ -615,7 +615,7 @@ a {
 a.browse-all {
     color: var(--content-link-text-color-light);
     /* font-weight: bold; */
-    font-family: sans-serif;
+/*    font-family: LXGWWenKai, sans-serif;*/
     float: right;
     line-height: 1em;
     padding-top: 10px;
@@ -671,7 +671,7 @@ a.browse-all:hover {
 }
 
 .content ol li {
-    margin-left: 20px;
+    margin-left: 30px;
     margin-right: 20px;
     margin-bottom: 0px;
     margin-top: 0px;
@@ -702,7 +702,7 @@ a.browse-all:hover {
 
 .post-title {
     text-align: center;
-    padding: 80px 40px 80px 40px;
+    padding: 30px 30px 30px 30px;
     display: block;
 }
 
@@ -903,7 +903,7 @@ footer {
     margin-right: auto;
     font-size: 10px;
     background-color: var(--footer-background-color-light);
-    font-family: sans-serif;
+/*    font-family: LXGWWenKai, sans-serif;*/
 }
 
 
@@ -979,7 +979,7 @@ article hr {
     font-size: 24px;
     text-align: center;
     padding: 60px 0 20px 0;
-    font-family: sans-serif;
+/*    font-family: LXGWWenKai, sans-serif;*/
     font-weight: 400;
 }
 
@@ -997,7 +997,7 @@ article hr {
 .item-navigator a {
     text-decoration: none;
     color: var(--content-link-text-color-light);
-    font-family: sans-serif;
+/*    font-family: LXGWWenKai, sans-serif;*/
 }
 
 .item-navigator table {
@@ -1078,7 +1078,6 @@ article hr {
     padding: 4px 6px;
     border-radius: 5px;
     margin-right: 5px;
-    font-family: sans-serif;
     font-weight: 600;
 }
 
@@ -1516,7 +1515,7 @@ li.selectedTag a {
     border-radius: 5px;
     color: #f2f2f2;
     font-size: 10px;
-    font-family: sans-serif;
+/*    font-family: LXGWWenKai, sans-serif;*/
 }
 
 .sponser .textContainer {
@@ -1525,14 +1524,14 @@ li.selectedTag a {
 }
 
 .sponser .title {
-    font-family: sans-serif;
+/*    font-family: LXGWWenKai, sans-serif;*/
     font-size: 18px;
     color: var(--item-title-color-light);
 }
 
 .sponser .document {
     font-size: 12px;
-    font-family: sans-serif;
+/*    font-family: LXGWWenKai, sans-serif;*/
     color: var(--ads-content-text-color-light);
 }
 

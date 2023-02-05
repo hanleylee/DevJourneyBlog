@@ -15,13 +15,15 @@ extension DevJourneyHTMLFactory {
         case "home":
             return HTML(.text("Hello home!"))
         case "articles":
-            return try postsHTML(for: section, context: context)
+            return try articlesHTML(for: section, context: context)
         case "about":
             return HTML(.text("Hello about!"))
         case "tags":
-            return try postsHTML(for: section, context: context)
+            return .init(.empty)
+//            return try articlesHTML(for: section, context: context)
+//            return try tagListHTML(for: section, context: context)
         default:
-            return try postsHTML(for: section, context: context)
+            return try articlesHTML(for: section, context: context)
         }
     }
 }

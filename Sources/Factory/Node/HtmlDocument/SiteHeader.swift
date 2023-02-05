@@ -82,5 +82,6 @@ private let css: [Path] = [
     "/css/styles.css",
     "/css/code.css", // 代码高亮
     "/css/toc.css", // 文章正文 toc
+    "/css/font.css",
     "/css/search.css",
 ]

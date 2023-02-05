@@ -83,7 +83,7 @@ try DevJourneyBlog().publish(
         .sortItems(by: \.date, order: .descending), // 对所有文章排序
         .generateShortRSSFeed(including: [.articles], itemPredicate: nil),
         .generateHTML(withTheme: .devJourney),
-        //        .makeSearchIndex(includeCode: false),
+//        .generateSearchIndex(includeCode: false),
         .generateSiteMap(),
         .unwrap(.git("ssh://root@81.68.187.219:66/home/hanleylee.com/hexo.git", branch: "master"), PublishingStep.deploy),
     ]

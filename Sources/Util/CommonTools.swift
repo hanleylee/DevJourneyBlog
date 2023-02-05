@@ -10,7 +10,7 @@ import Foundation
 struct CommonTools {
     static var formatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "发布于yyyy年MM月dd日"
+        formatter.dateFormat = "发布于 yyyy 年 MM 月 dd 日"
         return formatter
     }
 }

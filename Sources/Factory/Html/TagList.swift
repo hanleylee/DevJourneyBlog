@@ -10,7 +10,7 @@ import Plot
 import Publish
 
 extension DevJourneyHTMLFactory {
-    func tagListHTML(for page: TagListPage, context: PublishingContext<Site>) throws -> HTML? {
+    func tagListHTML(for page: Location, context: PublishingContext<Site>) throws -> HTML {
         return HTML(
             .lang(context.site.language),
             .siteHeader(for: page, on: context.site),
@@ -23,7 +23,7 @@ extension DevJourneyHTMLFactory {
                             .searchInput(),
                             .ul(
                                 .class("all-tags"),
-                                .forEach(page.tags.sorted()) { tag in
+                                .forEach(context.allTags.sorted()) { tag in
                                     .li(
                                         .class(tag.colorfiedClass),
                                         .a(
