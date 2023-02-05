@@ -18,6 +18,8 @@ extension DevJourneyHTMLFactory {
             return try postsHTML(for: section, context: context)
         case "about":
             return HTML(.text("Hello about!"))
+        case "tags":
+            return try postsHTML(for: section, context: context)
         default:
             return try postsHTML(for: section, context: context)
         }

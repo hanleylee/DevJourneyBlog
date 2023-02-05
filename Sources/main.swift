@@ -51,7 +51,7 @@ let doc2 = Document(
 
 struct DevJourneyBlog: Website {
     enum SectionID: String, WebsiteSectionID {
-        case home
+        case recent
         case articles
         case about
         case tags

@@ -15,7 +15,7 @@ extension PublishingStep where Site == DevJourneyBlog {
         .step(named: "setSectionTitle") { content in
             content.mutateAllSections { section in
                 switch section.id {
-                case .home:
+                case .recent:
                     section.title = "最近更新"
                 case .articles:
                     section.title = "全部文章"

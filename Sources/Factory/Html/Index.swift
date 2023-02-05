@@ -20,7 +20,7 @@ extension DevJourneyHTMLFactory {
                 .class("index"),
                 .pageHeader(
                     for: context,
-                    selectedSection: DevJourneyBlog.SectionID.home as? Site.SectionID
+                    selectedSection: DevJourneyBlog.SectionID.recent as? Site.SectionID
                 ),
                 .container(
                     .wrapper(
