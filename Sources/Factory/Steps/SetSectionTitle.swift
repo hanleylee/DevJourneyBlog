@@ -21,7 +21,7 @@ extension PublishingStep where Site == DevJourneyBlog {
                     section.title = "全部文章"
                 case .about:
                     section.title = "关于"
-                case .tags:
+                case .search:
                     section.title = "搜索"
                 }
             }

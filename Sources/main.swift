@@ -3,7 +3,6 @@ import Markdown
 import Plot
 import Publish
 import Sweep
-import ReadingTimePublishPlugin
 
 var source = """
 ---
@@ -48,7 +47,7 @@ struct DevJourneyBlog: Website {
         case recent
         case articles
         case about
-        case tags
+        case search
     }
 
     struct ItemMetadata: WebsiteItemMetadata {

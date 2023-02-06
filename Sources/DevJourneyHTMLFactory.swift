@@ -31,7 +31,8 @@ struct DevJourneyHTMLFactory<Site: Website>: HTMLFactory {
 
     // Tag 列表
     func makeTagListHTML(for page: TagListPage, context: PublishingContext<Site>) throws -> HTML? {
-        return try tagListHTML(for: page, context: context)
+        return nil // 这里我们不生成 tags 了, 避免与 section 的 search 混淆
+//        return try tagListHTML(for: page, context: context)
     }
 
     // Tag 详情

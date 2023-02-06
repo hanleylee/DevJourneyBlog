@@ -15,7 +15,7 @@ extension DevJourneyHTMLFactory {
             .lang(context.site.language),
             .siteHeader(for: page, on: context.site),
             .body(
-                .pageHeader(for: context, selectedSection: DevJourneyBlog.SectionID.tags as? Site.SectionID),
+                .pageHeader(for: context, selectedSection: DevJourneyBlog.SectionID.search as? Site.SectionID),
                 .container(
                     .wrapper(
                         .div(

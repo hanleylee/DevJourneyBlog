@@ -9,13 +9,13 @@ import Foundation
 import Plot
 import Publish
 
-extension DevJourneyHTMLFactory {
-    func tagListHTML(for page: Location, context: PublishingContext<Site>) throws -> HTML {
+extension HTML {
+    static func search<Site: Website>(for page: Location, context: PublishingContext<Site>) -> HTML {
         return HTML(
             .lang(context.site.language),
             .siteHeader(for: page, on: context.site),
             .body(
-                .pageHeader(for: context, selectedSection: DevJourneyBlog.SectionID.tags as? Site.SectionID),
+                .pageHeader(for: context, selectedSection: DevJourneyBlog.SectionID.search as? Site.SectionID),
                 .container(
                     .wrapper(
                         .div(

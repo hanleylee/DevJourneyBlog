@@ -10,7 +10,7 @@ import Plot
 import Publish
 
 extension DevJourneyHTMLFactory {
-    func indexHTML(for index: Index, context: PublishingContext<Site>) throws -> HTML {
+    func indexHTML(for index: Location, context: PublishingContext<Site>) throws -> HTML {
 //        let sections = context.sections
 //        let section = sections.first(where: { $0.id.rawValue == "home" })
         return HTML(

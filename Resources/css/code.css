@@ -16,24 +16,24 @@ pre code {
     -webkit-overflow-scrolling: touch;
 }
 
-pre code::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-pre code::-webkit-scrollbar-thumb {
-    height: 30px;
-    background-color: #999;
-    -webkit-border-radius: 7px;
-    outline: 2px solid #fff;
-    outline-offset: -2px;
-    border: 2px solid #fff;
-}
-
-pre code::-webkit-scrollbar-track-piece {
-    background-color: #fff;
-    -webkit-border-radius: 3px;
-}
+/*pre code::-webkit-scrollbar {*/
+/*    width: 5px;*/
+/*    height: 5px;*/
+/*}*/
+/**/
+/*pre code::-webkit-scrollbar-thumb {*/
+/*    height: 30px;*/
+/*    background-color: #999;*/
+/*    -webkit-border-radius: 7px;*/
+/*    outline: 2px solid #fff;*/
+/*    outline-offset: -2px;*/
+/*    border: 2px solid #fff;*/
+/*}*/
+/**/
+/*pre code::-webkit-scrollbar-track-piece {*/
+/*    background-color: #fff;*/
+/*    -webkit-border-radius: 3px;*/
+/*}*/
 
 pre code .keyword {
     color: #e73289;

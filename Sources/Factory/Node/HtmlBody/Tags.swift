@@ -8,7 +8,6 @@
 import Foundation
 import Plot
 import Publish
-import ReadingTimePublishPlugin
 
 extension Node where Context == HTML.BodyContext {
     static func tagList<T: Website>(for tags: [Tag], on site: T) -> Node {

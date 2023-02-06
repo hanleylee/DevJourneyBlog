@@ -9,7 +9,7 @@ import Plot
 import Publish
 
 extension DevJourneyHTMLFactory {
-    func articlesHTML(for section: Section<Site>, context: PublishingContext<Site>) throws -> HTML {
+    func articlesHTML(for section: Section<Site>, context: PublishingContext<Site>) -> HTML {
         HTML(
             .lang(context.site.language),
             .siteHeader(for: section, on: context.site),

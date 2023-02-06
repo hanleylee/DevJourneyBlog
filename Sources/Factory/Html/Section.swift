@@ -11,19 +11,16 @@ import Publish
 
 extension DevJourneyHTMLFactory {
     func sectionHTML(for section: Section<Site>, context: PublishingContext<Site>) throws -> HTML {
-        switch section.id.rawValue {
-        case "home":
-            return HTML(.text("Hello home!"))
-        case "articles":
-            return try articlesHTML(for: section, context: context)
-        case "about":
-            return HTML(.text("Hello about!"))
-        case "tags":
-            return .init(.empty)
-//            return try articlesHTML(for: section, context: context)
-//            return try tagListHTML(for: section, context: context)
-        default:
-            return try articlesHTML(for: section, context: context)
+        guard let sectionType = section.id as? DevJourneyBlog.SectionID else { fatalError() }
+        switch sectionType {
+        case .recent:
+            return try indexHTML(for: section, context: context)
+        case .articles:
+            return articlesHTML(for: section, context: context)
+        case .about:
+            return .about(for: section, context: context)
+        case .search:
+            return .search(for: section, context: context)
         }
     }
 }
