@@ -1,4 +1,7 @@
 /* every thing about code highlight*/
+pre {
+}
+
 pre code {
     font-family: monospace;
     display: block;
@@ -11,6 +14,25 @@ pre code {
     border-radius: 10px;
     padding: 20px;
     -webkit-overflow-scrolling: touch;
+}
+
+pre code::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+pre code::-webkit-scrollbar-thumb {
+    height: 30px;
+    background-color: #999;
+    -webkit-border-radius: 7px;
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+    border: 2px solid #fff;
+}
+
+pre code::-webkit-scrollbar-track-piece {
+    background-color: #fff;
+    -webkit-border-radius: 3px;
 }
 
 pre code .keyword {
@@ -43,9 +65,7 @@ pre code .preprocessing {
 
 .content pre,
 .item-list pre {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: grid;
+    padding: 10px;
 }
 
 .content pre code,
@@ -53,19 +73,18 @@ pre code .preprocessing {
     display: block;
     background-color: black;
     padding: 15px 12px;
-    border-radius: 4px;
+    border-radius: 8px;
     color: #a9bcbc;
     line-height: 1.4em;
     font-size: 12px;
     overflow-x: auto;
     white-space: pre;
-    font-family: Menlo, Monaco, Consolas, Courier New, monospace, SF Mono, Consolas, Courier New, monospace, Helvetica, Arial;
+    font-family: 'Fira Code', Menlo, Monaco, Consolas, Courier New, monospace, SF Mono, Consolas, Courier New, monospace, Helvetica, Arial;
     -webkit-overflow-scrolling: touch;
 }
 
 .content pre code .highlight,
-.item-list pre code .highlight,
-{
+.item-list pre code .highlight {
     display: inline-block;
     padding: 0 4px 2px 4px;
     border: 1px solid #546AFF;
