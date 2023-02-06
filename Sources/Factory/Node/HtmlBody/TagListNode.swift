@@ -18,11 +18,21 @@ extension Node where Context == HTML.BodyContext {
         return .ul(
             .class("tag-list"),
             .forEach(item.tags) { tag in
-                .li(.class(tag.colorfiedClass), .a(.href(site.path(for: tag)), .text(tag.string)))
+                .li(
+                    .class(tag.colorfiedClass),
+                    .a(
+                        .href(site.path(for: tag)),
+                        .text(tag.string)
+                    )
+                )
             },
             .li(
-                .class("tag tagdate"),
+                .class("tagdate"),
                 .if(displayDate, .text(CommonTools.formatter.string(from: item.date)))
+            ),
+            .li(
+                .class("reading-time"),
+                .text("👓 \(item.readingTime.minutes) min")
             )
         )
     }

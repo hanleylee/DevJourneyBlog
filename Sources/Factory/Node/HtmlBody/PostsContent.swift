@@ -32,7 +32,6 @@ extension Node where Context == HTML.BodyContext {
                             // Creates an article node to display our information
                             .article(
                                 // Creates a heading with our post title
-
                                 .h1(
                                     // Creates an anchor tag so we can create the link to our post
                                     .a(

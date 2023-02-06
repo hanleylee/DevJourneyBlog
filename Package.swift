@@ -14,7 +14,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/JohnSundell/Splash", from: "0.1.0")
+        .package(url: "https://github.com/JohnSundell/Splash", from: "0.1.0"),
+        .package(name: "ReadingTimePublishPlugin", url: "https://github.com/alexito4/ReadingTimePublishPlugin", from: "0.2.0"),
     ],
     targets: [
         .executableTarget(
@@ -22,6 +23,7 @@ let package = Package(
             dependencies: [
                 "Publish",
                 "Splash",
+                "ReadingTimePublishPlugin",
             ],
             path: "Sources"
         )

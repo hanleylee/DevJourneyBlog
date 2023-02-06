@@ -3,13 +3,7 @@ import Markdown
 import Plot
 import Publish
 import Sweep
-
-/// Delete all **strong** elements in a markup tree.
-struct StrongDeleter: MarkupRewriter {
-    mutating func visitStrong(_ strong: Strong) -> Markup? {
-        return nil
-    }
-}
+import ReadingTimePublishPlugin
 
 var source = """
 ---
@@ -72,14 +66,15 @@ struct DevJourneyBlog: Website {
 try DevJourneyBlog().publish(
     using: [
         .addModifier(modifier: hrefOpenNewTab, modifierName: "hrefOpenNewTab"),
-        .copyResources(),
+        .copyResources(at: "Resources", to: "/", includingFolder: false),
         .setSectionTitle(),
         .installPlugin(.setDateFormatter()), // 设置时间显示格式, 必须在 addMarkdownFiles() 之前, 涉及到时间解析格式问题
         .installPlugin(.splash(withClassPrefix: "")),
         .addMarkdownFiles(),
         .makeDateArchive(),
-        .installPlugin(.countTags()), // 计算tag的数量,tag 必须在 addMarkDownFiles() 之后,否则alltags没有值
+        .installPlugin(.countTags()), // 计算 tag 的数量, tag 必须在 addMarkDownFiles() 之后,否则 alltags 没有值
         .installPlugin(.colorfulTags(defaultClass: "tag", variantPrefix: "variant", numberOfVariants: 8)), // 给tag多种颜色
+        .installPlugin(.readingTime()),
         .sortItems(by: \.date, order: .descending), // 对所有文章排序
         .generateShortRSSFeed(including: [.articles], itemPredicate: nil),
         .generateHTML(withTheme: .devJourney),

@@ -12,11 +12,8 @@ import Splash
 public extension Plugin {
     static func splash(withClassPrefix classPrefix: String) -> Self {
         Plugin(name: "Splash") { context in
-            context.markdownParser.addModifier(
-                .splashCodeBlocks(withFormat: HTMLOutputFormat(
-                    classPrefix: classPrefix
-                ))
-            )
+            let format = HTMLOutputFormat(classPrefix: classPrefix)
+            context.markdownParser.addModifier(.splashCodeBlocks(withFormat: format))
         }
     }
 }

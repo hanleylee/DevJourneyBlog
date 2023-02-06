@@ -626,6 +626,7 @@ a.browse-all:hover {
 }
 
 .content {
+    margin-top: 20px;
     margin-bottom: 20px;
     /* text-align: justify; */
 }
@@ -789,7 +790,7 @@ blockquote {
 }
 
 .item-list h1 {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 20px;
     font-weight: bold;
     color: var(--item-title-color-light);
@@ -1068,7 +1069,7 @@ article hr {
 
 .tag-list {
     margin-bottom: 5px;
-    font-size: 0.75em;
+    font-size: 1em;
 }
 
 .tag {
@@ -1148,6 +1149,14 @@ li.selectedTag a {
     border-radius: 5px;
 } */
 
+.reading-time {
+    display: inline-block;
+    line-height: 0.8em;
+    /* background-color: blueviolet; */
+    padding: 4px 4px 10px 10px;
+    color: #eee;
+    background-color: #00000000;
+}
 .archiveContent {
     /* margin: 20px; */
     font-size: 20px;
