@@ -25,7 +25,10 @@ let package = Package(
                 "Splash",
 //                "ReadingTimePublishPlugin",
             ],
-            path: "Sources"
+            path: "Sources",
+            resources: [
+                .process("Resources/Markdown")
+            ]
         )
     ]
 )
