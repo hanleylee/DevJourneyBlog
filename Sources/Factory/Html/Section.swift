@@ -16,7 +16,7 @@ extension DevJourneyHTMLFactory {
         case .recent:
             return try indexHTML(for: section, context: context)
         case .articles:
-            return articlesHTML(for: section, context: context)
+            return allArticlesHTML(for: section, context: context)
         case .about:
             return .about(for: section, context: context)
         case .search:

@@ -14,7 +14,7 @@ extension HTML {
 
             let support =
                 """
-                如果您希望我在文章中探讨某方面的话题, 请在 [推特](https://twitter.com/Hanley_Lei) 或 [邮箱](mailto:hanley.lei@gmail.com) 中告诉我
+                如果您希望我在文章中探讨某方面的话题, 请在 [twitter](https://twitter.com/Hanley_Lei) 或 [email](mailto:hanley.lei@gmail.com) 中告诉我
                 """
             return HTML(
                 .lang(context.site.language),
