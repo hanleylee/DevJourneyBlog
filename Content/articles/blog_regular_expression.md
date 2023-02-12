@@ -12,13 +12,12 @@ updated:
 
 本文就对正则表达式的原理与使用进行汇总, 读者可以将本文作为学习资料或查询手册使用
 
-> 由于正则流派众多, 除明确指出某种流派的使用方式时, 本文中的其他任何正则均指 PCRE 流派
-
 ![himg](https://a.hanleylee.com/HKMS/2022-09-14131954.jpg?x-oss-process=style/WaMa)
 
 <!-- more -->
 
-> 把必须匹配的情况考虑周全并写出一个匹配结果符合预期的正则表达式很容易, 但把不需要匹配的情况也考虑周全并确保它们都将被排除在匹配结果以外往往要困难得多.
+> - 由于正则流派众多, 除明确指出某种流派的使用方式时, 本文中的其他任何正则均指 PCRE 流派
+> - 把必须匹配的情况考虑周全并写出一个匹配结果符合预期的正则表达式很容易, 但把不需要匹配的情况也考虑周全并确保它们都将被排除在匹配结果以外往往要困难得多.
 
 ## 正则表达式发展简史
 
@@ -664,5 +663,5 @@ The lab assistant was wearing a white overall.
 - [PCRE2 man](http://www.pcre.org/current/doc/html/)
 - [regular expression unicode block](https://www.regular-expressions.info/unicode.html)
 - [正则表达式入门](https://zq99299.github.io/note-book/regular/)
-- <精通正则表达式 第三版 - Jeffrey E.F.Friedl>
+- 精通正则表达式 第三版 - Jeffrey E.F.Friedl
 - [regex101.com](https://regex101.com/)

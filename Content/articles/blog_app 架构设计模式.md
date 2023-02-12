@@ -129,13 +129,6 @@ VIPER 就是在 MVVM/MVP 的基础上进一步将 Coordinator 与 Common Codes �
 |                | Delegate               |                 |                     |                             |
 |                | etc                    |                 |                     |                             |
 
-|Swift Version|Tag|
-| --- | --- |
-| Swift 5.1 | >= 0.9.0 |
-| Swift 5.0 | >= 0.8.1 |
-| Swift 4 | >= 0.4.x |
-| Swift 3 | 0.3.x |
-
 ### 各部分职责
 
 - `View`: 就是 `MVVM` / `MVP` 的 `View`

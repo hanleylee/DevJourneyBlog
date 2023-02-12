@@ -126,28 +126,40 @@ updated:
 - `git config --global http.proxy http://127.0.0.1:1087`: 配置代理
 
 - `git push`: 推送本地仓库到远程
-    - `git push origin test`: 将当前 branch push 到远程的 `test` 分支上
+    - `git push origin test`: 将当前 branch push 到远程的 `test` 分支上(其本质是提交本地分支 `test` 指针到 `origin`, 相当于拷贝 `refs/heads/test` 到远程引用 `refs/remotes/origin/test` 并提交)
 
         事实上 `git push` 命令也可以进行 `push`, 不过 `git push` 只能 `push` 从远端 `pull` 或者 `clone` 下来的 `branch`, 对于由本地直接创建的 `branch` 就无能为力了, 或者本地创建的仓库使用 `git push --set-upstream origin branch1` 命令指定了本仓库对应的远程仓库分支, 这样也能直接使用 `git push`
 
     - `git push origin test -f`: 强制 `push`, 在本地仓库与远程仓库有差别被拒绝的时候但是自己很清楚的时候使用. 但是如果冲突发生在 `master` 的话就不要用了. 很危险.
     - `git push origin <local branch1>:<remote branch2>`: 将本地 `branch1` 推送到远程 `branch2` 上
         - `remote branch2` 不写的话表示将本地分支 `branch1` 推动到远程同名 `branch` 上
-        - `local branch2` 不写的话代表将空明推送到远程 `branch2` 上, 也就是表示删除远程 `branch2`
-    - `git push origin 9790eff:master`: 将本地 `9890eff` 以前的所有 `commit` 推送到远端
-    - `git push origin:<old name>` | `git push origin <new name>`: 重命名远程分支 (方法 1), 原理是先删除远程某分支, 然后将本地当前分支推送到新命名的远程分支上
+        - `local branch2` 不写的话代表将空分支推送到远程 `branch2` 上, 也就是表示删除远程 `branch2`
+
+        以下四种书写方式效果是一样的:
+
+        - `git push origin master`
+        - `git push origin master:master`
+        - `git push origin master:refs/heads/master`
+        - `git push origin refs/heads/master:refs/heads/master`
+
     - `git push -u origin HEAD`: 将当前分支名推送到远程同名分支(远程没有同名分支的话会自动创建)
     - `git push -u origin branch1`: 将 branch1 分支推送到远程同名分支(远程没有同名分支的话会自动创建)
     - `git push origin --all --force`: 将本地所有分支强制提交到远端
     - `git push --tags`: 推送所有 `tag`, 不推送 `commit`
     - `git push --follow-tags`: 推送 `commit` 的同时会把当前 `branch` 上的所有 `tag` 进行推送
     - `git push --atomic origin <branch name> <tag>`: 将 `git push origin <branch name>` 与 `git push <tag>` 作为一个原子命令, 一旦原子命令中的任何一个失败, 则整个原子命令失败
+    - `git push origin 9790eff:master`: 将本地 `9890eff` 以前的所有 `commit` 推送到远端
+    - `git push origin --delete master`: 删除分支, 等价于 `git push origin :master`
+    - `git push origin :<old name> | git push origin <new name>`: 重命名远程分支 (方法 1), 原理是先删除远程某分支, 然后将本地当前分支推送到新命名的远程分支上
+    - `git push b_origin refs/remotes/a_origin/main:main`: 将 `a_origin` 的 `main` 分支推送到 `b_origin` 的 main 分支上
+    - `git push b_origin refs/remotes/a_origin/main:refs/heads/main`: 同上, 不过在 `b_origin` 没有 `main` 分支时会自动创建该分支
 
 - `git fetch`: 从远端获取仓库对应分支的最新状态
     - `git fetch -a`: 从远端获取仓库所有分支的更新 (不合并任何分支)
     - `git fetch origin`: 手动指定了要 `fetch` 的 `remote`, 在不指定分支时通常默认为 `master`
     - `git fetch origin dev`: 指定远程 `remote` 和 `FETCH_HEAD`, 并且只拉取该分支的提交
     - `git fetch origin branch1:branch2`: 从服务器拉取远程分支 `branch1` 到本地为 `branch2`, 并使 `branch2` 与 `branch1` 合并
+    - `git fetch b_origin main:refs/remotes/a_origin/main`: 将 `b_origin` 的 `main` 分支拉取到本地 `a_origin` 的 `main` 分支上
 
 - `git pull`: 从远端拉取仓库最新状态并与本地仓库合并
     - `git pull -a`: 从服务器远端拉取仓库的所有分支的更新, 并将当前分支对应的远程分支的更新合并到本地当前分支上 (不合并其他分支)
@@ -169,7 +181,7 @@ updated:
 - `git show`: 查看最近一次 `commit` (`head` 所指向的 `commit`) 修改的文件和内容
     - `git show --stat`: 查看最近一次 `commit` 的统计信息 (修改了多少处)
     - `git show 5e68b0d8`: 查看 `sha` 值为 `5e68b0d8` 的 `commit` 修改内容
-    - `git show 5e68b0d8 a.txt`: 查看 `sha` 值为 `5e68b0d8` 的 `commit` 中 a.txt 文件的具体修改情况
+    - `git show 5e68b0d8 a.txt`: 查看 `sha` 值为 `5e68b0d8` 的 `commit` 中 *a.txt* 文件的具体修改情况
 
 - `git diff`: 显示目前的保存区与最近一次 `commit` 的原工作目录相比有什么差异. 即, 在 `git add` 后会向暂存区提交什么内容
     - `git diff --staged`: 查看暂存区与最近一次 `commit` 的原工作目录相比有什么差异. 即, 这条指令可以让你提前知道你 `commit` 会提交什么内容.  这个命令与 `git diff --cached` 完全等价

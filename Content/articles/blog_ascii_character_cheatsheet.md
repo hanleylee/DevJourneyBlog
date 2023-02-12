@@ -168,7 +168,7 @@ updated:
 ## ASCII 与 unicode 关系
 
 - 标准的 ASCII 只有 128 个字符, Unicode 是标准 ASCII 的超集, 是完全兼容的
-- 除了标准 ASCII, 还有一个 Extended ASCII, 有 256 个字符, Extended ASCII 的 128~255 字符是与 Unicode 不兼容的; 出于通用化考虑, Extended ASCII 可以不用考虑了~
+- 除了标准 ASCII, 还有一个 Extended ASCII, 有 256 个字符, Extended ASCII 的 128~255 字符是与 Unicode 不兼容的; 出于通用化考虑, Extended ASCII 可以不用考虑了
 
 ## Ref
 

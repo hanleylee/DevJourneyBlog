@@ -51,7 +51,7 @@ extension _NSRange {
 }
 ```
 
-仅仅是代码签名还是不够的, 我们需要看到代码实现. `NSRange` 属于`Foundation` 的一部分, `Foundation` 在 github 的也是开源的, 其开源地址是. 进入源码仓库, 找到文件 *./swift-corelibs-foundation/Sources/Foundation/NSRange.swift*, 我们看到如下实现:
+仅仅是代码签名还是不够的, 我们需要看到代码实现. `NSRange` 属于`Foundation` 的一部分, `Foundation` 在 github 的也是开源的, 其开源地址是 <https://github.com/apple/swift-corelibs-foundation>. 进入源码仓库, 找到文件 *./swift-corelibs-foundation/Sources/Foundation/NSRange.swift*, 我们看到如下实现:
 
 ```swift
 extension NSRange {

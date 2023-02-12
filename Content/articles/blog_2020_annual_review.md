@@ -3,7 +3,7 @@ title: 2020 年度总结
 date: 2021-01-18
 comments: true
 path: annual-review-2020
-categories: Review
+tags: ⦿review
 updated:
 ---
 

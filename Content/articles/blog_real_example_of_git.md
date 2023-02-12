@@ -18,9 +18,21 @@ updated:
 
 由于各种原因, GitHub 虽然在国内可以访问, 但是速度非常不理想, 可以考虑使用以下任一方式进行加速
 
+### ghproxy
+
+<https://ghproxy.com>
+
+使用方式:
+
+- `git clone https://ghproxy.com/https://github.com/stilleshan/ServerStatus`
+- `wget https://ghproxy.com/https://github.com/stilleshan/ServerStatus/archive/master.zip`
+- `wget https://ghproxy.com/https://raw.githubusercontent.com/stilleshan/ServerStatus/master/Dockerfile`
+- `curl -O https://ghproxy.com/https://github.com/stilleshan/ServerStatus/archive/master.zip`
+- `curl -O https://ghproxy.com/https://raw.githubusercontent.com/stilleshan/ServerStatus/master/Dockerfile`
+
 ### fastgit
 
-- 下载仓库: 将 `github.com` 替换为 `hub.fastgit.org`
+- 下载仓库: 将 `github.com` 替换为 `hub.fastgit.xyz`
 
     ```txt
     git clone https://github.com/hanleylee/dotsh.git -> git clone https://hub.fastgit.org/hanleylee/dotsh.git
