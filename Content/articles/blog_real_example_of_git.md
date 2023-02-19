@@ -4,7 +4,7 @@ date: 2021-10-07
 comments: true
 path: some-tricks-of-git
 categories: Tools
-tags: ⦿blog, ⦿blog, ⦿git, ⦿example
+tags: ⦿git, ⦿example, ⦿tool
 updated:
 ---
 

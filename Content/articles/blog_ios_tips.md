@@ -4,7 +4,7 @@ date: 2019-07-28
 comments: true
 path: ios-programming-outline
 categories: iOS
-tags: ⦿ios, ⦿peanuts
+tags: ⦿ios, ⦿peanuts, ⦿tips
 updated:
 ---
 

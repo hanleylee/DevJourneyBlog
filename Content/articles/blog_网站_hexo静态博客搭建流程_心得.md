@@ -4,6 +4,7 @@ date: 2020-01-06
 comments: true
 path: make-personal-website-by-hexo
 categories: Hexo
+tags: ⦿hexo, ⦿website, ⦿server
 updated:
 ---
 

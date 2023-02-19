@@ -4,7 +4,7 @@ date: 2022-05-22
 comments: true
 path: add-animation-for-tableviewcell-when-height-changed
 categories: iOS
-tags: ⦿animation,⦿ui,⦿ios
+tags: ⦿ios,⦿uikit,⦿uitableview,⦿animation
 updated:
 ---
 

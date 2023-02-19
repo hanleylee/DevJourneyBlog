@@ -4,7 +4,7 @@ date: 2021-09-02
 comments: true
 path: lauchn-vim-as-vanilla
 categories: Terminal
-tags: ⦿blog, ⦿vim, ⦿vanilla
+tags: ⦿vim, ⦿vanilla
 updated:
 ---
 

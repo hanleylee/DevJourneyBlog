@@ -4,6 +4,7 @@ date: 2019-12-02
 comments: true
 path: usage-of-homebrew
 categories: Terminal
+tags: ⦿mac, ⦿homebrew, ⦿tool
 updated:
 ---
 

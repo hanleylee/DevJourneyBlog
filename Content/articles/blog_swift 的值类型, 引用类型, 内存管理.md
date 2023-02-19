@@ -4,7 +4,7 @@ date: 2020-03-15
 comments: true
 path: value-type-and-reference-type-of-swift
 categories: iOS
-tags: ⦿ios, ⦿value, ⦿reference, ⦿memory
+tags: ⦿swift, ⦿value-type, ⦿reference-type, ⦿memory-management
 updated:
 ---
 

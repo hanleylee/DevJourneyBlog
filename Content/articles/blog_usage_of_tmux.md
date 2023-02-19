@@ -4,6 +4,7 @@ date: 2020-01-13
 comments: true
 path: usage-of-tmux
 categories: Terminal
+tags: ⦿terminal, ⦿tmux, ⦿tool
 updated:
 ---
 

@@ -4,6 +4,7 @@ date: 2021-02-16
 comments: true
 path: usage-of-rime
 categories: Tools
+tags: ⦿rime, ⦿tool
 updated:
 ---
 

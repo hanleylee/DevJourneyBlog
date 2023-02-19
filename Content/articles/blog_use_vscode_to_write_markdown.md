@@ -4,6 +4,7 @@ date: 2020-12-12
 comments: true
 path: write-markdown-by-vscode
 categories: Tools
+tags: ⦿vscode, ⦿markdown, ⦿tool
 updated:
 ---
 

@@ -4,7 +4,7 @@ date: 2021-01-15
 comments: true
 path: usage-of-vim-editor
 categories: Terminal
-tags: ⦿blog, ⦿vim, ⦿operation
+tags: ⦿vim, ⦿tool
 updated:
 ---
 

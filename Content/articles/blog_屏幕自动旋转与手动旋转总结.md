@@ -4,7 +4,7 @@ date: 2020-06-17
 comments: true
 path: auto-rotate-of-ios
 categories: iOS
-tags: ⦿ios, ⦿rotate
+tags: ⦿ios, ⦿rotate, ⦿uikit
 updated:
 ---
 

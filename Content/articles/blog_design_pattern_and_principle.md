@@ -4,7 +4,7 @@ date: 2022-01-02
 comments: true
 path: design-pattern-and-principle
 categories: Basic
-tags: ⦿design, ⦿pattern, ⦿principle
+tags: ⦿design-pattern, ⦿principle
 updated:
 ---
 

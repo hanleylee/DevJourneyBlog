@@ -4,7 +4,7 @@ date: 2023-01-28
 comments: true
 path: annual-review-2022
 categories: Review
-tags: ⦿review
+tags: ⦿review, ⦿annual-review, ⦿2022
 updated:
 ---
 

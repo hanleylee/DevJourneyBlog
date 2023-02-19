@@ -4,7 +4,7 @@ date: 2021-05-18
 comments: true
 path: usage-of-git-submodule
 categories: Terminal
-tags: ⦿git, ⦿submodule
+tags: ⦿git, ⦿submodule, ⦿tools
 updated:
 ---
 

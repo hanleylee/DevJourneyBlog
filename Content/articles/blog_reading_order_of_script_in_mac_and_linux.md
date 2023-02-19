@@ -4,7 +4,7 @@ date: 2021-06-08
 comments: true
 path: reading-order-of-script-in-mac-and-linux
 categories: Terminal
-tags: ⦿blog, ⦿PATH, ⦿order, ⦿shell
+tags: ⦿read-order, ⦿shell
 updated:
 ---
 

@@ -4,7 +4,7 @@ date: 2020-10-31
 comments: true
 path: new-feature-of-swift-after-5
 categories: iOS
-tags: ⦿ios, ⦿feature, ⦿swift, ⦿swift5
+tags: ⦿apple, ⦿feature, ⦿swift, ⦿swift5
 updated:
 ---
 

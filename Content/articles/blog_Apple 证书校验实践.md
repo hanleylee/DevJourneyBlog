@@ -4,7 +4,7 @@ date: 2022-06-17
 comments: true
 path: apple-certificate-pratice
 categories: ios
-tags: ⦿certificate ⦿ios
+tags: ⦿certificate, ⦿ios, ⦿apple
 updated: 2022-06-17
 ---
 

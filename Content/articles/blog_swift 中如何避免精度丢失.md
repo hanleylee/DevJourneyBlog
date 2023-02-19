@@ -4,7 +4,7 @@ date: 2020-12-26
 comments: true
 path: precision-loss-in-swift
 categories: iOS
-tags: ⦿ios, ⦿precision, ⦿loss, ⦿swift
+tags: ⦿swift, ⦿precision-loss
 updated:
 ---
 

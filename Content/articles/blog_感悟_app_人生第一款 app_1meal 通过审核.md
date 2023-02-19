@@ -4,6 +4,7 @@ date: 2019-12-17
 comments: true
 path: successfully-submit-my-first-app-to-app-store
 categories: iOS
+tags: ⦿ios, ⦿review, ⦿first, ⦿app-store
 updated:
 ---
 

@@ -4,6 +4,7 @@ date: 2020-02-08
 comments: true
 path: principle-of-sounds-transfer-in-macos
 categories: Tools
+tags: ⦿mac, ⦿loopback, ⦿tool
 updated:
 ---
 

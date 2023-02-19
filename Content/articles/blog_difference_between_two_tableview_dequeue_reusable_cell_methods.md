@@ -4,7 +4,7 @@ date: 2022-01-18
 comments: true
 path: difference-between-two-tableview-dequeue-reusable-cell-methods
 categories: ios
-tags: ⦿uikit, ⦿ios
+tags: ⦿uikit, ⦿ios, ⦿uitableview
 updated:
 ---
 
@@ -21,7 +21,7 @@ updated:
 
 之前没有深究过这个问题, 每次用的时候只要使用了 [`register(_:forCellReuseIdentifier:)`][6] 就能保证 App 的效果绝对不会有问题. 前两天心血来潮, 总觉得他们一定有什么不同, 尽管他们只差了一个参数而已
 
-从 Apple 的 Documentation 中是很难看不出区别的, 直到我看了 [stackoverflow][1] 上的答案. 区别有两点:
+从 Apple 的 Documentation 中是很难看出区别的, 直到我看了 [stackoverflow][1] 上的答案. 区别有两点:
 
 1. 如果没有使用 [`register(_:forCellReuseIdentifier:)`][6]
 
@@ -109,8 +109,7 @@ extension TestTableViewVC {
 
 - 从初始化角度来看
     - 如果在调用两者之前已经使用了 [`register(_:forCellReuseIdentifier:)`][6], 两者没区别;
-    - 如果在调用两者之前没有使用 [`register(_:forCellReuseIdentifier:)`][6], 那么 [`dequeueReusableCell(withIdentifier:)`][4] 还可以给你一次自我拯救的
-      机会, 但是 [`dequeueReusableCell(withIdentifier:for:)`][5] 则会直接 crash, 不会给你任何机会
+    - 如果在调用两者之前没有使用 [`register(_:forCellReuseIdentifier:)`][6], 那么 [`dequeueReusableCell(withIdentifier:)`][4] 还可以给你一次自我拯救的机会, 但是 [`dequeueReusableCell(withIdentifier:for:)`][5] 则会直接 crash, 不会给你任何机会
 - 从约束布局角度来看
     - [`dequeueReusableCell(withIdentifier:)`][4] 进行初始化时直接使用默认行高 44
     - [`dequeueReusableCell(withIdentifier:for:)`][5] 会在初始化时寻找代理方法 [`tableView(_:heightForRowAt:)`][7](如果有的话) 返回的高度

@@ -4,6 +4,7 @@ date: 2020-01-01
 comments: true
 path: set-terminal-vim-as-default-text-editor
 categories: Mac
+tags: ⦿mac, ⦿vim, ⦿automator, ⦿tool
 updated:
 ---
 

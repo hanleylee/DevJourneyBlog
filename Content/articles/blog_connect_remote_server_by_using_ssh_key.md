@@ -4,7 +4,7 @@ date: 2019-08-31
 comments: true
 path: connect-remote-server-by-using-ssh-key
 categories: Terminal
-tags: ⦿blog, ⦿terminal, ⦿ssh, ⦿server
+tags: ⦿terminal, ⦿ssh, ⦿server
 updated:
 ---
 

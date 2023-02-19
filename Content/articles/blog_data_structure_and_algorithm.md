@@ -4,7 +4,7 @@ date: 2019-12-09
 comments: true
 path: algorithm-and-date-structure
 categories: Basic
-tags: ⦿blog, ⦿algorithm, ⦿data-structure, ⦿basic
+tags: ⦿algorithm, ⦿data-structure, ⦿basic
 updated:
 ---
 

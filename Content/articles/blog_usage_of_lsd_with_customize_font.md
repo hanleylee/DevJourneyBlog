@@ -4,6 +4,7 @@ date: 2020-02-03
 comments: true
 path: ls-tools-on-terminal
 categories: Terminal
+tags: ⦿terminal, ⦿lsd
 updated:
 ---
 

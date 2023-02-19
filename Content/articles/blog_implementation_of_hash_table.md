@@ -4,7 +4,7 @@ date: 2020-03-04
 comments: true
 path: implementation-of-a-hash-function
 categories: 算法
-tags: ⦿blog, ⦿hash-map, ⦿hash-function
+tags: ⦿hash-map, ⦿hash-function
 updated:
 ---
 

@@ -4,6 +4,7 @@ date: 2020-02-03
 comments: true
 path: text-editor-ivim-on-ipad
 categories: Tools
+tags: ⦿ivim, ⦿ipad, ⦿tool
 updated:
 ---
 

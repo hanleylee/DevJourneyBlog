@@ -4,7 +4,7 @@ date: 2020-03-02
 comments: true
 path: usage-of-SPM
 categories: iOS
-tags: ⦿ios, ⦿SPM, ⦿swift
+tags: ⦿apple, ⦿SPM, ⦿swift
 updated:
 ---
 

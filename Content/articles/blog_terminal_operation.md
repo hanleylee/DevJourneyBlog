@@ -4,6 +4,7 @@ date: 2019-12-10
 comments: true
 path: usage-of-terminal
 categories: Terminal
+tags: ⦿terminal, ⦿tool
 updated:
 ---
 

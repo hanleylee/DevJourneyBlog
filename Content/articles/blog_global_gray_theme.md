@@ -4,7 +4,7 @@ date: 2022-12-03
 comments: true
 path: ios_global_gray_theme
 categories: iOS
-tags: ⦿ios, ⦿ui
+tags: ⦿ios, ⦿ui, ⦿theme, ⦿gray-theme
 updated:
 ---
 

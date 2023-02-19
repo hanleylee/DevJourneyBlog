@@ -4,6 +4,7 @@ date: 2020-05-20
 comments: true
 path: usage-of-docker
 categories: Terminal
+tags: ⦿docker, ⦿tools
 updated:
 ---
 

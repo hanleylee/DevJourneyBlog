@@ -4,7 +4,7 @@ date: 2019-10-01
 comments: true
 path: various-authority-for-property-and-method-in-ios
 categories: iOS
-tags: ⦿ios, ⦿access, ⦿level
+tags: ⦿ios, ⦿access-level
 updated:
 ---
 

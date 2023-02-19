@@ -4,7 +4,7 @@ date: 2022-11-07
 comments: true
 path: review_of_string_crash_in_ios16
 categories: iOS
-tags: ⦿iOS
+tags: ⦿ios, ⦿ios16, ⦿crash, ⦿string
 updated:
 ---
 

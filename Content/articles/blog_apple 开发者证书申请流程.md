@@ -4,7 +4,7 @@ date: 2019-12-01
 comments: true
 path: process-of-applying-apple-certificate
 categories: Tools
-tags: ⦿ios, ⦿apple, ⦿certificate
+tags: ⦿ios, ⦿apple, ⦿certificate, ⦿request
 updated:
 ---
 

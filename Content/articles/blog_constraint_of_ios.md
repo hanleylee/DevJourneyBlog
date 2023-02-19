@@ -4,7 +4,7 @@ date: 2020-04-03
 comments: true
 path: constraints-of-view-in-ios
 categories: iOS
-tags: ⦿ios, ⦿layout, ⦿constraints, ⦿view
+tags: ⦿ios, ⦿layout, ⦿constraints, ⦿ui
 updated:
 ---
 

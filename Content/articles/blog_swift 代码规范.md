@@ -4,7 +4,7 @@ date: 2020-01-05
 comments: true
 path: personal-swift-code-writing-standard
 categories: iOS
-tags: ⦿swift, ⦿guideline
+tags: ⦿swift, ⦿code-guideline
 updated:
 ---
 

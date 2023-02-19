@@ -4,7 +4,7 @@ date: 2021-11-20
 comments: true
 path: variable-expansion-in-applescript
 categories: Language
-tags: ⦿applescript, ⦿shell, ⦿tools
+tags: ⦿apple, ⦿applescript, ⦿shell, ⦿tools
 updated:
 ---
 

@@ -4,7 +4,7 @@ date: 2022-05-08
 comments: true
 path: how-to-use-flutter-attach-in-module-project
 categories: flutter
-tags: ⦿flutter
+tags: ⦿flutter, ⦿debug
 updated:
 ---
 

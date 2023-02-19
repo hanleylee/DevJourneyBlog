@@ -4,7 +4,7 @@ date: 2020-01-04
 comments: true
 path: usage-of-xcode-terminal-tools
 categories: Tools
-tags: ⦿ios, ⦿xcode, ⦿terminal, ⦿tools
+tags: ⦿xcode, ⦿terminal, ⦿tools
 updated:
 ---
 

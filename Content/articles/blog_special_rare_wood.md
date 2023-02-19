@@ -4,6 +4,7 @@ date: 2020-06-21
 comments: true
 path: rare-wood-collection
 categories: Hobbies
+tags: ⦿hobby, ⦿wood, ⦿collection
 updated:
 ---
 

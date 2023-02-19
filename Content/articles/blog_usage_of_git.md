@@ -4,7 +4,7 @@ date: 2019-12-24
 comments: true
 path: principle-and-usage-of-git
 categories: Terminal
-tags: ⦿git, ⦿terminal
+tags: ⦿git, ⦿tool
 updated:
 ---
 

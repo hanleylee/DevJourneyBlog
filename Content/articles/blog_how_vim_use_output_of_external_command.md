@@ -4,7 +4,7 @@ date: 2021-11-30
 comments: true
 path: how-vim-use-output-of-external-command
 categories: vim
-tags: ⦿vim, ⦿blog, ⦿tools
+tags: ⦿vim, ⦿tool, ⦿tool
 updated:
 ---
 

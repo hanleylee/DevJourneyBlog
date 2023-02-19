@@ -4,7 +4,7 @@ date: 2021-11-30
 comments: true
 path: account-type-of-ios-developer
 categories: iOS
-tags: ⦿ios, ⦿apple
+tags: ⦿apple, ⦿account
 updated:
 ---
 

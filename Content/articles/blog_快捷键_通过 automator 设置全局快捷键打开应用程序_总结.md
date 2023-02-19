@@ -4,6 +4,7 @@ date: 2019-12-21
 comments: true
 path: set-global-shortcut-by-automator
 categories: Mac
+tags: ⦿mac, ⦿automator, ⦿shorcut
 updated:
 ---
 

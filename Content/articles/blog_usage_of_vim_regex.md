@@ -5,7 +5,7 @@ comments: true
 path: usage-of-vim-editor-regex
 categories: Terminal
 updated:
-tags: ⦿blog, ⦿vim, ⦿regex
+tags: ⦿vim, ⦿regex, ⦿tool
 ---
 
 Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配, 可以很快速地完成我们很多需要大量人力操作的工作, 而且可对多文件使用查找/替换功能.
