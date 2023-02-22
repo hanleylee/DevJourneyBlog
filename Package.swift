@@ -11,7 +11,7 @@ let package = Package(
         .executable(
             name: "DevJourneyBlog",
             targets: ["DevJourneyBlog"]
-        )
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/JohnSundell/Splash", from: "0.1.0"),
@@ -27,9 +27,14 @@ let package = Package(
             ],
             path: "Sources",
             resources: [
-                .process("Resources/Markdown")
+                .process("Resources/Markdown"),
             ]
-        )
+        ),
+        .testTarget(
+            name: "DevJourneyBlogTests",
+            dependencies: ["DevJourneyBlog"],
+            path: "Tests"
+        ),
     ]
 )
 
