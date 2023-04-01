@@ -250,8 +250,7 @@ class ViewController: UIViewController {
             make.center.equalToSuperview()
             // 设置 blueView 的宽和高都比 redView 小 200, 即 blueView.size = (100, 200)
             make.size.equalToSuperview().offset(-200)
-            // 谨记, 本例中的 scrollView 的 contentSize 已经被直接子控件 redView 确定了,
-            // 那么 redView 中再添加任何的子控件也不会再影响到 scrollView 的 contentSize 了
+            // 谨记, 本例中的 scrollView 的 contentSize 已经被直接子控件 redView 确定了, 那么 redView 中再添加任何的子控件也不会再影响到 scrollView 的 contentSize 了
         }
     }
 }
@@ -263,7 +262,7 @@ class ViewController: UIViewController {
 
 - *SnapKit* 的 `makeConstrains` 的方法中不能使用 `view.frame.size.height = 100` 这样的设置, 这样的设置不会起作用, 只有 `make.height.equalTo(100)` 才能设置约束 (在 `viewWillAppear` 方法中直接使用 frame 方法是起作用的)
 - 约束时遵从 **上下左右 -> 宽高** 的顺序进行约束
-- 为了更好地控制 `subview` 被添加的顺序及初始化的时间, 可以先使用隐式解包, 然后用 `UIView(frame: .zero)` 进行初始化, 然后进行配置并约束, 详细做法如下:
+- 为了更好地控制 `subview` 被添加的顺序及初始化的时间, 可以先使用隐式解包, 然后用 `UIView(frame:.zero)` 进行初始化, 然后进行配置并约束, 详细做法如下:
 
 ## 初始化控件与为控件设置约束的顺序
 
@@ -277,7 +276,7 @@ class MyViewController: UIViewController {
     }
 
     func setupView() {
-        myView = UIView(frame: .zero)
+        myView = UIView(frame:.zero)
         myView.backgroundColor =.red
         self.view.addSubview(myView)
         myView.snp.makeConstraints { make in
@@ -291,25 +290,25 @@ class MyViewController: UIViewController {
 
 ## SnapKit 基础使用
 
-snapkit 是代码布局库, 其用法与 storyboard 的 Autolayout 完全相同, 都是基于控件的 ` 上下左右 ` & ` 宽高 ` 来进行布局, 基本用法完整写法如下
+snapkit 是代码布局库, 其用法与 storyboard 的 Autolayout 完全相同, 都是基于控件的 `上下左右` & `宽高` 来进行布局, 基本用法完整写法如下
 
 ```swift
 label.snp.makeConstraints {(make) in
     make.centerX.equalTo(view.snp.centerX).multiplyBy(1).labeled("label6.centerX")
-            |.top    |         同左            |.offset(10)  |
-            |.bottom |                         |.inset(10)   |
-            |.left   |                         |.dividedBy(1)|
-            |.right  |                         |             |
-            |.centerX|                         |             |
-            |.centerY|                         |             |
-            |.center |                         |             |
+       |.top    |         同左           |.offset(10)  |
+       |.bottom |                        |.inset(10)   |
+       |.left   |                        |.dividedBy(1)|
+       |.right  |                        |             |
+       |.centerX|                        |             |
+       |.centerY|                        |             |
+       |.center |                        |             |
 }
 ```
 
 Snapkit 可以简化书写流程, 最主要的一点就是如果只是相对于 super 有约束, 那么约束可以写为:
 
 ```swift
-label.snp.makeConstrains {(make) in
+label.snp.makeConstrains { (make) in
     make.right.equalTo(10) // label.right = super.right - 10
     make.left.equalTo(10) // label.left = super.left + 10
     make.right.left.equalTo(10) // label.right = super.right - 10 && label.left = super.left + 10
@@ -319,7 +318,7 @@ label.snp.makeConstrains {(make) in
     make.left.lessThanOrEqualTo(10) // label.left <= 10
     make.left.greaterThanOrEqualTo(label1) // label.left >= label.left
     make.left.greaterThanOrEqualTo(label1.snp.left) // label.left >= label.left
-    }
+}
 ```
 
 ## UIStackView 使用
@@ -332,7 +331,7 @@ label.snp.makeConstrains {(make) in
     - `Vertical`: 垂直
     - `Horizontal`: 水平
 
-2. `Alignment`: 子视图的对齐方式, 可选值有:
+2. `Alignment`: 子视图在交叉轴的填充方式, 可选值有:
     - `Fill`: 子视图填充 StackView.
     - `Leading`: 所有子视图的左侧与 stackview 的左侧对齐
     - `Trailing`: 所有子视图的右侧与 stackview 的右侧对齐
@@ -345,13 +344,13 @@ label.snp.makeConstrains {(make) in
 3. `Distributlon`: 子视图的分布比例 (大小), 可选值有:
     - `Fill`: 默认分布方式.
 
-        > 不能再设置控件的宽高约束, 否则会约束冲突.
+        不能再设置控件的宽高约束, 否则会约束冲突.
 
     - `Fill Equally`: 每个子视图的高度或宽度保持一致.
 
         使每个子视图的宽度或高度相等
 
-        > 不能再设置控件的宽高约束, 否则会约束冲突.
+        不能再设置控件的宽高约束, 否则会约束冲突.
 
         ![himg](https://a.hanleylee.com/HKMS/2020-04-20-155453.jpg?x-oss-process=style/WaMa)
 
@@ -359,24 +358,21 @@ label.snp.makeConstrains {(make) in
 
         系统将完全不考虑空间自身的宽高, 完全依据控件的内容自行布置出系统认为合适的布局
 
-        > 不能再设置控件的宽高约束, 否则会约束冲突
+        不能再设置控件的宽高约束, 否则会约束冲突
 
         ![himg](https://a.hanleylee.com/HKMS/2020-04-20-155552.jpg?x-oss-process=style/WaMa)
 
     - `Equal Spacing`: 每个子视图保持同等间隔的分布方式.
 
-        横向布局前提下, 如果设置的 spacing 值加上横向三个控件的总宽度小于 stackview 的宽度时, 三个控件的间距相等, 即最左最右各一个, 中间居中一个. 如果
-        总宽度大于 stackview 的宽度, 则控件间的间距为 spacing 值
+        横向布局前提下, 如果设置的 spacing 值加上横向三个控件的总宽度小于 stackview 的宽度时, 三个控件的间距相等, 即最左最右各一个, 中间居中一个. 如果总宽度大于 stackview 的宽度, 则控件间的间距为 spacing 值. 如果只有两个控件横向布局时, 且 spacing 与控件宽度之和小于 stackview 的宽度, 则两个空间一左一右靠边对齐
 
-        如果只有两个控件横向布局时, 且 spacing 与控件宽度之和小于 stackview 的宽度, 则两个空间一左一右靠边对齐
-
-        > 可为控件通过自动布局指定宽高, 如果不设置宽度的话使用此选项会优先拉伸子控件的宽度, 而不是使用等距设置
+        可为控件通过自动布局指定宽高, 如果不设置宽度的话使用此选项会优先拉伸子控件的宽度, 而不是使用等距设置
 
         ![himg](https://a.hanleylee.com/HKMS/2020-04-20-155608.jpg?x-oss-process=style/WaMa)
 
     - `Equal Centering`: 每个子视图中心线之间保持一致的分布方式.
 
-        > 可为控件通过自动布局指定宽高, 如果不设置宽度的话使用此选项会优先拉伸子控件的宽度, 而不是使用等距设置
+        可为控件通过自动布局指定宽高, 如果不设置宽度的话使用此选项会优先拉伸子控件的宽度, 而不是使用等距设置
 
         ![himg](https://a.hanleylee.com/HKMS/2020-04-20-155627.jpg?x-oss-process=style/WaMa)
 
