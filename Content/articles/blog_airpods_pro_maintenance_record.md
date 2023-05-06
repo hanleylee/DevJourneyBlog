@@ -17,7 +17,7 @@ updated:
 
 首先我从网站上找到了一家离我公司距离较近的授权维修点, 这样我能很快验证我耳机是不是真的出了问题, 进而做出下一步判断
 
-[himg](https://a.hanleylee.com/HKMS/2023-05-01130129.png?x-oss-process=style/WaMa)
+![himg](https://a.hanleylee.com/HKMS/2023-05-01130129.png?x-oss-process=style/WaMa)
 
 经过检测, 维修人员告诉我, 我的两只耳机都有杂音, 与官方维修计划的问题一致, 但是我的耳机生产批次是 2020 年 11 月, 不是官方规定的 2020 年 10 月之前, 因此不能给我免费维修, 只能付费维修, 700 元 / 耳机, 一共 1400 多元.
 
@@ -29,7 +29,7 @@ updated:
 
 第二天中午, 我按照预约到了在深圳益田假日广场店进行耳机问题检测
 
-[himg](https://a.hanleylee.com/HKMS/2023-05-01130726.png?x-oss-process=style/WaMa)
+![himg](https://a.hanleylee.com/HKMS/2023-05-01130726.png?x-oss-process=style/WaMa)
 
 检测结果与前一日维修点检测结果相同: 双耳机均有异响. 回复建议也是与维修点相同: 因此不能免费维修, 需要自费 1400 多元进行维修
 
@@ -55,15 +55,15 @@ updated:
 
 耳机被取走之后, 能在邮箱中收到关于维修产品的单据, 并且能查询维修状态
 
-[himg](https://a.hanleylee.com/HKMS/2023-05-01141134.png?x-oss-process=style/WaMa)
+![himg](https://a.hanleylee.com/HKMS/2023-05-01141134.png?x-oss-process=style/WaMa)
 
 ## 6. 维修完成, 收到耳机
 
 2023.4.22, 我收到维修好的 Airpods Pro
 
-[himg](https://a.hanleylee.com/HKMS/2023-05-01141423.png?x-oss-process=style/WaMa)
+![himg](https://a.hanleylee.com/HKMS/2023-05-01141423.png?x-oss-process=style/WaMa)
 
-[himg](https://a.hanleylee.com/HKMS/2023-05-01141526.png?x-oss-process=style/WaMa)
+![himg](https://a.hanleylee.com/HKMS/2023-05-01141526.png?x-oss-process=style/WaMa)
 
 让我有点意外的是, 因为只有两个耳机有杂音, 因此我以为 Apple 只会更换两只耳机, 而不会更换耳机舱. 然而 Apple 最终将耳机连同耳机舱都更换为全新的了, 这一点要表扬下 Apple!
 
