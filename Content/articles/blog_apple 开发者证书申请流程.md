@@ -58,7 +58,7 @@ Apple 证书分为 *开发证书*, *发布证书*, *推送证书* 等, 申请证
 
 Xcode 会在使用第一次点击开启托管功能时相关配置整合到一个配置文件中, 如果在开发者页面对 `APP ID` 新添加了某些功能后, 其不会自动更新, 此时可以进入到 `~/Library/MobileDevice/Provisioning Profiles` 路径中将所有配置文件全部删除, 此时 Xcode 即会自动拉取最新配置生成新的 *Provisioning Profile*.
 
-## [](#构成 "构成") 构成
+## 构成
 
 `.mobileprovision` 包含以下这些字段及内容:
 
@@ -75,3 +75,7 @@ Xcode 会在使用第一次点击开启托管功能时相关配置整合到一�
     - `application-identifier`: 带前缀的全名. 如: `$(AppIdentifierPrefix)com.apple.garageband`
     - `com.apple.security.application-groups`: App Group ID.
     - `com.apple.developer.team-identifier`: 同 Team Identifier.
+
+## 验证流程
+
+![himg](https://a.hanleylee.com/HKMS/2023-04-16185458.png?x-oss-process=style/WaMa)

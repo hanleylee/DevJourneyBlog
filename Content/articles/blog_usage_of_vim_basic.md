@@ -557,6 +557,23 @@ Done loading.
 Hello, world!
 ```
 
+## 查找参数初始支持版本号
+
+如果 vim 的某些参数, 只对某个版本以上支持, 那么就需要找到初始支持版本号, 避免在低版本运行配置时报错, 以下是 `set nrformats+=unsigned` 在 vim8.1 上的报错
+
+```txt
+Error detected while processing /private/var/root/.vim/main/options.vim:
+line  164:
+E474: Invalid argument: nrformats+=unsigned
+```
+
+可以使用如下方式查找某特性支持版本号:
+
+- `help patches-after-8.2`
+- `help patches-8.1`
+- `help patches-8`
+- `help fixed-<version>`: 最低支持到 5.1, 最高 7.4
+
 ## 最后
 
 我的 vim 配置仓库: [HanleyLee/dotvim](https://github.com/HanleyLee/dotvim)

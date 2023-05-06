@@ -254,8 +254,7 @@ ssh-keygen -t rsa -C "你的邮箱地址"
         # (不过重启后仍然需要输入, 因为 agent 的 session 被清除了, 不过可以使用 Mac 的 keychain 服务来解决, 如下), 并且 agent 支持转发 (即 A
         # 登录服务器 B 不 exit 的情况下直接登录服务器 C)
         AddKeysToAgent yes
-        # 验证成功后将对应的 key 添加到 keychain 中. 添加到 keychain 是为了避免在刚开机且 ssh agent 的 session 未被建立时要求输入 key 的密码 来解锁
-        # key.
+        # 验证成功后将对应的 key 添加到 keychain 中. 添加到 keychain 是为了避免在刚开机且 ssh agent 的 session 未被建立时要求输入 key 的密码 来解锁 key.
         UseKeychain yes
 
     Host Tencent-1C2G
@@ -278,7 +277,7 @@ ssh-keygen -t rsa -C "你的邮箱地址"
 
 ### `known_hosts` 文件作用
 
-`~/.ssh/known_hosts` 的作用是记录已连接过的远程主机历史记录. 当下次访问相同计算机时, OpenSSH 会核对公钥. 如果公钥不同, OpenSSH 会发出警告, 避免你受到 DNS Hijack 之类的攻击.
+服务端有公钥`/etc/ssh/ssh_host_rsa_key.pub` 与私钥 `/etc/ssh/ssh_host_rsa_key`, 在建立安全连接过程中, 服务器会提供自己的公钥给客户端, 客户端将其存储在 `~/.ssh/known_hosts` 中. 当下次访问相同计算机时, OpenSSH 会核对公钥. 如果公钥不同, OpenSSH 会发出警告, 避免你受到 DNS Hijack 之类的攻击.
 
 有些时候, 一个远程主机经常换系统, 那么本地连接的时候有可能公钥就不同了, 但是 ip 是相同的, 这就会触发 `known_host` 的规则, 会报错, 解决办法就是直接删除 `known_host` 中的对应主机地址和公钥就可以了. 或者在 `config` 文件中加入一些配置 (基本不需要用到这一步, 用到时候再查吧)
 
@@ -332,6 +331,16 @@ scp/sftp 属于开源协议, 我们可以免费使用不像 FTP 那样使用上�
 ### *Skipping ssh-dss key id_dsa - not in PubkeyAcceptedKeyTypes*
 
 *openssh* 自 7.0 之后不再支持 *DSA* 类型的加密. 为避免报错, 请改用 *RSA* 类型加密
+
+### authorized_keys 权限问题
+
+如果 authorized_keys 没有正确的权限的话, 那么即使配置了正确的 key 也不能正常登录, 使用如下命令赋予权限
+
+```zsh
+chmod 755 ~
+chmod 755 ~/.ssh
+chmod 644 ~/.ssh/authorized_keys
+```
 
 ## 参考
 

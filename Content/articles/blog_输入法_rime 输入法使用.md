@@ -238,6 +238,10 @@ sync_dir: "/Users/hanley/Library/Mobile Documents/com~apple~CloudDocs/Rime/"
 
 ![himg](https://a.hanleylee.com/HKMS/2021-02-16230821.png?x-oss-process=style/WaMa)
 
+为了区分和管理方便, 多台电脑里的里鼠须管 `installation_id` 最好不要重复. 由菜单栏执行 **同步用户数据** 时,  **鼠须管** 会搜索 `/Users/hanley/Library/Mobile Documents/com~apple~CloudDocs/Rime/` 下所包含的所有子目录, 合并其中的`.userdb.txt` 文件并同步到本地配置文件夹的 `main.userdb` (双向合并), 同时,  **鼠须管** 会备份配置文件夹中的`.dict.yaml` 文件到 `/Users/hanley/Library/Mobile Documents/com~apple~CloudDocs/Rime/`(单向备份).
+
+这么设计的目的可以合并来自多个设备的用户词库, 可以理解为 MacBook Air 上的用户词库 [abc] 和 MacBook Pro 上的用户词库 [bcd], 在同步后都变成了 [abcd].
+
 ## 总结
 
 第一阶段的定制基本上到这里就告一段落了, 实际上可以定制的点还非常的多. 推荐阅读 RIME 官方的 [定制指南](https://github.com/rime/home/wiki/CustomizationGuide) 来进一步的定制.
@@ -249,3 +253,4 @@ RIME 需要慢慢的改进配置才能达到令人满意的程度, 就像 Vim �
 - [Mac 下调校 Rime](https://mritd.com/2019/03/23/oh-my-rime/)
 - [鼠须管 (Squirrel) 词库添加及配置](http://pythonic.zoomquiet.top/data/20160628220349/index.html)
 - [用 RIME 定制输入法](https://www.ahonn.me/blog/custom-input-methods-with-rime)
+- [](https://pepcn.com/wiki/post/gtd/鼠须管词库的同步和备份.md)

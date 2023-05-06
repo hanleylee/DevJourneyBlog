@@ -40,7 +40,7 @@ updated:
 - `gvim -c 'normal ggdG"*p' c:/aaa/xp`: Access paste buffer contents (put in a script/batch file)
 - `gvim -c 's/^/\=@*/|hardcopy!|q!'`: print paste contents to default printer
 - `:h [option]`: 显示对命令的帮助
-- `:help:sort`: 同上, 显示对 `:sort` 的解释
+- `:help :sort`: 同上, 显示对 `:sort` 的解释
 - `:help guimac` / `:help macvim`: 显示 macvim 的帮助
 - `:gui`: 在 MacVim 中打开 vim 中当前的所有 buffer(great!)
 - `:source ~/.vimrc`: 重载配置文件 (可以在不重启 vim 的情况下重载配置文件)
@@ -330,17 +330,15 @@ updated:
 - `<C-w> s`: 水平切割当前窗口
 - `<C-w> v`: 垂直切割当前窗口
 - `<C-w> h/j/k/l`: 光标向某个方向分屏移动
+- `<C-w> H/J/K/L`: 当前分屏向某个方向移动
 - `<C-w> w`: 在所有窗口间进行切换
 - `<C-w> _`: 使窗口高度最大化
 - `<C-w> |`: 使窗口宽度最大化
 - `<C-w> =`: 使所有窗口等宽等高
+- `<C-w> r`: 翻转窗口顺序
 - `<C-w> q`: quit, 关闭当前分屏, 如果是最后一个, 则退出 vim
 - `<C-w> c`: close, 关闭当前分屏, 如果是最后一个, 则退出 vim
 - `<C-w> o`: only, 关闭所有除当前屏幕外的所有分屏
-- `<C-w> H`: 当前分屏向左移动
-- `<C-w> L`: 当前分屏向右移动
-- `<C-w> J`: 当前分屏向下移动
-- `<C-w> K`: 当前分屏向上移动
 - `<C-w> z`: 关闭当前打开的 preview 窗口
 - `[N]<C-w> +`: 分屏增加 N 列高度 (可选)
 - `[N]<C-w> <`: 分屏减少 N 列宽度 (可选)
@@ -349,7 +347,7 @@ updated:
 - `:$wincmd w`: 将光标移动至最右窗口
 - `:close`: 关闭活动窗口
 - `:only`: 只留下当前活动窗口
-- `new abc.txt`: 在新窗口中编辑文件
+- `:new abc.txt`: 在新窗口中编辑文件
 
 ## Buffer
 
