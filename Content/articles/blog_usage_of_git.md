@@ -80,7 +80,7 @@ updated:
 - `git help --man log`: 在 man 中查看 `git log` 的用法
 
 - `git -C path/to/repo`: 指定 repo 的路径进行相关 git 操作, 写脚本时非常有用(可以避免 cd)
-- `git ls-remote <url> --tags test | cut -f 1`: 获取远程仓库 test 分支最新的 commit 值
+- `git ls-remote <url> --tags origin | cut -f 1`: 获取远程仓库 origin 分支最新的 commit 值
 - `git --git-dir=/path/to/repo/.git rev-parse origin/<targeted-banch>`: 获得本地仓库分支的最新 commit 值
 - `git symbolic-ref --short HEAD`: 获得当前分支名
 - `git rev-parse --abbrev-ref HEAD`: 获得当前分支名(同上)
@@ -157,6 +157,7 @@ updated:
 
 - `git fetch`: 从远端获取仓库对应分支的最新状态
     - `git fetch -a`: 从远端获取仓库所有分支的更新 (不合并任何分支)
+    - `git fetch --all --prune --force --tags`
     - `git fetch origin`: 手动指定了要 `fetch` 的 `remote`, 在不指定分支时通常默认为 `master`
     - `git fetch origin dev`: 指定远程 `remote` 和 `FETCH_HEAD`, 并且只拉取该分支的提交
     - `git fetch origin branch1:branch2`: 从服务器拉取远程分支 `branch1` 到本地为 `branch2`, 并使 `branch2` 与 `branch1` 合并
@@ -188,7 +189,8 @@ updated:
     - `git diff --staged`: 查看暂存区与最近一次 `commit` 的原工作目录相比有什么差异. 即, 这条指令可以让你提前知道你 `commit` 会提交什么内容. 这个命令与 `git diff --cached` 完全等价
     - `git diff master..branch`: 比较 `master` 与 `branch` 之间的不同
     - `git diff 0023cdd..fcd6199`: 比较两个 `commit` 之间的不同
-    - `git diff README.md`: 查看当前分支 `README.md` 文件的变动
+    - `git diff master..master~2 -- README.md`: 比较两个 `commit` 之间的 `README.md` 不同
+    - `git diff -- README.md`: 查看当前分支 `README.md` 文件的变动
     - `git diff adt312d`: 查看 `adt312d` 这个 `commit` 与当前最新 `commit` 的异同(从 adt312d 到 HEAD 中间有什么变化)
     - `git diff E..A^ | git apply`: 先获取从 E 到 A 的前一个节点之间的变化, 然后这个改动就是这几个 commit 的逆操作, 使用 `git apply` 将其应用到代码上, 然后再 `add` `commit`
     - `git diff A..B`: 对比 `AB` 两个提交的差异
@@ -225,6 +227,7 @@ updated:
 - `git cherry-pick`: 挑选 `commit`
     - `git cherry-pick commit1 commit2 commit3`: 将三个 `commit` 合并入本 `branch`
     - `git cherry-pick commit1 commit2 commit3 --no-commit`: 将三个 `commit` 的内容放入本 `branch` 的暂存区但是先不合并
+    - `git cherry-pick 00b44e4..b135951`: 连续 commit
     - `git cherry-pick -x commit1`: 在合并时将 `commit1` 的原有作者信息进行保留
 
 - `git commit`: 提交通过 `add` 命令放入暂存区的改动
@@ -332,9 +335,9 @@ updated:
     > 使用 `git reset --hard hash` 也可回退到 reflog 对应的节点上
 
 - `git rm`: 移除
-    - `git rm <filename>`: 删除对文件的跟踪, 并删除本地文件 (未添加到暂存区时使用)
+    - `git rm <filename>`: 删除对文件的跟踪, 并删除本地文件 (在工作区中保留, 但从版本库中移除, 如果已经放入暂存区的话会报错)
+    - `git rm --cached <filename>`: 取消对某个文件的跟踪. 而不删除本地文件(在工作区中保留, 但从暂存区和版本库中移除)
     - `git rm -f <filename>`: 删除对文件的跟踪, 并删除本地文件 (已添加到暂存区时使用). `f` 是强制的意思
-    - `git rm --cached <filename>`: 取消对某个文件的跟踪. 而不删除本地文件
     - `git rm -r --cached <foldername>`: 取消对某个文件夹的跟踪. `r` 为递归的意思. `git rm -r *` 会将当前目录下的所有文件与子目录删除
     - `git rm -rf.`: 清除当前目录下的所有文件, 不过不会删除 `.git` 目录
     - `-n`: 所有的 `rm` 命令后面加上此命令后, 不会删除任何东西, 仅作为提示使用
@@ -351,7 +354,7 @@ updated:
 - `git tag`: 不可移动的标识点, 通常用来作为里程碑标记, 最广泛的使用就是作为版本标记
 
     - `git tag`: 显示所有 `tag`
-    - `git ls-remote --tags origin`: 列出远程所有标签
+    - `git ls-remote --tags origin`: 列出远程所有标签(不加 origin 也可以)
     - `git tag <tag name>`: 为最新 commit 的创建 tag
     - `git tag <tag name> <commit name>`: 为之前的某个 commit 点创建 tag
     - `git show <tag name>`: 显示指定 tag 信息
@@ -360,7 +363,6 @@ updated:
         - `git push origin:refs/tags/<tag name>`: 使用推送命令将一个空 tag 推送到远程以达到删除该 tag 的效果
     - `git push origin <tag name>`: 推送指定 tag 到远程
     - `git push origin --tags`: 推送所有本地 tag 到远程
-    - `git ls-remote --tags origin`: 显示远程所有 tag(不加 origin 也可以)
     - `git tag -l | xargs git tag -d` && `git fetch origin --prune`: 先删除本地所有分支, 然后从远端拉取所有分支, 适用于远端的 tag 被修改但是本地 tag 仍然是旧的
     - `git tag -l v1.*`: 筛选符合条件的 tag
     - `git tag -a v1.4 -m "my version 1.4"`: 创建含标注的 tag, 并为此标注直接添加信息 (标注可通过 git log 查看)

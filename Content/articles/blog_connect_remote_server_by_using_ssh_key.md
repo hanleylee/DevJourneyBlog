@@ -128,8 +128,10 @@ ssh [option] destination [command]
 - `cat ~/.ssh/id_rsa.pub | ssh user@host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"`: 上传公钥至服务器
 - `ssh-copy-id -i key_file user@host`: 使用 `ssh` 自带的密钥上传工具将密钥上传至服务器
 - `cat ~/.ssh/id_rsa.pub | ssh user@host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"`: 作用同上
+- `tail -100 /var/log/secure`: 查看最近100条登录日志
+- `who /var/log/wtmp`: 登录成功日志
 
-## .ssh/config 文件的配置命令
+## `.ssh/config` 文件的配置选项
 
 - `AddressFamily inet`: 表示只使用 `IPv4` 协议. 如果设为 `inet6`, 表示只使用 `IPv6` 协议.
 - `BindAddress 192.168.10.235`: 指定本机的 IP 地址 (如果本机有多个 IP 地址).
@@ -162,6 +164,16 @@ ssh [option] destination [command]
 - `User userName`: 指定远程登录的账户名.
 - `UserKnownHostsFile /users/smith/.ssh/my_local_hosts_file`: 指定当前用户的 `known_hosts` 文件 (服务器公钥指纹列表) 的位置.
 - `VerifyHostKeyDNS yes`: 是否通过检查 SSH 服务器的 DNS 记录, 确认公钥指纹是否与 `known_hosts` 文件保存的一致.
+
+## `/etc/ssh/sshd_config` 文件的配置选项
+
+- `Port: 22`: ssh 服务监听的端口
+- `PasswordAuthentication no`: 禁止使用密码登陆
+- `PermitEmptyPasswords no`: 禁止空密码登陆
+- `AllowUsers fsmythe bnice swilson`: 允许用户登录
+- `DenyUsers jhacker joebadguy jripper`: 限制用户登录
+- `PermitRootLogin no`: 禁止 root 用户登录
+- `all:1.1.1.1`: 在 `/etc/hosts.deny` 中设置可以禁止某些 ip 访问
 
 ## 使用 *公钥认证* 登录远程主机的具体操作步骤
 

@@ -132,7 +132,7 @@ brew cask install docker
 - `docker start <id/name>`: 启动一个已停止的容器
 - `docker restart <id/name>`: 重启一个容器
 - `docker kill <id/name>`: 停止一个容器
-- `docker ps`: 查看当前正在运行的容器, 如果需要列出所有的 (含已经被 exit 的) 容器需要使用
+- `docker ps`: 查看当前正在运行的容器, 等价于 `docker container ls`, 如果需要列出所有的 (含已经被 exit 的) 容器需要使用 `docker ps -a`
 
     ```bash
     $ docker ps
@@ -163,6 +163,7 @@ brew cask install docker
     ```
 
 - `docker rm <id/name>`: 删除某个容器, `docker rm -f 1e560fca3906`
+- `docker container ls -a`: 查看所有容器 (包括运行的与停止的, 等价于 `docker ps -a`)
 - `docker container prune`: 删除所有不在运行的容器
 - `docker rmi <image name>`: 删除某个镜像
 - `docker port <id/name>`: 查看某个容器的映射端口详情
@@ -321,6 +322,84 @@ root@1sdaf124232: ping test1
 
 64 bytes from test1. test-net...... # 正确接收到来自 test1 的信息
 ```
+
+### 获取容器创建时的参数
+
+使用 `docker run --rm -v /var/run/docker.sock:/var/run/docker.sock assaflavie/runlike <container_id>`
+
+ref: <https://stackoverflow.com/a/32774347/11884593>
+
+## docker-compose
+
+Docker Compose 使用 YAML 格式的配置文件 `docker-compose.yaml`, 该文件中定义了应用程序的各个组件, 每个组件对应的 Docker 镜像, 相应的服务, 网络等.
+
+使用 Docker Compose 可以更加方便地在本地或生产环境中管理多个 Docker 容器. 通过定义 Compose 文件, 您可以轻松地启动, 停止, 重新构建, 扩展和升级整个应用程序的不同组件.
+
+### 编写 Compose 文件
+
+Docker Compose 使用 YAML 文件来定义应用程序的组件和它们之间的联系. 下面是一个使用 Docker Compose 启动 web 应用程序的样例文件:
+
+```yaml
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+  redis:
+    image: "redis:alpine"
+```
+
+该文件定义了两个服务:
+
+- `web`: Dockerfile 位于当前目录下, 端口映射为 5000.
+- `redis`: 使用 Redis 的官方 Docker 镜像, 并以 Alpine Linux 为基础镜像.
+
+我们可以在 Compose 文件中定义其他组件, 例如数据库, 缓存服务器和消息队列等.
+
+Compose 文件使用 YAML 格式定义应用程序的组件, 服务, 网络和卷等. 以下是 Compose 文件的一些常见选项:
+
+- `version`: 指定 Compose 文件格式的版本.
+- `services`: 定义要启动的服务列表及每个服务的配置.
+- `image`: 指定要使用的 Docker 镜像名称. 如果不存在, 则自动从 Docker Hub 下载.
+- `build`: 指定 Dockerfile 的路径或 URL, 用于构建自定义 Docker 镜像.
+- `ports`: 指定端口映射规则, 将主机的端口映射到容器中的端口.
+- `volumes`: 指定挂载的卷目录, 将主机的目录和容器中的目录进行映射.
+- `restart`: 指定容器的自动启动策略
+- `cpus`: 指定容器最大可使用的 cpu 资源, 0.5 代表 0.5 个 cpu 核心
+- `environment`: 可指定多个环境变量
+
+```yaml
+version: '3.3'
+services:
+  qinglong_app:
+    image: whyour/qinglong:latest
+    container_name: qinglong
+    volumes:
+      - ./data:/ql/data
+    ports:
+      - "0.0.0.0:35700:5700"
+    environment:
+      # 部署路径非必须，以斜杠开头和结尾，比如 /test/
+      QlBaseUrl: '/'
+    restart: unless-stopped
+    cpus: 0.5
+```
+
+### 一些常用的 Docker Compose 命令
+
+我们可以在包含 `docker-compose.yaml` 文件的目录下直接执行 `docker-compose up -d` 来创建并启动相关服务, 常用的 `docker-compose` 命令如下:
+
+- `docker-compose up -d`: 创建并启动容器, 后台运行
+- `docker-compose down`: 停止并移除相关资源(会移除已创建的 container)
+- `docker-compose stop`: 停止所有服务
+- `docker-compose start`: 启动所有服务
+- `docker-compose restart` 重启所有服务
+- `docker-compose build`: 构建 Compose 文件中定义的服务
+- `docker-compose build <service_name>`: 只构建 Compose 文件中的某个服务
+- `docker-compose up --build`: 重新构建服务并强制重新生成镜像
+- `docker-compose up --force-recreate --build`: 在需要升级服务时, 使用此命令强制重新构建并启动服务(将删除并重新创建所有容器)
+- `docker-compose -f docker-compose.yml up -d`
 
 ## 参考
 
