@@ -1,5 +1,5 @@
 ---
-title: 神级编辑器 Vim 使用-最后
+title: 神级编辑器 Vim 使用 - 最后
 date: 2021-01-15
 comments: true
 path: usage-of-vim-editor-last
@@ -16,15 +16,15 @@ updated:
 
 本系列教程共分为以下五个部分:
 
-1. [神级编辑器 Vim 使用-基础篇](https://www.hanleylee.com/usage-of-vim-editor-basic.html) <!-- ./blog_usage_of_vim_basic.md -->
-2. [神级编辑器 Vim 使用-操作篇](https://www.hanleylee.com/usage-of-vim-editor.html) <!-- ./blog_usage_of_vim_operation.md -->
-3. [神级编辑器 Vim 使用-插件篇](https://www.hanleylee.com/usage-of-vim-editor-plugin.html) <!-- ./blog_usage_of_vim_plugin.md -->
-4. [神级编辑器 Vim 使用-正则操作篇](https://www.hanleylee.com/usage-of-vim-editor-regex.html) <!-- ./blog_usage_of_vim_regex.md -->
-5. [神级编辑器 Vim 使用-最后](https://www.hanleylee.com/usage-of-vim-editor-last.html) <!-- ./blog_usage_of_vim_final.md -->
+1. [神级编辑器 Vim 使用 - 基础篇](https://www.hanleylee.com/usage-of-vim-editor-basic.html) <!--./blog_usage_of_vim_basic.md -->
+2. [神级编辑器 Vim 使用 - 操作篇](https://www.hanleylee.com/usage-of-vim-editor.html) <!--./blog_usage_of_vim_operation.md -->
+3. [神级编辑器 Vim 使用 - 插件篇](https://www.hanleylee.com/usage-of-vim-editor-plugin.html) <!--./blog_usage_of_vim_plugin.md -->
+4. [神级编辑器 Vim 使用 - 正则操作篇](https://www.hanleylee.com/usage-of-vim-editor-regex.html) <!--./blog_usage_of_vim_regex.md -->
+5. [神级编辑器 Vim 使用 - 最后](https://www.hanleylee.com/usage-of-vim-editor-last.html) <!--./blog_usage_of_vim_final.md -->
 
 ## Vim 会不会过时
 
-`Vi(m)` 在上世纪 80 年代左右就已经诞生了, 时至今日, 市面上流行的文本编辑器没有任意一个比 vim 更长寿(Emacs 除外). 而且, 我认为 vim 在可预见的未来内也不会过时, 原因有以下几点:
+`Vi(m)` 在上世纪 80 年代左右就已经诞生了, 时至今日, 市面上流行的文本编辑器没有任意一个比 vim 更长寿 (Emacs 除外). 而且, 我认为 vim 在可预见的未来内也不会过时, 原因有以下几点:
 
 - vim 基于终端, 可与终端中的工具无缝切换使用, 而终端中的工具有一个特点: 那就是生命力顽强, 经久不衰
 - vim 在创始人 `Bram Moolenaar` 的带领下始终保持着不断地迭代更新, 从 [这里](https://github.com/vim/vim) 可以看到
@@ -41,7 +41,7 @@ updated:
 - 如果有复杂的重复性的操作, 请考虑宏
 - 如果一种操作需要多文件使用, 以后也有可能会用到, 请考虑使用脚本文件
 
-最后, 请将 vim 作为你的唯一编辑器用于所有文字编辑(本系列文章以及我所有笔记整理都是由 vim 来完成的), 这会让你在实践中快速进步
+最后, 请将 vim 作为你的唯一编辑器用于所有文字编辑 (本系列文章以及我所有笔记整理都是由 vim 来完成的), 这会让你在实践中快速进步
 
 ## 后续如何继续提高学习?
 
@@ -51,8 +51,8 @@ updated:
 
 另外, 也有一系列的书对 vim 的一些特性进行了深入挖掘, 这里推荐:
 
-- *Vim 使用技巧(第2版)* - Drew Neil
-- *Vim 8 文本处理实战* - 鲁兰斯.奥西波夫
+- *Vim 使用技巧 (第 2 版)* - Drew Neil
+- *Vim 8 文本处理实战* - 鲁兰斯. 奥西波夫
 
 ## Vim 常见问题
 
@@ -85,6 +85,19 @@ updated:
 - 原理
 
     将输入法针对于 `MacVim` 设置为单行模式
+
+### `vim --version` 显示支持 python 但是某些插件仍提示不支持
+
+![himg](https://a.hanleylee.com/HKMS/2023-07-03120944.png?x-oss-process=style/WaMa)
+
+排查步骤如下:
+
+1. 系统上是否装了 Python?
+2. Python 是 32 位还是 64 位跟 vim 是否匹配?
+3. Python 的版本跟编译时的版本是否一致 (编译时的版本可以使用 `:version` 查看)
+4. 通过 `pythondll` 和 `pythonthreedll` 来分别指定 Python2 和 Python3 所使用的动态库. 例如, 可以在 vimrc 里添加 `set pythondll=/Users/hanley/.python2.7.6/lib/libpython2.7.so`
+
+经此 4 步, 99% 能让 Python 工作起来, 剩下的 1% 就看人品了
 
 ## 最后
 

@@ -454,6 +454,13 @@ Git 的每个 Commit 都有作者 (Author) 跟提交者 (Committer) 两种角色
     - `git open --issue`: opens <https://github.com/TRACKED_REMOTE_USER/CURRENT_REPO/issues/123>
     - `git open --print`: It prints the URL <https://github.com/TRACKED_REMOTE_USER/CURRENT_REPO/>
 
+## 获取 github 文件链接
+
+- github: `https://github.com/username/project/blob/master/test.json` -> `https://raw.githubusercontent.com/username/project/master/test.json`
+- gitee: `https://gitee.com/username/project/blob/master/data.json` -> `https://gitee.com/username/project/raw/master/data.json`
+
+github 在国内的访问速度不是很理想, 建议将仓库同步到 gitee 上之后使用 gitee 下载链接
+
 ## Ref
 
 - [Faster way to get git branch](https://gist.github.com/bingzhangdai/dd4e283a14290c079a76c4ba17f19d69)

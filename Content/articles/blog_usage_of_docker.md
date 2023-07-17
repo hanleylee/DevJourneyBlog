@@ -8,13 +8,13 @@ tags: ⦿docker, ⦿tools
 updated:
 ---
 
-![himg](https://a.hanleylee.com/HKMS/2020-12-12164218.jpg?x-oss-process=style/WaMa)
-
 Docker 是一个开源的应用容器引擎, 基于 Go 语言 并遵从 Apache2.0 协议开源.
 
 Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级, 可移植的容器中, 然后发布到任何流行的 Linux 机器上, 也可以实现虚拟化.
 
 容器是完全使用沙箱机制, 相互之间不会有任何接口 (类似 iPhone 的 app), 更重要的是容器性能开销极低.
+
+![himg](https://a.hanleylee.com/HKMS/2020-12-12164218.jpg?x-oss-process=style/WaMa)
 
 <!-- more -->
 
@@ -104,7 +104,10 @@ brew cask install docker
     - `-d`: 在后台运行
     - `-i`: 进入交互式操作
     - `-t`: 终端
-    - `-P`: 将容器内部使用的网络端口以**随机**方式映射到我们使用的主机上
+    - `-v /minio/data:/mnt/data`: 将主机上的 `minio/data` 目录挂载到容器内的 `/mnt/data`, 用于持久化存储数据
+    - `-e "MINIO_CONFIG_ENV_FILE=/etc/config.env"`: 设置环境变量
+    - `--name "minio_local"`: 指定容器名称为 minio_local
+    - `-P`: 将容器内部使用的网络端口以 **随机** 方式映射到我们使用的主机上
 
         ```bash
         $ docker run -d -P training/webapp python app.py
@@ -113,7 +116,7 @@ brew cask install docker
         2a8df02af645  training/webapp "python app.py"  2 hours ago    Up 2 hours       0.0.0.0:32768->5000/tcp    hanley
         ```
 
-    - `-p`: 将容器内部使用的网络端口**指定**映射到我们使用的主机上
+    - `-p`: 将容器内部使用的网络端口 **指定** 映射到我们使用的主机上
 
         ```bash
         $ docker run -d -p 127.0.0.1:5001:5000 training/webapp python app.py
