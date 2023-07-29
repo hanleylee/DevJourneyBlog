@@ -8,11 +8,11 @@ tags: ⦿ios, ⦿cocoapods
 updated:
 ---
 
+cocoapods 是 xcode 的包管理工具, 用于管理开发过程中所使用的各种依赖, 运行在 ruby 环境中.
+
 ![himg](https://a.hanleylee.com/HKMS/2020-03-20-132849.jpg?x-oss-process=style/WaMa)
 
 <!-- more -->
-
-cocoapods 是 xcode 的包管理工具, 用于管理开发过程中所使用的各种依赖, 运行在 ruby 环境中.
 
 ## 安装
 
@@ -570,7 +570,7 @@ A -> B -> 项目
 
 ### you may set `use_modular_headers!` globally in your Podfile
 
-```bash
+```txt
 The Swift pod `WCDB.swift` depends upon `WCDBOptimizedSQLCipher` and `SQLiteRepairKit`, which do not define modules. To opt into those targets
 generating module maps (which is necessary to import them from Swift when building as static libraries), you may set `use_modular_headers!` globally
 in your Podfile, or specify `:modular_headers => true` for particular dependencies.

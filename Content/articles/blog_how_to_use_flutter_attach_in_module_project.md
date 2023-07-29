@@ -19,7 +19,7 @@ Flutter 分为以下四种工程类型
 - Flutter Plugin: Flutter 插件
 - Flutter Package: 纯 Dart 组件
 
-我司使用的 Flutter 正是 Flutter Module 类型, 也就是常说的混合开发. 使用这种方式遇到的第一个问题就是如何调试 flutter 工程的代码.  官方有说明在 [这里](https://flutter.cn/docs/development/add-to-app/debugging), 简言之, 有两种方式:
+我司使用的 Flutter 正是 Flutter Module 类型, 也就是常说的混合开发. 使用这种方式遇到的第一个问题就是如何调试 flutter 工程的代码. 官方有说明在 [这里](https://flutter.cn/docs/development/add-to-app/debugging), 简言之, 有两种方式:
 
 1. 直接在主工程中运行, 然后使用 flutter attach 连接到 flutter engine 来进行实时调试
 2. 在 Flutter Module 工程的外界套上一个壳工程, 这个壳的目的就是用于提供 flutter 运行时的外界参数

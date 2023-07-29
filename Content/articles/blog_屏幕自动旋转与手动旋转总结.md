@@ -97,7 +97,7 @@ iOS 的屏幕旋转有很多弯弯绕的地方, 旋转的成功与否取决于�
     - 如果 `modal` 一个普通的 `viewController`, 控制器中的 `shouldAutorotate` 能被调用
     - 如果 `modal` 一个自定义转场的控制器, 不能调用
 
-- 监听一定要监听 `UIApplication.didChangeStatusOrientationNotification`
+- 一定要监听 `UIApplication.didChangeStatusOrientationNotification`
 
     必须要监听 `UIApplication.didChangeStatusOrientationNotification` 而不是 `UIDevice.orientationDidChangeNotification`, 原因有下:
 
@@ -108,23 +108,23 @@ iOS 的屏幕旋转有很多弯弯绕的地方, 旋转的成功与否取决于�
 
     我们也可以使用 `UIDevice.current.orientation` 来判断当前设备的方向, 这个方向的类别是 `UIDeviceOrientation`, 其一共有如下可能:
 
-    - unknown
-    - portrait
-    - portraitUpsideDown
-    - landscapeLeft
-    - landscapeRight
-    - faceUp
-    - faceDown
+    - `unknown`
+    - `portrait`
+    - `portraitUpsideDown`
+    - `landscapeLeft`
+    - `landscapeRight`
+    - `faceUp`
+    - `faceDown`
 
     这非常不利于我们对方向的判断, 我们只想要当前设备的屏幕方向到底是横向还是竖向, 因此使用 `UIApplication.shared.statusBarOrientation` 是最好的选择, 他的类别是 `UIInterfaceOrientationMask`, 共有如下可能:
 
-    - portrait
-    - landscapeLeft
-    - landscapeRight
-    - portraitUpsideDown
-    - landscape
-    - all
-    - allButUpsideDown
+    - `portrait`
+    - `landscapeLeft`
+    - `landscapeRight`
+    - `portraitUpsideDown`
+    - `landscape`
+    - `all`
+    - `allButUpsideDown`
 
 - 屏幕旋转的重新约束
 
@@ -145,6 +145,7 @@ NotificationCenter.default.rx.notification(UIApplication.didChangeStatusBarOrien
     .disposed(by: disposeBag)
 
 /// 显示横屏与竖屏的逻辑 (添加移除相关 view)
+///
 /// - Parameter showLock: 是否显示锁定界面, 因为要隐藏 tabbar, 进入个股详情后再退回到本页面会自动显示底部 tabBar,
 /// 因此要在 viewWillAppear 中调用本方法, 并且不显示锁定框
 private func changeElementsWhenRotate(showLock: Bool) {
@@ -248,13 +249,13 @@ headerView.buttonRotate.rx.tap
 // 强制锁定屏幕
 lockSuccessView.tapGesture.rx.event
     .subscribe(onNext: { [weak self] (_) in
-    guard let self = self else {return}
-    self.lockSuccessView.isHidden = true
-    switch UIDevice.current.orientation {
-        case .landscapeLeft: self.appdelegate.interfaceOrientations = .landscapeRight
-        case .landscapeRight: self.appdelegate.interfaceOrientations = .landscapeLeft
-        default: break
-    }
+        guard let self = self else {return}
+        self.lockSuccessView.isHidden = true
+        switch UIDevice.current.orientation {
+            case .landscapeLeft: self.appdelegate.interfaceOrientations = .landscapeRight
+            case .landscapeRight: self.appdelegate.interfaceOrientations = .landscapeLeft
+            default: break
+        }
     })
     .disposed(by: disposeBag)
 ```

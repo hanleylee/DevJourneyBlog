@@ -67,9 +67,9 @@ updated:
 - `LaunchScreen` 修改图片无响应
     - 判断 `Info.plist` 中 `launchscreen` 的名称是否设置正确
     - 修改 `LaunchScreen` 的图片后, 需要删除 app, 再重新安装
-- `UIButton` 的 `titleLabel` 设置: 必须使用 `setTitle("", for:.touchUpInside)` 指定状态, 然后才可以使用 titleLabel.  <https://www.jianshu.com/p/53dcf361236b>
+- `UIButton` 的 `titleLabel` 设置: 必须使用 `setTitle("", for: .touchUpInside)` 指定状态, 然后才可以使用 titleLabel.  <https://www.jianshu.com/p/53dcf361236b>
 - `UITableView` 的 `sectionHeaderView` 的背景颜色不可通过 `backgroundColor` 直接进行设置, 可以通过 `contentView.backgroundColor` 进行设置, 但是由于 `contentView` 是与 safeArea 对齐的, 超出 safeArea 区域的其他地方的背景颜色仍然是默认的白色, 因此最直接的办法是 `backgroundView = LineView(UIColor.red)`
-- `UITableView` 的 cell 中有, 自身, `backgroundView`, `selectedBackgroundView`, `contentView` 他们层次的上下关系是: `自身 backgroundView selectedBackgroundView contentView 其他添加的 view`, 在布局时, 我们切记记得一定要将自定义添加的 `subview` 添加到 `contentView` 上, 因为系统对 `editStyle` 的 `cell` 进行处理时都是针对 `contentView` 进行
+- `UITableView` 的 cell 中有: 自身 & `backgroundView` & `selectedBackgroundView`& `contentView`, 他们层次的上下关系是: `自身 -> backgroundView -> selectedBackgroundView -> contentView -> other view`, 在布局时, 我们切记记得一定要将自定义添加的 `subview` 添加到 `contentView` 上, 因为系统对 `editStyle` 的 `cell` 进行处理时都是针对 `contentView` 进行
 - `contentView` 默认是根据 `safeArea` 对齐的, 因此如果添加的 `subview` 对齐了 `contentView`, 那么就不用操心对齐到 `safeArea` 了
 - 在长按 `UITableviewCell` 弹出菜单的方法中, 我们必须要设置 `canBecomeFirstResponder` 与 `canPerformAction`, 然后在长按手势方法中声明 `recognizer.view?.becomeFirstResponder()`, 切记不要在 cell 每次赋值时指定 `cell.becomeFirstResponder`, 否则会发生 `AXError` 错误!
 - 在 `UITableView` 的 `reloadRows` 方法执行时, 如果我们同时使用了 `tableView.reloadData()`, 那么将会出现单元格缺失的现象, 这应该与单元格的复用有关.  相应的 iOS 13 的方法 `UITableViewDiffableDataSource` 在增量更新时如果进行 `tableView.reloadData()` 也会发生 `cell` 的断层现象
@@ -86,13 +86,11 @@ updated:
     > 假设一个屏幕 (显示范围) 只能显示 tableView 的 5 个 cell
 
     1. 在添加一个 tableView 到主 view 的时候会随之创建一个复用池, 用于存放通过标识符和指定类型创建的 `注册 cell`
-    2. 系统在显示 tableView 的第一个 cell 时调用其代理方法 `cellForRowAt`, 因为代理方法中使用了 `dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)`, 那么会检测当前复用池有无 cell, 没有则新建 (初始化) 一个, 返回此 cell 到屏幕并将此 cell 添加到复用池
-    3. 系统在显示第 2 个 cell 的时候, 再次调用代理方法 `cellForRowAt`, 检查复用池有无 cell, 虽然有 cell, 但是当前屏幕 (显示范围) 还没有被铺满, 因此再次创建 (即初始化) 一个 cell, 返回此 cell 到屏幕并将其添加到复用池
+    2. 系统在显示 tableView 的第一个 cell 时调用其代理方法 `cellForRowAt`, 因为代理方法中使用了 `dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)`, 那么会检测当前复用池有无 cell, 没有则新建 (初始化) 一个返回, 否则从中取出并返回
+    3. 系统在显示第 2 个 cell 的时候, 再次调用代理方法 `cellForRowAt`, 此再次创建 (即初始化) 一个 cell, 返回此 cell 到屏幕
     4. 重复第 3 步, 直至显示到第 7 个 cell, 此时屏幕 (显示范围) 已经被填满, 显示新的 cell 的同时对旧 cell 进行回收到复用池并从复用池拉取之前被回收的 cell 进行复用.
 
        ![himg](https://a.hanleylee.com/HKMS/2020-03-31-tableView-reuse.gif)
-
-       > UITableViewCell 的复用机制是, 在 tableview 中存在一个复用池. 这个复用池是一个队列或一个链表. 然后通过 dequeueReusableCellWithIdentifier: 获取一个 cell, 如果当前 cell 不存在, 即新建一个 cell, 并将当前 cell 添加进复用池中. 如果当前的 cell 数量已经到过 tableview 所能容纳的个数, 则会在滚动到下一个 cell 时, 自动取出之前的 cell 并设置内容.
 
     `tableView`, `tableView` 的 `headerView`, `collectionView`, `collectionView` 的 `headerView` 都是这个套路
 
@@ -118,7 +116,7 @@ updated:
 
     ![himg](https://a.hanleylee.com/HKMS/2021-05-02230345.jpg?x-oss-process=style/WaMa)
 
-    这是由透明度的混合叠加造成的, 当显示一个 50% 透明度的图层时, 图层的每个像素都会一半显示自己的颜色, 另一半显示图层下面的颜色.  这是正常的透明度的表现. 但是如果图层包含一个同样显示 50% 透明的子图层时, 所看到的视图,  50% 来自子视图, 25% 来了图层本身的颜色, 另外的 25% 则来自背景色.
+    这是由透明度的混合叠加造成的, 当显示一个 50% 透明度的图层时, 图层的每个像素都会一半显示自己的颜色, 另一半显示图层下面的颜色. 这是正常的透明度的表现. 但是如果图层包含一个同样显示 50% 透明的子图层时, 所看到的视图,  50% 来自子视图, 25% 来了图层本身的颜色, 另外的 25% 则来自背景色.
 
     可以设置 CALayer 的一个叫做 `shouldRasterize` 属性来实现组透明的效果, 如果它被设置为 YES, 在应用透明度之前, 图层及其子图层都会被整合成一个整体的图片, 这样就没有透明度混合的问题了
 
@@ -291,7 +289,7 @@ updated:
         // let finalResult = "\(dbWordModel?.vocabularyModel?.justSentenceExplain ?? "")<br/>\(dbWordModel?.vocabularyModel?.justSentence ?? "")"
         ```
 
-    - 可选值使用?? 赋默认值再嵌套其他运算会极其耗时.
+    - 可选值使用 `??` 赋默认值再嵌套其他运算会极其耗时.
 
         ```swift
         /* 优化前 372 ms */
@@ -341,7 +339,7 @@ updated:
 
 ## UDID & UUID
 
-- *UDID*: *Unique Device Identifier*, 对于已越狱了的设备, UDID 并不是唯一的. 使用 Cydia 插件 UDIDFaker, 可以为每一个应用分配不同的 UDID. 所以 UDID 作为标识唯一设备的用途已经不大 了.
+- *UDID*: *Unique Device Identifier*, 对于已越狱了的设备, UDID 并不是唯一的. 使用 Cydia 插件 UDIDFaker, 可以为每一个应用分配不同的 UDID. 所以 UDID 作为标识唯一设备的用途已经不大了.
 
     ![himg](https://a.hanleylee.com/HKMS/2021-10-20180843.png?x-oss-process=style/WaMa)
 
@@ -355,22 +353,21 @@ updated:
 
 ## drawrect & layoutsubviews 调用时机
 
-`layoutSubviews:`(相当于`layoutSubviews()`函数) 在以下情况下会被调用:
+- `layoutSubviews:` 在以下情况下会被调用:
 
-- init 初始化不会触发 `layoutSubviews`.
-- addSubview 会触发 `layoutSubviews`.
-- 设置 view 的 Frame 会触发 `layoutSubviews` (frame 发生变化触发).
-- 滚动一个 UIScrollView 会触发 `layoutSubviews`.
-- 旋转 Screen 会触发父 UIView 上的 `layoutSubviews` 事件.
-- 改变一个 UIView 大小的时候也会触发父 UIView 上的 `layoutSubviews` 事件.
-- 直接调用 `setLayoutSubviews`.
+    - init 初始化不会触发 `layoutSubviews`.
+    - addSubview 会触发 `layoutSubviews`.
+    - 设置 view 的 Frame 会触发 `layoutSubviews` (frame 发生变化触发).
+    - 滚动一个 UIScrollView 会触发 `layoutSubviews`.
+    - 旋转 Screen 会触发父 UIView 上的 `layoutSubviews` 事件.
+    - 改变一个 UIView 大小的时候也会触发父 UIView 上的 `layoutSubviews` 事件.
+    - 直接调用 `setLayoutSubviews`.
 
-`drawrect:`(`drawrect()` 函数) 在以下情况下会被调用:
+- `drawrect`:
 
-- `drawrect:` 是在 UIViewController 的 `loadView:` 和 `viewDidLoad:` 方法之后调用.
-- 当我们调用 `[UIView sizeToFit]` 后, 会触发系统自动调用 `drawRect:`
-- 当设置 UIView 的 `contentMode` 或者 Frame 后会立即触发触发系统调用 `drawRect:`
-- 直接调用 `setNeedsDisplay` 设置标记或 `setNeedsDisplayInRect:` 的时候会触发 `drawRect:`
+    This method is called when a view is first displayed or when an event occurs that invalidates a visible part of the view. You should never call this method directly yourself.
+
+    To invalidate part of your view, and thus cause that portion to be redrawn, call the `setNeedsDisplay()` or `setNeedsDisplay(_:)` method instead.
 
 ## 常见问题
 
@@ -380,11 +377,20 @@ updated:
 
 这是一个治标不治本的"快速疗法", 加入这个设定可以让你编译通过并运行, 但是你需要清楚了解到这么做的弊端: 因为 *arm64* 被排除了, 所以在 iOS 模拟器上, 只有 `x86_64` 这一个架构选择. 这意味着你的整个 app 都会以 *x86_64* 进行编译, 然后跑在 *x86_64* 的模拟器上. 而在 Apple Silicon 的 mac 上, 这个模拟器其实是使用 Rosetta 2 跑起来的, 这意味着性能的大幅下降.
 
+### `setValue:forKey:` 原理
+
+当一个对象调用 setValue:forKey: 方法时, 方法内部会做以下操作:
+
+1. 判断有没有指定 key 的 set 方法, 如果有 `set` 方法, 就会调用 `set` 方法, 给该属性赋值
+2. 如果没有 `set` 方法, 判断有没有跟 `key` 值相同且带有下划线的成员属性 (`_key`). 如果有, 直接给该成员属性进行赋值
+3. 如果没有成员属性 `_key`, 判断有没有跟 `key` 相同名称的属性. 如果有, 直接给该属性进行赋值
+4. 如果都没有, 就会调用 `valueforUndefinedKey` 和 `setValue:forUndefinedKey:` 方法
+
 ## 感悟
 
-- 如果一些程序中使用的静态库不支持 armv7s, 而你的工程支持 armv7s 时, 就会出现"xxxx does not contain a(n) armv7s slice:xxxxx for architecture armv7s"的编译错误, 想要解决这个问题, 有两个方法:
-    1. 如果是开源的, 能够找到源代码, 则可以用源代码重新打一个支持 armv7s 的 libaray, 或者在工程中直接使用源代码, 而不是静态库.
-    2. 如果不是开源的, 要么就坐等第三方库的支持, 要么就暂时让你的工程不支持 armv7s.
+- 如果一些程序中使用的静态库不支持 `armv7s`, 而你的工程支持 `armv7s` 时, 就会出现 "xxxx does not contain a(n) armv7s slice:xxxxx for architecture armv7s" 的编译错误, 想要解决这个问题, 有两个方法:
+    1. 如果是开源的, 能够找到源代码, 则可以用源代码重新打一个支持 `armv7s` 的 libaray, 或者在工程中直接使用源代码, 而不是静态库.
+    2. 如果不是开源的, 要么就坐等第三方库的支持, 要么就暂时让你的工程不支持 `armv7s`
 - ios Deep Link: Deep Link 包含 URL Scheme 与 Universal Link 两种技术
 
     ![himg](https://a.hanleylee.com/HKMS/2021-11-05225053.jpg?x-oss-process=style/WaMa)
@@ -420,7 +426,7 @@ updated:
     - `isZooming`: 当前 tableView 是否正在缩放 (放大或缩小)
     - `isFocused`: 是否是当前 UIScreen 的 focusedView
     - `isTracking`: 是否被手指按住以开始一个滑动事件 (只要手指放上哪怕没有滚动也会为 true 值)
-    - `isDecelerating`: 是否在惯性滑动, 即手指已经离开屏幕但是 scrollView 仍然在滚动的情况. 因此本属性与 isDragging 不可能同时为 true
+    - `isDecelerating`: 是否在惯性滑动, 即手指已经离开屏幕但是 scrollView 仍然在滚动的情况. 因此本属性与 `isDragging` 不可能同时为 true
     - `isDecendant(of: UIView)`: 是否是某 `view` 的 `subview`
     - `isZoomBouncing`: 是否正在缩放的惯性动画中
     - `isExclusiveTouch`: 当设置了 `isExclusiveTouch = true` 的控件 (View) 是事件的第一响应者, 那么到你的所有手指离开屏幕前, 其他的控件 (View) 是不会响应任何触摸事件的. 如果设置类别较多, 可直接设置全局 `UIView.appearance().isExclusiveTouch = true`
@@ -460,7 +466,6 @@ updated:
     2. 在使用 `cell` 预估高度的情况下, 系统会先执行所有 `cell` 的预估高度, 也就是先执行 `tableView:estimatedHeightForRowAtIndexPath:` 代理方法, 接着用所有 `cell` 预估高度总和来参与计算 `contentSize`, 然后才显示 `cell` 的内容. 这时候从下往上滚动 `tableView`, 当有新的 `cell` 出现的时候, 如果 `cell` 预估值高度减去实际高度 (实际高度根据 `cell` 中所持有控件约束计算得出) 的差值不等于 0, `contentSize` 的高度会以这个差值来动态变化, 如果差值等于 `0`, `contentSize` 的高度不再变化. 在这个过程中, 由之前的所有 `cell` 实际高度一次性先计算变成了现在预估高度一次性先计算, 然后实际高度分步计算. 正如苹果官方文档所说, 减少了实际高度计算时的性能消耗, 但是这种实际高度和预估高度差值的动态变化在滑动过快时可能会产生跳跃现象, 所以此时的预估高度和真实高度越接近越好(为了解决这种问题, 可以使用字典缓存所有的预估高度然后在代理方法中返回当前 `cell` 的高度).
 
 - `UIScrollView` 如果被设置 `contentOffset` 或者 `setContentOffset()` 的话, 会触发其 `scrillViewDidScroll` 代理方法
-- `contencontentSize` 在 `viewDidLoad` 中设置后, 如果之后没有进行边距与宽高的约束的话是起作用的, 在 `viewdidload` 中设置是为了方便, 更严格的应该全部使用约束
 - `UITableViewCell` 的 `contentView` 的 `bgColor` 位于 `self` 的 `bgColor` 之上
 - `UIScrollView` 如果没有被正确释放, 并且其代理方法中会发送 Notification 的话, 那么可能会触发各种灵异事件.
 - 时间戳: 格林威治时间 **1970-01-01 00:00:00** 起至现在的总秒数, 所以所有时区的时间戳都是一样的, 但是同样的时间戳在不同的时区会显示不同的日期时间, 因为中国是 `UTC+8` 时区, 因此在北京时间 **1970-01-01 08:00:00** 的时候, 时间戳为零, 一个普通的时间戳如果放到中国时区来计算的话就会以 `8:00` 为基准, 计算差值

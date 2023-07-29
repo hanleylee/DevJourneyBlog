@@ -17,7 +17,7 @@ updated:
 ## 基础
 
 - 字典与数组都是线程不安全的, 即: 多个线程同时写或一个线程写另一个线程读都会造成崩溃 (如果是读写都在一个线程则是安全的)
-- 字典的读写同步造成的崩溃可通过属性观察者 didSet {} 进行一定程度的缓解, 效率大概是能将 100 次的崩溃变为 1 次, 但是不能完全解决此问题
+- 字典的读写同步造成的崩溃可通过属性观察者 `didSet {}` 进行一定程度的缓解, 效率大概是能将 100 次的崩溃变为 1 次, 但是不能完全解决此问题
 - 异步串行执行确实是只开启一个子线程, 但是如果连续不断地有一定时间间隔地往这个队列添加任务, 那么在任务结束后新任务极有可能会被分配到另一个子线程中是合理的
 - 锁在 *Swift* 中极其难用, 因此可以避免使用锁, 转而使用 *GCD* 解决多线程问题
 
@@ -95,9 +95,9 @@ serialQueue1.resume() // 继续执行队列
 
 简单精要理解: 开不开启 `新线程` 完全取决于是否 `异步执行`
 
-- `异步` + `串行`, 只开启一条 `新线程` (额外的);
-- `异步` + `并发`, 追加几个任务就开几条 `子线程`.
-- `异步` + `主队列`, 不开启新线程. 因为 `主队列` 的 `任务` 都会放在 `主线程` 中执行. `异步执行` 会等待同步代码执行完毕后再被执行 (如果依次异步追加多个任务, 添加的多个 `异步任务` 会按照先后顺序 `依次执行`, 这是因为 `主队列` 同时是 `串行队列`)
+- `异步` + `串行`: 只开启一条 `新线程` (额外的)
+- `异步` + `并发`: 追加几个任务就开几条 `子线程`
+- `异步` + `主队列`: 不开启新线程. 因为 `主队列` 的 `任务` 都会放在 `主线程` 中执行. `异步执行` 会等待同步代码执行完毕后再被执行 (如果依次异步追加多个任务, 添加的多个 `异步任务` 会按照先后顺序 `依次执行`, 这是因为 `主队列` 同时是 `串行队列`)
 
 注意: 从上边可看出: `主线程` 中调用 `主队列` + `同步执行` 会导致死锁问题. 这是因为 `主队列` 中追加的 `同步任务` 和 `主线程` 本身的任务两者之间相互等待, 阻塞了 `主队列`, 最终造成了 `主队列` 所在的线程 (`主线程`) 死锁问题. 而如果我们在其他线程调用 `主队列` + `同步执行`, 则不会阻塞 `主队列`, 自然也不会造成死锁问题. 最终的结果是: 不会开启 `新线程`, 在主线程中串行执行任务.
 
@@ -350,21 +350,21 @@ public init(qos: DispatchQoS = default, flags: DispatchWorkItemFlags = default, 
 ### 作为任务阻隔 (主要用于读写分离)
 
 ```swift
-let queue = DispatchQueue(label: "com.ffib.blog.queue", qos:.utility, attributes:.concurrent)
+let queue = DispatchQueue(label: "com.ffib.blog.queue", qos: .utility, attributes: .concurrent)
 let path = NSHomeDirectory() + "/test.txt"
 
 print(path)
 
 let readWorkItem = DispatchWorkItem {
     do {
-        let str = try String(contentsOfFile: path, encoding:.utf8)
+        let str = try String(contentsOfFile: path, encoding: .utf8)
         print(str)
     } catch {
         print(error)
     }
 }
 
-let writeWorkItem = DispatchWorkItem(flags:.barrier) {
+let writeWorkItem = DispatchWorkItem(flags: .barrier) {
     do {
         try "done".write(toFile: path, atomically: true, encoding: String.Encoding.utf8)
         print("write")
@@ -373,13 +373,13 @@ let writeWorkItem = DispatchWorkItem(flags:.barrier) {
     }
 }
 
-for _ in 0..<3 {
+for _ in 0 ..< 3 {
     queue.async(execute: readWorkItem)
 }
 
 queue.async(execute: writeWorkItem)
 
-for _ in 0..<3 {
+for _ in 0 ..< 3 {
     queue.async(execute: readWorkItem)
 }
 
@@ -635,7 +635,7 @@ printTime(withComment: "3")
     ```swift
     - @IBAction func didClickOnStart(sender: AnyObject) {
             queue = NSOperationQueue()
-        queue.addOperationWithBlock {() -> Void in
+            queue.addOperationWithBlock {() -> Void in
             let img1 = Downloader.downloadImageWithURL(imageURLs[0])
             NSOperationQueue.mainQueue().addOperationWithBlock({
                 self.imageView1.image = img1

@@ -37,7 +37,7 @@ Apple 证书分为 *开发证书*, *发布证书*, *推送证书* 等, 申请证
 
 ### 证书申请时生成的私钥有什么用
 
-当我们生成一个 `certSigningRequest` 文件时, 会发现在 `Keychain Access` 中也生成了一个公钥一个私钥, 这个私钥会与从 [Apple 开发者页面](https://developer.apple.com/account/resources/certificates/add) 生成并下载下来的证书文件组成 `私钥-证书` 对, Xcode 在使用证书的时候会根据证书从 Keychain 中找到与之匹配的私钥，并使用私钥对 App 进行签名。
+当我们生成一个 `certSigningRequest` 文件时, 会发现在 `Keychain Access` 中也生成了一个公钥一个私钥, 这个私钥会与从 [Apple 开发者页面](https://developer.apple.com/account/resources/certificates/add) 生成并下载下来的证书文件组成 `私钥-证书` 对, Xcode 在使用证书的时候会根据证书从 Keychain 中找到与之匹配的私钥, 并使用私钥对 App 进行签名。
 
 因此, **证书申请时生成的私钥** 是非常重要的, 千万不能删(我就因为不懂而删除过, 最后打包失败, 只能废弃原证书重新申请一个新的证书)
 
@@ -50,11 +50,11 @@ Apple 证书分为 *开发证书*, *发布证书*, *推送证书* 等, 申请证
 - 已注册可在开发阶段使用的的设备
 - 开发账户
 - App 使用到的 Apple 的服务内容 (比如 cloudkit, push notification, game center, in-app purchase, keychain sharing 等)
--...
+- ...
 
 *Provisioning Profile* 可以在 [Apple 开发者页面](https://developer.apple.com/account/#/membership/) 进行配置, 选择性地将证书, 可用设备, 覆盖的 Apple 功能添加到其中.
 
-目前 xcode 比较智能, 可以在软件内实现自动托管配置文件, 不需要手动在官网进行配置.  **注意: xcode 托管的配置文件不会显示在官网, 即: 如果在官网没有手动为 App 添加配置文件而是使用 xcode 的托管功能的话, 那么在官网的配置文件页面仍然是空白的**
+目前 xcode 比较智能, 可以在软件内实现自动托管配置文件, 不需要手动在官网进行配置. **注意: xcode 托管的配置文件不会显示在官网, 即: 如果在官网没有手动为 App 添加配置文件而是使用 xcode 的托管功能的话, 那么在官网的配置文件页面仍然是空白的**
 
 Xcode 会在使用第一次点击开启托管功能时相关配置整合到一个配置文件中, 如果在开发者页面对 `APP ID` 新添加了某些功能后, 其不会自动更新, 此时可以进入到 `~/Library/MobileDevice/Provisioning Profiles` 路径中将所有配置文件全部删除, 此时 Xcode 即会自动拉取最新配置生成新的 *Provisioning Profile*.
 
