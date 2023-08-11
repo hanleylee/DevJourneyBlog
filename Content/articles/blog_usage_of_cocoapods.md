@@ -8,11 +8,11 @@ tags: ⦿ios, ⦿cocoapods
 updated:
 ---
 
+cocoapods 是 xcode 的包管理工具, 用于管理开发过程中所使用的各种依赖, 运行在 ruby 环境中.
+
 ![himg](https://a.hanleylee.com/HKMS/2020-03-20-132849.jpg?x-oss-process=style/WaMa)
 
 <!-- more -->
-
-cocoapods 是 xcode 的包管理工具, 用于管理开发过程中所使用的各种依赖, 运行在 ruby 环境中.
 
 ## 安装
 
@@ -71,8 +71,12 @@ sudo gem install cocoapods
 
 ## 静态库与动态库
 
-- **静态库**: 一堆目标文件的打包体. 链接时会被完整的复制到可执行文件中, 存在多个可执行文件中各自包含同一份静态库代码的问题.
-- **动态库**: 一个没有 `main` 函数的可执行文件. 链接时不复制代码, 程序启动后用 `dyld` 加载, 然后再决议符号. 所以一份动态库可以供多个程序动态链接, 达到节省内存的目的. 此优点是针对系统自带动态库来说的, 自定义动态库没有此优点.
+[传送门](https://www.hanleylee.com/articles/various-libraries-in-ios/)
+
+CocoaPods 会将每个 pod 转换为 Umbrella Framework 并添加 module map 使其支持模块. 因此, 每个 Pod 的 Supporting File 中会有两个对应的文件
+
+- `PodName-umbrella.h`: Umbrella Header
+- `PodName.modulemap`: Module Map
 
 ## 将自定义 pods 提交到 cocoapods 中央仓库
 
@@ -80,20 +84,9 @@ sudo gem install cocoapods
 
 ### 步骤
 
-1. 在本地创建一个仓库, 在 `GitHub` 上创建一个仓库, 将本地仓库的远程仓库地址设置为 `GitHub` 仓库, 使用命令:
-
-    ```git
-    git remote set-url origin https://github.com/HanleyLee/HLDeviceKit.git
-    ```
-
-2. 添加 `HLDeviceKit.podspec` 文件
-
-    ```bash
-    pod spec create HLDeviceKit
-    ```
-
+1. 在本地创建一个仓库, 在 `GitHub` 上创建一个仓库, 将本地仓库的远程仓库地址设置为 `GitHub` 仓库: `git remote set-url origin https://github.com/HanleyLee/HLDeviceKit.git`
+2. 添加 `HLDeviceKit.podspec` 文件: `pod spec create HLDeviceKit`
 3. 编辑 `HLDeviceKit.podspec` 文件, 具体格式参考 [podsepc 模板](#podsepc\ 模板) 一节
-
 4. 将当前仓库 `commit` 并 `push` 到 `GitHub`, 并设置 `tag` 为 `1.0.0`
 
     ```bash
@@ -112,19 +105,9 @@ sudo gem install cocoapods
     # pod spec lint --sources=****/****.git,https://github.com/CocoaPods/Specs.git --use-libraries --allow-warnings
     ```
 
-6. 注册 `cocoapods`
+6. 注册 `cocoapods`: `pod trunk register hanley.lei@gmail.com`
 
-    ```bash
-    pod trunk register hanley.lei@gmail.com
-    ```
-
-7. 提交到 `cocoapods`
-
-    ```bash
-    pod trunk push HLDeviceKit
-    ```
-
-    此命令相当于做了三件事:
+7. 提交到 `cocoapods`: `pod trunk push HLDeviceKit`, 此命令相当于做了三件事:
 
     - 验证本地的 `podspec` 文件, 也可以使用 `pod spec lint` 验证
     - 上传 `podspec` 文件到 `trunk` 服务
@@ -136,7 +119,7 @@ sudo gem install cocoapods
 
     ![himg](https://a.hanleylee.com/HKMS/2020-02-14-100204.png?x-oss-process=style/WaMa)
 
-## 使用 `Cocoapods` 创建私有库并使用
+## 使用 Cocoapods 创建私有库并使用
 
 理论上使用私有库的话会需要索引库与资源库两部分, 但是有些项目将一个库同时作为索引库和资源库, 这样也是可以的. 下面的示例即版本库与资源库分离的使用方法
 
@@ -179,14 +162,8 @@ sudo gem install cocoapods
 
 ### 使用私有索引库
 
-1. 使用私有 `pod` 库的需要在 `Podflie` 中添加这句话, 指明你的私有索引库地址.
-
-    `source 'git@github.com:HanleyLee/HLPodSpecs.git'`
-
-2. 如果要使用 `cocoapods` 的中央仓库中的库, 还要添加
-
-    `source 'https://github.com/CocoaPods/Specs.git'`
-
+1. 使用私有 `pod` 库的需要在 `Podflie` 中添加 `source 'git@github.com:HanleyLee/HLPodSpecs.git'`, 指明你的私有索引库地址.
+2. 如果要使用 `cocoapods` 的中央仓库中的库, 还要添加 `source 'https://github.com/CocoaPods/Specs.git'`
 3. `pod install`
 
 最终的 `Podfile` 文件如下:
@@ -558,7 +535,7 @@ end
 
 ## 依赖与其依赖之间的关系
 
-```bash
+```text
 A -> B -> 项目
 ```
 
@@ -593,7 +570,7 @@ A -> B -> 项目
 
 ### you may set `use_modular_headers!` globally in your Podfile
 
-```bash
+```txt
 The Swift pod `WCDB.swift` depends upon `WCDBOptimizedSQLCipher` and `SQLiteRepairKit`, which do not define modules. To opt into those targets
 generating module maps (which is necessary to import them from Swift when building as static libraries), you may set `use_modular_headers!` globally
 in your Podfile, or specify `:modular_headers => true` for particular dependencies.
@@ -608,6 +585,12 @@ in your Podfile, or specify `:modular_headers => true` for particular dependenci
 1. `Podfile` 文件中全局指定 `use_modular_headers!`
 2. 单独库指定 `:modular_headers => true`
 3. 此问题只有在以默认方式 (静态库方式) 导入时才会出现, 否则不会出现, 因此也可以直接使用 `use_frameworks!` 来解决
+
+#### 进一步分析
+
+那么, Swift 引用 OC 时为什么要开启 modular headers? 事实上, **开启 `modular headers` 的本质就是将 pod 转换为 Modular(也就是支持模块), 而 Modular 是可以直接在 Swift 中 import 的, 不需要再经过 bridging-header 进行桥接, 从而简化了 Swift 引用 OC 的方式**.
+
+> 只有支持了模块的框架，才能支持通过模块化头文件（Modular Header）的方式进行导入。Clang 支持模块编译，能够加速编译，减少出错。我们可以通过添加 modulemap 文件使框架支持模块。
 
 ### Could not build objective-c module 'Alamofire'
 
@@ -679,7 +662,6 @@ s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
 
 ## 注意
 
-- 动态库不能依赖静态库! 动态库不能依赖静态库是因为静态库不需要在运行时再次加载, 如果多个动态库依赖同一个静态库, 会出现多个静态库的拷贝, 而这些拷贝本身只是对于内存空间的消耗.
 - `podspec` 文件名应与文件中的 `spec.name` 相同, 否则会报错
 - 版本库与代码库为同一库的情况下, 会在库中创建存放版本号的文件夹, 此文件夹的名称为 `pod` 名, 因此不要事先在与 `podspec` 文件同级路径下使用 `pod` 名来命名文件夹, 否则会发生错误.
 - 在 `pod repo push ...` 步骤中, 会根据已经 `pod repo add ...` 的仓库地址进行 `git push`, 并生成一个新的 `commit`, 命名为 `module + 版本号`

@@ -4,7 +4,7 @@ date: 2022-12-24
 comments: true
 path: use-macvim_as_git_merge_tool
 categories: Tools
-tags: ⦿vim,⦿git
+tags: ⦿vim, ⦿git, ⦿merge-tool, ⦿tool
 updated:
 ---
 

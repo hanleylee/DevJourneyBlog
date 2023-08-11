@@ -4,7 +4,7 @@ date: 2021-08-25
 comments: true
 path: use-keycode-in-terminal-vim
 categories: Terminal
-tags: ⦿blog, ⦿vim, ⦿terminal, ⦿keycode
+tags: ⦿vim, ⦿terminal, ⦿keycode, ⦿tool
 updated:
 ---
 

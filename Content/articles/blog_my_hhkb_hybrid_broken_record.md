@@ -4,7 +4,7 @@ date: 2022-02-20
 comments: true
 path: my-hhkb-hybrid-broken-record
 categories: Hardware
-tags: ⦿hhkb
+tags: ⦿hhkb, ⦿broken
 updated:
 ---
 

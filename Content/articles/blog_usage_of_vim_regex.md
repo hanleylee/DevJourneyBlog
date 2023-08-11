@@ -5,7 +5,7 @@ comments: true
 path: usage-of-vim-editor-regex
 categories: Terminal
 updated:
-tags: ⦿blog, ⦿vim, ⦿regex
+tags: ⦿vim, ⦿regex, ⦿tool
 ---
 
 Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配, 可以很快速地完成我们很多需要大量人力操作的工作, 而且可对多文件使用查找/替换功能.
@@ -438,7 +438,7 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 - `n`: 表示不同意当前 替换
 - `a`: 表示替换当前和后面的并且不再确认
 - `q`: 表示立即结束替换操作
-- `1`: 表示把当前的替换后结束替换操作;
+- `1`: 表示把当前的替换后结束替换操作
 - `^E`: 向上滚屏
 - `^Y`: 向下滚屏,
 
@@ -508,8 +508,9 @@ global 语法有两种
 - `:nmap <F3>  :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR><CR>`
 - `:'a,'bg/fred/s/joe/susan/gic`:  can use memory to extend matching
 - `:/fred/,/joe/s/fred/joe/gic`:  non-line based (ultra)
-- `:/biz/,/any/g/article/s/wheel/bucket/gic`:  non-line based [N]
+- `:/biz/,/any/g/article/s/wheel/bucket/gic`:  non-line based
 - `:/fred/;/joe/-2,/sid/+3s/sally/alley/gIC`
+- `?Statement?;/StatusLine/s/pattern/replace/g`
 - `:g/^/exe ".w ".line(".").".txt"`: create a new file for each line of file eg 1.txt,2.txt,3,txt etc
 - `:.g/^/ exe ".!sed 's/N/X/'" | s/I/Q/`: chain an external command
 - `:g/^$/;/^$/-1!sort`: Sort each block (note the crucial ;)

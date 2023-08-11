@@ -4,6 +4,7 @@ date: 2020-01-19
 comments: true
 path: dye-the-keycaps-of-hhkb-keyboard
 categories: Hardware
+tags: ⦿hhkb, ⦿keyboard, ⦿dye
 updated:
 ---
 

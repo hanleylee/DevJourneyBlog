@@ -4,7 +4,7 @@ date: 2020-04-04
 comments: true
 path: type-transform-of-data-in-swift
 categories: iOS
-tags: ⦿swift, ⦿convert, ⦿type
+tags: ⦿swift, ⦿type-transform
 updated:
 ---
 

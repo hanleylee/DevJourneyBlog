@@ -4,7 +4,7 @@ date: 2020-10-31
 comments: true
 path: new-feature-of-swift-after-5
 categories: iOS
-tags: ⦿ios, ⦿feature, ⦿swift, ⦿swift5
+tags: ⦿apple, ⦿feature, ⦿swift, ⦿swift5
 updated:
 ---
 
@@ -93,9 +93,7 @@ import Foundation
 @propertyWrapper
 struct UserDefaultStorage<T: Codable> {
     var value: T?
-
     let keyName: String
-
     let queue = DispatchQueue(label: (UUID().uuidString))
 
     init(keyName: String) {
@@ -105,7 +103,6 @@ struct UserDefaultStorage<T: Codable> {
 
     // 必须实现
     var wrappedValue: T? {
-
         get {value}
 
         set {
@@ -129,18 +126,12 @@ struct UserDefaultStorage<T: Codable> {
     //     set {print(newValue) }
     // }
 
-
     func foo() { print("Foo") }
 }
 ```
 
-- `wrappedValue`
-
-    调用包装属性时的直接交互项, 通过 `set` 和 `get` 可以取值及赋值
-
-- `projectedValue`
-
-    通过 `$` 进行调用, 也可以设置 `set` 与 `get` 来控制取值及赋值
+- `wrappedValue`: 调用包装属性时的直接交互项, 通过 `set` 和 `get` 可以取值及赋值
+- `projectedValue`: 通过 `$` 进行调用, 也可以设置 `set` 与 `get` 来控制取值及赋值
 
 ### 用法
 
@@ -323,7 +314,7 @@ extension Sequence {
 
 ## 为下标设置默认值
 
-`Swift` 的结构体下标方法非常强大, 但是在 `Swift 5.2` 之前我们不能为下标方法的参数指定默认值, 我们可以在下标方法中声明默认值用于 `index` 无效情况下的返回值
+`Swift` 的结构体下标方法非常强大, 在 `Swift 5.2` 之前我们不能为下标方法的参数指定默认值, 现在我们可以在下标方法中声明默认值用于 `index` 无效情况下的返回值
 
 ```swift
 struct Hogwarts {
@@ -402,11 +393,9 @@ let t1 = T1(num1: 0, num2: 1) // error, 不能访问到未公开的指定初始�
 ```swift
 do {
     try performTask()
-}
-catch TaskError.someRecoverableError {
+} catch TaskError.someRecoverableError {
     recover()
-}
-catch TaskError.someFailure(let msg), TaskError.anotherFailure(let msg) {
+} catch TaskError.someFailure(let msg), TaskError.anotherFailure(let msg) {
     showMessage(msg)
 }
 ```
@@ -479,7 +468,7 @@ foo.baz = 2 // 会调用 oldValue
     class MyContainer: Container {
         override var items: [Int] {
             didSet {
-            print("didSet is called in the subclass")
+                print("didSet is called in the subclass")
             }
         }
     }
@@ -491,7 +480,7 @@ foo.baz = 2 // 会调用 oldValue
     struct Container {
         var items = [Int](repeating: 1, count: 100) {
             didSet {
-            print("items didSet is called")
+                print("items didSet is called")
             }
         }
     }
@@ -499,12 +488,12 @@ foo.baz = 2 // 会调用 oldValue
     class ViewController: UIViewController {
         var container = Container() {
             didSet {
-                print("container didSet is called") // container 改变后会先调用 items 的 didSet, 再调用 container 的 didSet
+                print("container didSet is called")
             }
         }
         override func viewDidLoad() {
             super.viewDidLoad()
-            container.items.append(1)
+            container.items.append(1) // container 改变后会先调用 items 的 didSet, 再调用 container 的 didSet
         }
     }
     ```

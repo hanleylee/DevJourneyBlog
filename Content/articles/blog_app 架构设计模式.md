@@ -4,7 +4,7 @@ date: 2020-03-09
 comments: true
 path: framework-design-of-app
 categories: iOS
-tags: ⦿ios, ⦿framework, ⦿design
+tags: ⦿ios, ⦿framework, ⦿design-pattern, ⦿architecture
 updated:
 ---
 

@@ -31,7 +31,7 @@ URL Scheme 是苹果设计用来在本应用内打开其他应用 (并在其他�
 
 ### 本应用唤醒其他应用
 
-1. 在 `Info.plist` 的 `LSApplicationQueriesSchemes` 中注册要打开的应用的 `URL Scheme` (这一步也被称为设置 "白名单". 除系统组件不需要额外注册外, 其他第三方 App 都需要注册, fb 也不能例外)
+1. 在 `Info.plist` 的 `LSApplicationQueriesSchemes` 中注册要打开的应用的 `URL Scheme` (这一步也被称为 "设置白名单". 除系统组件不需要额外注册外, 其他第三方 App 都需要注册, fb 也不能例外)
 
     ![himg](https://a.hanleylee.com/HKMS/2020-03-01-041546.png?x-oss-process=style/WaMa)
 
@@ -41,8 +41,7 @@ URL Scheme 是苹果设计用来在本应用内打开其他应用 (并在其他�
     if let url1 = URL(string: "fb://profile/100041507435168"), let url2 = URL(string: "https://www.facebook.com/hanley.lei") {
         if UIApplication.shared.canOpenURL(url1) {
             UIApplication.shared.open(url1, options: [:]) { (success) in }
-        }
-        else {
+        } else {
             UIApplication.shared.open(url2, options: [:]) { (success) in }
         }
     }
@@ -89,7 +88,7 @@ URL Scheme 是苹果设计用来在本应用内打开其他应用 (并在其他�
 
 ### 注意
 
-- 在 `Info.plist` 的 `LSApplicationQueriesSchemes` 中最多注册 100 个 `URL Scheme`, 这是因为 Apple 担心某些 App 使用此功能配合 `canOpenUrl` 检测用户装了哪些 App, 这会触犯到用户的隐私
+- 在 `Info.plist` 的 `LSApplicationQueriesSchemes` 中最多注册 50 个 `URL Scheme`, 这是因为 Apple 担心某些 App 使用此功能配合 `canOpenUrl` 检测用户装了哪些 App, 这会触犯到用户的隐私
 - 如果两个 App 的 `URL Scheme` 相同, 那么最近安装 App 的 `URL Scheme` 将会替代前面安装 App 的 `URL Scheme`
 
 ## 常用的 URL Scheme

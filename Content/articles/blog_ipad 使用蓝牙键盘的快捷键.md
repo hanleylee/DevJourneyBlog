@@ -4,6 +4,7 @@ date: 2020-02-01
 comments: true
 path: shortcut-of-bluetooth-keyboard-on-ipad
 categories: Hardware
+tags: ⦿bluetooth, ⦿ipad, ⦿keyboard, ⦿shortcut
 updated:
 ---
 

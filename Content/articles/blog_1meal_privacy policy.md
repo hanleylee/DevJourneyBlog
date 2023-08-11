@@ -4,6 +4,7 @@ date: 2019-11-08
 comments: false
 path: privacy-policy-for-1meal
 categories: 1Meal
+tags: ⦿privacy-policy, ⦿1meal
 updated: 2019-11-08
 ---
 

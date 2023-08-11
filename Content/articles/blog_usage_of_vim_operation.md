@@ -4,7 +4,7 @@ date: 2021-01-15
 comments: true
 path: usage-of-vim-editor
 categories: Terminal
-tags: ⦿blog, ⦿vim, ⦿operation
+tags: ⦿vim, ⦿tool
 updated:
 ---
 
@@ -40,7 +40,7 @@ updated:
 - `gvim -c 'normal ggdG"*p' c:/aaa/xp`: Access paste buffer contents (put in a script/batch file)
 - `gvim -c 's/^/\=@*/|hardcopy!|q!'`: print paste contents to default printer
 - `:h [option]`: 显示对命令的帮助
-- `:help:sort`: 同上, 显示对 `:sort` 的解释
+- `:help :sort`: 同上, 显示对 `:sort` 的解释
 - `:help guimac` / `:help macvim`: 显示 macvim 的帮助
 - `:gui`: 在 MacVim 中打开 vim 中当前的所有 buffer(great!)
 - `:source ~/.vimrc`: 重载配置文件 (可以在不重启 vim 的情况下重载配置文件)
@@ -130,10 +130,14 @@ updated:
 - `gi`: 跳转到上次退出插入模式的位置并直接进入 `Insert Mode`
 - `gn` / `gN`: 跳转冰选中上个 / 下个 `highlight`
 - `''`, 反撇号, 跳转 mark, 详见 [Mark](#mark)
-- `w`: 跳至下一个词首
-- `b`: 跳至上一个词首
-- `e`: 跳至下一个词末端
-- `ge`: 跳转到上一个词的结尾
+- `w`: 跳至下一个 **word** 首
+- `W`: 跳至下一个 **WORD** 首
+- `b`: 跳至上一个 **word** 首
+- `B`: 跳至上一个 **WORD** 开始处
+- `e`: 跳至下一个 **word** 末端
+- `E`: 跳至下一个 **WORD** 末端
+- `ge`: backward to the end of **word**
+- `gE`: backward to the end of **WORD**
 - `f`: 移动到行内下一个字符, 如 `fx` 将查找行内出现的下一个 `x` 字符
 - `F`: 移动到行内上一个字符, 用法同 `f`
 - `t`: 移动到行内下一个字符的前一字符上
@@ -175,6 +179,13 @@ updated:
 - `<C-]>`: 跳转到当前光标的定义处 (基于 `.tags` 文件)
 - `<C-w>]`: 用新窗口 (如果在本 buffer 内则直接跳转) 打开并查看光标下符号的定义 (光标会跳转)(基于 `.tags` 文件)
 - `<C-w>}`: 使用 preview 窗口预览光标下符号的定义 (光标不会跳转)(基于 `.tags` 文件)
+
+### `word` 与 `WORD` 的区别
+
+> `:h 03.1`
+
+- A `word` is delimited by **non-word character**, such as a `.`, `-` or `)`. To change what Vim considers to be a word, see the `iskeyword` option. The `iskeyword` of markdown is `@,48-57,_,192-255,$`, `@` means `a-z,A-Z`.
+- A `WORD` is delimited by **white-space**
 
 ## 复制 / 粘贴 / 删除
 
@@ -299,7 +310,7 @@ updated:
 
 ## window/tab
 
-- `:tabnew [filename]`: 新建一个 tab 页, 例: `tabnew%` 以当前文件新建一个 tab 页, `%` 表示当前文件
+- `:tabnew [filename]`: 新建一个 tab 页, 例: `tabnew %` 以当前文件新建一个 tab 页, `%` 表示当前文件
 - `:tabclose`: 关闭当前 tab
 - `:tabonly`: 关闭所有其他的 tab
 - `:tabn`: 移动至下一个 tab, 直接使用 gt 也可
@@ -319,17 +330,15 @@ updated:
 - `<C-w> s`: 水平切割当前窗口
 - `<C-w> v`: 垂直切割当前窗口
 - `<C-w> h/j/k/l`: 光标向某个方向分屏移动
+- `<C-w> H/J/K/L`: 当前分屏向某个方向移动
 - `<C-w> w`: 在所有窗口间进行切换
 - `<C-w> _`: 使窗口高度最大化
 - `<C-w> |`: 使窗口宽度最大化
 - `<C-w> =`: 使所有窗口等宽等高
+- `<C-w> r`: 翻转窗口顺序
 - `<C-w> q`: quit, 关闭当前分屏, 如果是最后一个, 则退出 vim
 - `<C-w> c`: close, 关闭当前分屏, 如果是最后一个, 则退出 vim
 - `<C-w> o`: only, 关闭所有除当前屏幕外的所有分屏
-- `<C-w> H`: 当前分屏向左移动
-- `<C-w> L`: 当前分屏向右移动
-- `<C-w> J`: 当前分屏向下移动
-- `<C-w> K`: 当前分屏向上移动
 - `<C-w> z`: 关闭当前打开的 preview 窗口
 - `[N]<C-w> +`: 分屏增加 N 列高度 (可选)
 - `[N]<C-w> <`: 分屏减少 N 列宽度 (可选)
@@ -338,7 +347,7 @@ updated:
 - `:$wincmd w`: 将光标移动至最右窗口
 - `:close`: 关闭活动窗口
 - `:only`: 只留下当前活动窗口
-- `new abc.txt`: 在新窗口中编辑文件
+- `:new abc.txt`: 在新窗口中编辑文件
 
 ## Buffer
 

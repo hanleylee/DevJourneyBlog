@@ -4,7 +4,7 @@ date: 2022-01-16
 comments: true
 path: comprehension-of-educated
 categories: Book
-tags: ⦿comprehension
+tags: ⦿comprehension, ⦿book
 updated:
 ---
 

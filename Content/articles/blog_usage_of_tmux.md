@@ -4,6 +4,7 @@ date: 2020-01-13
 comments: true
 path: usage-of-tmux
 categories: Terminal
+tags: ⦿terminal, ⦿tmux, ⦿tool
 updated:
 ---
 
@@ -52,7 +53,7 @@ brew install tmux
 - `' -`: 水平分割面板, 已重置, 默认为`%`
 - `' !`: 将当前面板移动到新的窗口打开
 - `' x`: 关闭当前面板
-- `' z`: 最大化当前面板
+- `' z`: 最大(小)化当前面板
 - `' 方向键`: 移动光标至某个方向的面板
 - `' ⌥- 方向键`: 向某个方向扩张窗口五个单元格, 也可以直接使用鼠标进行拖动
 - `' {`: 向前序号置换面板

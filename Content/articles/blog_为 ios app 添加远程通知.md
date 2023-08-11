@@ -20,7 +20,7 @@ iOS 有本地推送与远程推送, 本文讨论远程推送的实现流程及�
 
 1. 申请远程推送证书
 
-    之前记录记录过 Apple 证书管理的一篇文章 [链接](https://www.hanleylee.com/process-of-applying-apple-certificate.html), 里面有涉及到远程推送证书.  这里我针对远程推送证书的另一种申请方法做下记录, 这种方法更简洁.
+    之前记录记录过 Apple 证书管理的一篇文章 [链接](https://www.hanleylee.com/articles/process-of-applying-apple-certificate/), 里面有涉及到远程推送证书. 这里我针对远程推送证书的另一种申请方法做下记录, 这种方法更简洁.
 
     1. 从系统自带的 `keychain access` 中创建`证书申请`(`csr`)文件
 

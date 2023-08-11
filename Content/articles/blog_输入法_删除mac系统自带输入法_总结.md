@@ -4,6 +4,7 @@ date: 2019-12-21
 comments: true
 path: delete-default-input-keyboard-of-mac
 categories: Mac
+tags: ⦿mac, ⦿keyboard
 updated:
 ---
 

@@ -4,7 +4,7 @@ date: 2020-01-05
 comments: true
 path: llvm-learn
 categories: Basic
-tags: ⦿blog, ⦿llvm
+tags: ⦿llvm
 updated:
 ---
 

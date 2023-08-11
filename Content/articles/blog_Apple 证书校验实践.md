@@ -4,7 +4,7 @@ date: 2022-06-17
 comments: true
 path: apple-certificate-pratice
 categories: ios
-tags: ⦿certificate ⦿ios
+tags: ⦿certificate, ⦿ios, ⦿apple
 updated: 2022-06-17
 ---
 
@@ -78,7 +78,7 @@ updated: 2022-06-17
 1. `No profiles for '***' were found: Xcode couldn't find any iOS App Development provisioning profiles matching '***'.`
 2. `No profiles for '***' were found: Xcode couldn't find any iOS Ad Hoc provisioning profiles matching '***'`
 
-这是因为我们将 `~/Library/MobileDevice/Provisioning Profiles` 文件夹清空了, 所有的配置文件都被删除了, 当使用 Xcode 时, 如果发现使用了托管且没有找到配置文件时, 会自动生成一个并包存在 `~/Library/MobileDevice/Provisioning Profiles` 中, 所以在 Xcode 中是不会报错的. 但是 Fastlane 默认不会生成这个配置文件, 这个时候就会报错了, 解决办法有两种:
+这是因为我们将 `~/Library/MobileDevice/Provisioning Profiles` 文件夹清空了, 所有的配置文件都被删除了. 当使用 Xcode 时, 如果发现使用了托管且没有找到配置文件时, 会自动生成一个并包存在 `~/Library/MobileDevice/Provisioning Profiles` 中, 所以在 Xcode 中是不会报错的; 但是 Fastlane 默认不会生成这个配置文件, 这个时候就会报错了, 解决办法有两种:
 
 1. 清空 `~/Library/MobileDevice/Provisioning Profiles` 内容后的第一次打包发布使用 Xcode 手动点击方式, 之后再使用 Fastlane 自动打包
 2. 在 Fastfile 的 gym 方法中加入参数 `export_xcargs: "-allowProvisioningUpdates"`(这个参数最后也是加给 `xcodebuild` 了)

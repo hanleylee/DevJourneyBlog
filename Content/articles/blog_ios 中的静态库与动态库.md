@@ -62,52 +62,68 @@ macOS 大规模地使用 `shared libraries`, 可以前往路径 `/usr/lib` 文�
 
 > 以上只是对于标准的系统动态库来说的, 对于 iOS 开发来说, 因为我们只能使用 `Embedding Frameworks` 来使用动态库, 这样的动态库并不是真正的动态库, 其会在编译时全部置入 app, 然后在 app 启动时全部加载, 这样的话会导致体积大, 加载速度慢.
 
-## iOS 开发中 `.framework` 及动 / 静态库的区分
+## Framework
 
-标准的动态库与静态库定义如上, 但是在 iOS 系统中, Apple 为我们提出了另一种可以包含依赖库的模式 -- `.framework`
+标准的动态库与静态库定义如上, 在 UNIX 系统中概念是统一的. 但是在 iOS / MacOS 中, Apple 为我们提出了另一种可以包含依赖库的模式 -- **Framework**
 
-一个 `.framework` 其实就是一个有着特定结构的文件夹装着各种共享的资源. 这些资源通常是 **图片**, **Xibs**, **动态库**, **静态库**, **文档** 等,
-`.framework` 毫不掩饰的表明它纯粹就是一个文件夹.
+一个 `.framework` 其实就是一个有着特定结构的文件夹装着各种共享的资源. 这些资源通常是 **图片**, **Xibs**, **动态库**, **静态库**, **文档** 等, `.framework` 毫不掩饰的表明它纯粹就是一个文件夹.
 
 ![himg](https://a.hanleylee.com/HKMS/2020-11-25-074324.png?x-oss-process=style/WaMa)
 
 - `Headers`: 包含了 `Framework` 对外公开的 `C & Obj-C headers`, Swift 并不会用到这些 `Headers`, 如果你的 `framework` 是用 `Swift` 写的, Xcode 会自动帮你创建这个文件夹以提供互用性.
-- `ZRCoreKit.swiftmodule`: 包含了 LLVM, Swift 的 Module 信息. .modulemap 档案是给 Clang 使用的.
+- `ZRCoreKit.swiftmodule`: 包含了 LLVM, Swift 的 Module 信息. `.modulemap` 档案是给 Clang 使用的.
 
-    `.swiftmodule` 文件夹下的档案类似 `headers`, 但是不像是 `headers`, 这些档案是二进制的且 **无格式也有可能会改变**, 在你 `Cmd-click` 一个 `Swift` 函数时 Xcode 就是利用这些档案去定位其所属的 module.
+  `.swiftmodule` 文件夹下的档案类似 `headers`, 但是不像是 `headers`, 这些档案是二进制的且 **无格式也有可能会改变**, 在你 `Cmd-click` 一个 `Swift` 函数时 Xcode 就是利用这些档案去定位其所属的 module. 尽管这些都是二进制文件, 但他们仍是一种叫 `llvm bitcode` 的结构, 正因如此, 我们能用 `llvm-bcanalyzer and llvm-strings` 取得相关信息.
 
-    尽管这些都是二进制文件, 但他们仍是一种叫 `llvm bitcode` 的结构, 正因如此, 我们能用 `llvm-bcanalyzer and llvm-strings` 取得相关信息.
-
-- `ZRCoreKit`: 虽然他被 `finder` 标注成 `Unix executable File`, 但他其实是一个 `relocatable shared object file`
+- `ZRCoreKit`: 虽然他被 `Finder` 标注成 `Unix executable File`, 但他其实是一个 `relocatable shared object file`
 - `CoreKit.bundle`: `bundle` 文件
 
-由于有 `.framework` 的存在, 我们在判断一个库到底是静态库还是动态库就有了麻烦, 因为一个 `.framework` 既可以是动态库也可以是静态库, 依赖于其内部的文件类型, 而`.framework` 中的二进制文件有可能有后缀, 也有可能没有后缀.
+从本质而言, 框架是基于库实现的, 可以认为框架是对库进行了封装, 是一种特殊形式的库. `框架 = 动 (静) 态库 +.h(头文件) + bundle(资源包)`
+
+由于有 `.framework` 的存在, 我们在判断一个库到底是静态库还是动态库就有了麻烦, 因为一个 `.framework` 既可以是动态库也可以是静态库, 依赖于其内部的文件类型, 而 `.framework` 中的二进制文件有可能有后缀, 也有可能没有后缀.
 
 ![himg](https://a.hanleylee.com/HKMS/2020-11-25-081147.png?x-oss-process=style/WaMa)
 
-为了区分其类型我们可以借助`MachOView`, 或者是在 Xcode 的 `Targets` -> `build setting` 中查找 `mach-o type` 选项.
+为了区分其类型我们可以使用如下方式:
 
-![himg](https://a.hanleylee.com/HKMS/2020-11-25-080000.png?x-oss-process=style/WaMa)
+1. `MachOView`
+2. 在 Xcode 的 `Targets` -> `build setting` 中查找 `mach-o type` 选项.
 
-## 动静态库以 .framework 形式被 `embed` 或 `not embed` 对包体积的影响
+    ![himg](https://a.hanleylee.com/HKMS/2020-11-25-080000.png?x-oss-process=style/WaMa)
 
-前面说了, `.framework` 只是一个文件夹而已, 里面可以存放静态库/动态库, embed 的含义即是在 .ipa 包里使用 `Frameworks` 文件夹将所有 `.framework` 库存放起来
+3. 使用 `otool -hv ZRCoreKit` 查看
+
+## iOS 中为什么允许开发者使用自定义动态库?
+
+根据以上动态库的定义, 只有系统库才能被多个 app 共同使用, 以达到减少包体积的作用, 如果开发者在自己的 app 内创建了动态库, 那么该动态库只能被该 app 使用到, 并不能被其他 app 使用. 同时由于动态库会在 app 启动的 pre-main 阶段进行链接, 会比静态库更加耗时. 这样考虑下来, 从速度和体积上, 动态库相比于静态库都不占有优势, 那么为什么 apple 还要开放开发者使用自定义动态库呢?
+
+原因是 iOS8 出来后, 有了 `App Extension` 的概念, `App Extension` 与 `App` 是两个独立的进程, 为了共享代码, 苹果允许我们创建动态库. 因此, 如果你的 App 没有任何 `App Extension`, 那么动态库的优势是体现不出来的. 当你的 App 包含的 `App Extension` 越多, 那么动态库的优势体现地越明显!
+
+## 动 (静) 态库被 `embed` 或 `not embed` 对包体积的影响
+
+前面说了, `.framework` 只是一个文件夹而已, 里面可以存放静态库 / 动态库, embed 的含义即是在.ipa 包里使用 `Frameworks` 文件夹将所有 `.framework` 库存放起来
 
 ![himg](https://a.hanleylee.com/HKMS/2021-10-28115338.png?x-oss-process=style/WaMa)
 
-以下总结了不同库类型不同方式组合会产生的效果
+`【General】->【Frameworks, Libraries, and Embedded Content】` 中, 定义了应用程序所依赖的静态库和动态库.
 
-| Library Type    | Embed                                                                  | Not Embed                                |
-|-----------------|------------------------------------------------------------------------|------------------------------------------|
-| Dynamic Library | 运行时链接, 所有 framework 文件位于 `Frameworks` 文件夹中              | 会 Crash!                                |
-| Static Library  | 编译时链接, 库代码会在 `主Mach-O` 文件中, 同时 `Frameworks` 也会有一份 | 编译时链接, 库代码会在 `主Mach-O` 文件中 |
+- 对于 **系统动态库**, 可以将 `Embed` 属性设置成 `Do Not Embed`, 因为 iOS 系统提供了相关的库, 我们无需将它们再嵌入到应用程序的 ipa 包中, 如: `Foundation.framework`, `UIKit.framework`
+- 对于 **用户动态库**, 需要将 Embed 属性设置成 `Embed`, 因为链接发生在运行时, 链接器需要从应用程序的 ipa 包中加载完整的动态库
+- 对于 **静态库**, 需要将 Embed 属性设置成 `Do Not Embed`, 因为链接发生在编译时, 编译完成后相关代码都已经包含在了应用程序的可执行文件中了, 无需在应用程序的 bundle 中再保存一份
+
+以下总结了不同库类型以不同方式依赖组合会产生的效果
+
+| Library Type         | Embedded                                                               | Not Embedded                             |
+|----------------------|------------------------------------------------------------------------|------------------------------------------|
+| User Dynamic Library | 运行时链接, 所有 framework 文件位于 `Frameworks` 文件夹中              | 会 Crash!                                |
+| Static Library       | 编译时链接, 库代码会在 `主 Mach-O` 文件中, 同时 `Frameworks` 也会有一份 | 编译时链接, 库代码会在 `主 Mach-O` 文件中 |
 
 以下总结了在项目中以不同方式使用不同类型库产生的包大小对比
 
-| Library Type    | Embed | Not Embed      |
-|-----------------|-------|----------------|
-| Dynamic Library | 84KB  | 33KB(会 crash) |
-| Static Library  | 371KB | 64KB           |
+| Library Type         | Embed | Not Embed      |
+|----------------------|-------|----------------|
+| User Dynamic Library | 84KB  | 33KB(会 crash) |
+| Static Library       | 371KB | 64KB           |
 
 ## 动静态库的混用
 
@@ -176,13 +192,13 @@ cocoapods 编译生成的结果文件已经变为了 `.framework` 文件夹
 ![himg](https://a.hanleylee.com/HKMS/2021-01-25-img-1.png?x-oss-process=style/WaMa)
 <!-- ![himg](https://a.hanleylee.com/HKMS/2020-11-24-zhuorui-relationship.png?x-oss-process=style/WaMa) -->
 
-在 `库 4` 为静态库的情况下, 整个依赖链路上的所有库(`库 5` 与`库 3`)都必须以静态库形式被项目依赖
+在 `库 4` 为静态库的情况下, 整个依赖链路上的所有库 (`库 5` 与 `库 3`) 都必须以静态库形式被项目依赖
 
 这时我们需要使用 cocoapods 在版本 1.5 之后推出的新功能: `s.static_frameworks = true`. 这个命令使用在库的 `.podspec` 文件中, 用来指定本库作为静态库被其他项目作为 **包含静态库的 `.framework` 文件** 引入.  这样我们就可以在开发库的时候手动指定本库被以静态库还是动态库形式被引入了.
 
 ## 动态库的加载时机
 
-在 iOS app 启动时系统会查找我们所依赖的所有动态库并加载, 这降低了我们 App 的启动速度, 那么可不可以将动态库的调用时间延迟到 app 运行时? 答案是可以可以!
+在 iOS app 启动时系统会查找我们所依赖的所有动态库并加载, 这降低了我们 App 的启动速度, 那么可不可以将动态库的调用时间延迟到 app 运行时? 答案是不可以!
 
 查看苹果的 API 文档, 会发现有一个方法提供了加载可执行文件的功能, 那就是 `NSBundle` 的 `load` 方法 (底层实现为 `dlopen` 函数),  如下所示:
 
@@ -194,32 +210,31 @@ cocoapods 编译生成的结果文件已经变为了 `.framework` 文件夹
 
 ![himg](https://a.hanleylee.com/HKMS/2020-11-25-070732.jpg?x-oss-process=style/WaMa)
 
-因此, 我们可以将有相同签名(必须相同签名)的动态库放入 app, 但是不提供链接信息(就是在 *Build Phases* 的 *Link Binary With Libraries* 中去掉需要懒加载的动态库), 只在需要时使用 `dlopen` 这一函数进行懒加载
+因此, 我们可以将有相同签名 (必须相同签名) 的动态库放入 app, 但是不提供链接信息 (就是在 *Build Phases* 的 *Link Binary With Libraries* 中去掉需要懒加载的动态库), 只在需要时使用 `dlopen` 这一函数进行懒加载
 
 ![himg](https://a.hanleylee.com/HKMS/2021-10-06215211.jpg?x-oss-process=style/WaMa)
 
 ## 总结
 
-- 动态库不能依赖静态库!
-- 对于 `Swift` 项目, `CocoaPods` 提供了 `.framework` 的支持, 通过 `use_frameworks!` 选项控制. 需要注意的是如果使用此选项那么所有依赖的 `pod` 都会以 `.framework` 包裹的动态库类型引入, 如果想让某些 `pod` 使用动态库引入, 某些 `pod` 使用静态库引入, 那么请看下面
+- 动态库不能依赖静态库! 动态库不能依赖静态库是因为静态库不需要在运行时再次加载, 如果多个动态库依赖同一个静态库, 会出现多个静态库的拷贝, 而这些拷贝本身只是对于内存空间的消耗.
 - `.a` 是典型的静态库, 在 `Xode` -> `File` -> `New` -> `Project` 中的 `Static Library` 即可新建 `.a` 静态库
 - `.framework` 可以做成静态库, 也可以做成动态库, 在工程中修改某个 target 的 `Build Setting` 的 `Mach-O Type` 即可. 在 `Xode` -> `File` -> `New` -> `Project` 中的 `Static Library` 的 `Framework` 即可新建 `.framework` 静态库
 - `.a` 是纯二进制文件, `.framework` 中除了有二进制文件之外还可以有资源文件. `.a` 文件不能直接使用, 至少还要有 `.h` 文件配合, `.framework` 文件可以直接使用, 因为本身包含了 `h 文件` 和其他文件
-- `.a` ＋`.h` ＋`source` = `.framework`, 建议使用 `.framework`
+- `.a` ＋ `.h` ＋ `source` = `.framework`, 建议使用 `.framework`
 - 静态库与动态库区别:
     - 静态库: 链接时完整地拷贝至可执行文件中, 被多个依赖多次使用就会有多份冗余拷贝.
     - 动态库: 链接时不复制, 程序运行时由系统动态加载到内存, 供程序调用, 系统只加载一次, 多个程序共用, 节省内存.(这个优点是针对系统动态库来说的, 比如 `UIKit.framework`)
 - 系统的 `Framework` 不需要拷贝到目标程序中, 我们自己做出来的 `Framework` 哪怕是动态的, 最后也还是要拷贝到 App 中, 因此苹果又把这种 `Framework` 称为 `Embedded Framework`.
 - 当不想发布代码的时候, 也可以使用 `Framework` 发布 `Pod`, `CocoaPods` 提供了 `vendored_framework` 选项来使用第三方 `Framework`
-- 如果想通过 `cocoapods` 制作一个静态库被其他项目依赖, 那么可以在 pod 的 `podspec` 文件中使用 `s.static_framework  =  true` 命令, 这个命令会使 pod 变为由 `.framework` 包裹的静态库 (即使项目的 `Podfile` 中使用了 `use_frameworks!` 时使用 `pod` 也会以静态库使用), 这在解决 ` 动态库不能依赖静态库 ` 的问题上非常有用.
-- Mach-O 格式的几种文件和 iOS 工程 Build Settings 里面的配置项是对应的.
+- 对于 `Swift` 项目, `CocoaPods` 提供了 `.framework` 的支持, 通过 `use_frameworks!` 选项控制. 需要注意的是如果使用此选项那么所有依赖的 `pod` 都会以 `.framework` 包裹的动态库类型引入, 如果想让某些 `pod` 使用动态库引入, 某些 `pod` 使用静态库引入, 那么可以在 pod 的 `podspec` 文件中使用 `s.static_framework  =  true` 命令. 这个命令会使 pod 变为由 `.framework` 包裹的静态库被依赖. 这在解决 `动态库不能依赖静态库` 的问题上非常有用.
+- Mach-O 格式的几种文件和 iOS 工程 `Build Settings` 里面的配置项是对应的.
 - 系统动态库和自己编译的动态库本质上是一样的, 只是使用方式不一样. 自己编译的动态库由于签名校验限制, 只能当作静态库一样使用; 系统的动态库不受签名校验限制, 可以动态加载.
-- `.a` 与 `.framework` 都是库 (Library), 库都是二进制的, 看不到源码的, 只能看到头文件, Cocoapods 方式集成的可以看到源码是因为将源码放在一个新构建的 `Pods` 工程中了, Pods 的主目标是一个 `target`, 这个 target 依赖了我们所有导入的第三方库, 然后主项目对 Pods 工程中的这个  `target` 的生成 `product` 进行依赖, 形成了我们好像直接可以使用第三方库源码的错觉
+- `.a` 与 `.framework` 都是库 (Library), 库都是二进制的, 看不到源码的, 只能看到头文件, Cocoapods 方式集成的可以看到源码是因为将源码放在一个新构建的 `Pods` 工程中了, Pods 的主目标是一个 `target`, 这个 target 依赖了我们所有导入的第三方库, 然后主项目对 Pods 工程中的这个 `target` 的生成 `product` 进行依赖, 形成了我们好像直接可以使用第三方库源码的错觉
 
     ![himg](https://a.hanleylee.com/HKMS/2021-01-24185902.png?x-oss-process=style/WaMa)
 
 <!-- - Cathage 原理: 将第三方库的源码编译出的结果以 `Embedded Binary` 方式直接链接到 `App Target` -->
-<!-- - SPM 原理: 通过 `llbuild`(`low level build system`) 的跨平台编译工具将 Swift 文件编译为 `.a` 的静态库 -->
+<!-- - SPM 原理: 通过 `llbuild` (`low level build system`) 的跨平台编译工具将 Swift 文件编译为 `.a` 的静态库 -->
 
 ## 最后
 
@@ -231,6 +246,7 @@ cocoapods 编译生成的结果文件已经变为了 `.framework` 文件夹
 - [Xcode 6 制作动态及静态 Framework](http://www.cocoachina.com/articles/10322)
 - [How to Use a Third Party Framework in a Private CocoaPod](https://www.telerik.com/blogs/how-to-use-a-third-party-framework-in-a-private-cocoapod)
 - [iOS 开发中的『库』(一)](https://www.jianshu.com/p/48aff237e8ff)
-- [通过dylib实现iOS运行时Native代码注入（动态调试）](https://juejin.cn/post/6844903635021725704)
-- [浅析快手iOS启动优化方式——动态库懒加载](https://mp.weixin.qq.com/s/gNc3uK5ILbXsO8jB1O-jnQ)
+- [通过 dylib 实现 iOS 运行时 Native 代码注入 (动态调试)](https://juejin.cn/post/6844903635021725704)
+- [浅析快手 iOS 启动优化方式——动态库懒加载](https://mp.weixin.qq.com/s/gNc3uK5ILbXsO8jB1O-jnQ)
 - [Frameworks: embed or not embed that's the question](https://holyswift.app/frameworks-embed-or-not-embed-thats-the-question)
+- [系统理解 iOS 库与框架](http://chuquan.me/2021/02/14/understand-ios-library-and-framework/)

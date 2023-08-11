@@ -14,7 +14,7 @@ updated:
 
 ## Dependency
 
-<!-- ../basic/blog-llvm-learn.md -->
+<!--../basic/blog-llvm-learn.md -->
 - <https://www.hanleylee.com/llvm-learn.html>
 
 ## 术语声明
@@ -30,7 +30,7 @@ updated:
 
 为了对计算机发送指令, 人们发明了汇编语言, 这种语言使用了人类容易理解的字母组合来表示指令, 但是计算机是理解不了这种语言的, 因此还需要通过特定的编译器将汇编语言转换为 CPU 能理解的机器语言 (二进制)
 
-写代码时我们使用的都是高级语言 (`c` / `c++` / `java` / `oc` / `swift` 等), CPU 是不认识这些语言的, 编译的过程就是将高级语言转换为 CPU 可以识别的二进制 . 在 iOS 开发中, Xcode 调用 LLVM 来完成编译过程, 将 Swift 语言经历 `frontend` -> `optimizer` -> `backend` 转换成机器可以识别的二进制指令. 这整个过程如下图所示:
+写代码时我们使用的都是高级语言 (`c` / `c++` / `java` / `oc` / `swift` 等), CPU 是不认识这些语言的, 编译的过程就是将高级语言转换为 CPU 可以识别的二进制. 在 iOS 开发中, Xcode 调用 LLVM 来完成编译过程, 将 Swift 语言经历 `frontend` -> `optimizer` -> `backend` 转换成机器可以识别的二进制指令. 这整个过程如下图所示:
 
 ![himg](https://a.hanleylee.com/HKMS/2020-02-29-LLVM.png?x-oss-process=style/WaMa)
 
@@ -66,10 +66,10 @@ updated:
 
 ## Swift 编译流程
 
-Swift 源码经过词法分析，语法分析和语义分析生成 AST。SILGen 获取 AST 后生成 SIL，此时的 SIL 称为 Raw SIL。在经过分析和优化，生成 Canonical SIL。最后，IRGen 再将 Canonical SIL 转化为 LLVM IR 交给优化器和后端处理。
+Swift 源码经过词法分析, 语法分析和语义分析生成 AST. SILGen 获取 AST 后生成 SIL, 此时的 SIL 称为 Raw SIL. 在经过分析和优化, 生成 Canonical SIL. 最后, IRGen 再将 Canonical SIL 转化为 LLVM IR 交给优化器和后端处理.
 
 ![himg](https://a.hanleylee.com/HKMS/2021-10-06084435.jpg?x-oss-process=style/WaMa)
 
 ## Ref
 
-- [Swift编译器Crash—Segmentation fault解决方案](https://mp.weixin.qq.com/s/FSlJKnC0y51nsLDp1B3tXg)
+- [Swift 编译器 Crash—Segmentation fault 解决方案](https://mp.weixin.qq.com/s/FSlJKnC0y51nsLDp1B3tXg)

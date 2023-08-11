@@ -4,7 +4,7 @@ date: 2021-05-18
 comments: true
 path: usage-of-git-submodule
 categories: Terminal
-tags: ⦿git, ⦿submodule
+tags: ⦿git, ⦿submodule, ⦿tools
 updated:
 ---
 
@@ -18,8 +18,7 @@ git 的 `submodule` 作为一个独立的 `repo`, 其拥有普通 `repo` 全部�
 
 ## submodule 介绍
 
-在 git 仓库 `superproject` 的目录中使用 `git submodule add https://github/HanleyLee/C` 即可将 <https://github/HanleyLee/C> 作为一个 `submodule` 被
-`superproject` 依赖与管理.
+在 git 仓库 `superproject` 的目录中使用 `git submodule add https://github/HanleyLee/C` 即可将 <https://github/HanleyLee/C> 作为一个 `submodule` 被 `superproject` 依赖与管理.
 
 当 `submodule` 被修改时我们可以在 `superproject` 中得到通知:
 
@@ -134,7 +133,7 @@ $ ls -lhia
 
 ## 为什么 `superproject` 在 `git pull` 之后 `submodule` 没有切到最新节点?
 
-默认情况下, git pull 命令会递归地抓取子模块的更改 (fetch), 然而, 它不会将 submodule merge 到所跟踪的分支上. 因此我们还需要执行 `git submodule update`.
+默认情况下, `git pull` 命令会递归地抓取子模块的更改 (fetch), 然而, 它不会将 submodule merge 到所跟踪的分支上. 因此我们还需要执行 `git submodule update`.
 
 如果我们想一句话解决, 那么可以使用 `git pull --recurse-submodule`, 这个可以在拉取完 submodule 后再将其 merge 到所跟踪的分支上.
 

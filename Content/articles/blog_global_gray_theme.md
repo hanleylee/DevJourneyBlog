@@ -4,11 +4,11 @@ date: 2022-12-03
 comments: true
 path: ios_global_gray_theme
 categories: iOS
-tags: ⦿ios, ⦿ui
+tags: ⦿ios, ⦿ui, ⦿theme, ⦿gray-theme
 updated:
 ---
 
-近期很多 app 都使用了黑白主题悼念领导人离世. 缅怀的同时, 作为技术人我实现的技术方案也很感兴趣, 网上搜索了下, 目前无外乎有如下方案:
+近期很多 app 都使用了黑白主题悼念领导人离世. 缅怀的同时, 作为技术人我对实现的技术方案也很感兴趣, 网上搜索了下, 目前无外乎有如下方案:
 
 1. 统一根据后台接口返回信息对 `UIImage` `UIColor` 做统一处理
 2. 在 window 上加一层黑白滤镜, 该 window 上面的所有 UI 元素都会被应用次滤镜

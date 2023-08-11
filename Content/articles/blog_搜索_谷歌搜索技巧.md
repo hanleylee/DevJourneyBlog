@@ -4,6 +4,7 @@ date: 2020-01-02
 comments: true
 path: smart-search-method-for-google-search
 categories: Tools
+tags: ⦿google, ⦿search, ⦿tips
 updated:
 ---
 

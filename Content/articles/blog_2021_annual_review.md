@@ -3,7 +3,7 @@ title: 2021 年度总结
 date: 2022-01-15
 comments: true
 path: annual-review-2021
-tags: ⦿review
+tags: ⦿review, ⦿annual-review, ⦿2021
 updated:
 ---
 

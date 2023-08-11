@@ -4,7 +4,7 @@ date: 2019-10-01
 comments: true
 path: various-authority-for-property-and-method-in-ios
 categories: iOS
-tags: ⦿ios, ⦿access, ⦿level
+tags: ⦿ios, ⦿access-level
 updated:
 ---
 
@@ -24,15 +24,16 @@ updated:
 
 只在本文件且本类 (或本类扩展) 中可以被访问
 
-如果此类在其他文件中有 `extension`, 那么在其他文件的该类的 `extension` 中是不能被访问到的
-
-如果在一个文件中且任何类外声明一个 `private` 属性, 那么该属性可被该文件所有位置访问到, 但是外部文件不能访问到此属性
+- 如果在一个文件中且任何类外声明一个 `private` 属性, 那么该属性可被该文件所有位置访问到, 但是外部文件不能访问到此属性
+- 如果将类中某个属性 `abc` 设为 `private`, 在其他文件中对该类进行 `extension`, 那么在该 `extension` 中是不能被访问到 `abc` 的
 
 ### fileprivate
 
 只在本文件中可以被访问
 
-一般来说一个文件中只有一个类, 此时使用 `private` 与 `fileprivate` 没有什么区别, 但是如果一个文件中有两个及以上的类的话, 那么被 `fileprivate` 标记的就可以在本文件的多个类中被访问, 而被 `private` 访问的就只能在本文件的本类 `extension` 中被访问
+如果一个文件中有两个及以上的类的话, 那么被 `fileprivate` 标记的类中的属性就可以在本文件的多个类中被访问, 而被 `private` 访问的就只能在本文件的本类 `extension` 中被访问
+
+> 对于 top level 的 类 / 方法 / 变量来说, 使用 fileprivate 或 private 没有区别
 
 ### internal
 
@@ -42,7 +43,7 @@ updated:
 
 ### public
 
-`public`: 本项目中各 `module` 任意读取, 不能在其他 `module` 中继承重写. 框架, api, 库中经常用, 个人开发很少用
+本项目中各 `module` 任意读取, 不能在其他 `module` 中继承重写. 框架, api, 库中经常用, 个人开发少用
 
 ### open
 
@@ -59,7 +60,7 @@ private(set) var name: String?
 
 ## 迪米特法则与实践
 
-迪米特法则(LoD, Law of Demeter), 如果一个类知道了太多不属于它本身的内容, 则代表这个类与外部的耦合程度越高, 越不灵活, 越难以复用.  但是如果这个类完全不知道外部信息, 那么物件之间也无法合作, 整个应用也就无法运行. 因此我们要保证每个类对外界开放最少的属性, 拥有对外界最少的知识, 这样既可以确保物件之间的合作, 也较灵活, 便于复用与解耦
+**迪米特法则**(LoD, Law of Demeter), 如果一个类知道了太多不属于它本身的内容, 则代表这个类与外部的耦合程度越高, 越不灵活, 越难以复用. 但是如果这个类完全不知道外部信息, 那么物件之间也无法合作, 整个应用也就无法运行. 因此我们要保证每个类对外界开放最少的属性, 拥有对外界最少的知识, 这样既可以确保物件之间的合作, 也较灵活, 便于复用与解耦
 
 > law 的意思是法则, 比原则 principle 要强势的多. 在 principle 的世界中, 如果两个 principle 之间有所抵触, 那么我们会衡量彼此的价值, 然后取其中地位较高的, 也就是说 principle 之间是可以相互妥协的, 但是 law 就不是这样的, 他代表一种绝对的法则, 没有什么可以撼动 Lod 的地位.
 

@@ -4,7 +4,7 @@ date: 2019-08-31
 comments: true
 path: connect-remote-server-by-using-ssh-key
 categories: Terminal
-tags: ⦿blog, ⦿terminal, ⦿ssh, ⦿server
+tags: ⦿terminal, ⦿ssh, ⦿server
 updated:
 ---
 
@@ -128,8 +128,10 @@ ssh [option] destination [command]
 - `cat ~/.ssh/id_rsa.pub | ssh user@host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"`: 上传公钥至服务器
 - `ssh-copy-id -i key_file user@host`: 使用 `ssh` 自带的密钥上传工具将密钥上传至服务器
 - `cat ~/.ssh/id_rsa.pub | ssh user@host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"`: 作用同上
+- `tail -100 /var/log/secure`: 查看最近100条登录日志
+- `who /var/log/wtmp`: 登录成功日志
 
-## .ssh/config 文件的配置命令
+## `.ssh/config` 文件的配置选项
 
 - `AddressFamily inet`: 表示只使用 `IPv4` 协议. 如果设为 `inet6`, 表示只使用 `IPv6` 协议.
 - `BindAddress 192.168.10.235`: 指定本机的 IP 地址 (如果本机有多个 IP 地址).
@@ -162,6 +164,16 @@ ssh [option] destination [command]
 - `User userName`: 指定远程登录的账户名.
 - `UserKnownHostsFile /users/smith/.ssh/my_local_hosts_file`: 指定当前用户的 `known_hosts` 文件 (服务器公钥指纹列表) 的位置.
 - `VerifyHostKeyDNS yes`: 是否通过检查 SSH 服务器的 DNS 记录, 确认公钥指纹是否与 `known_hosts` 文件保存的一致.
+
+## `/etc/ssh/sshd_config` 文件的配置选项
+
+- `Port: 22`: ssh 服务监听的端口
+- `PasswordAuthentication no`: 禁止使用密码登陆
+- `PermitEmptyPasswords no`: 禁止空密码登陆
+- `AllowUsers fsmythe bnice swilson`: 允许用户登录
+- `DenyUsers jhacker joebadguy jripper`: 限制用户登录
+- `PermitRootLogin no`: 禁止 root 用户登录
+- `all:1.1.1.1`: 在 `/etc/hosts.deny` 中设置可以禁止某些 ip 访问
 
 ## 使用 *公钥认证* 登录远程主机的具体操作步骤
 
@@ -254,8 +266,7 @@ ssh-keygen -t rsa -C "你的邮箱地址"
         # (不过重启后仍然需要输入, 因为 agent 的 session 被清除了, 不过可以使用 Mac 的 keychain 服务来解决, 如下), 并且 agent 支持转发 (即 A
         # 登录服务器 B 不 exit 的情况下直接登录服务器 C)
         AddKeysToAgent yes
-        # 验证成功后将对应的 key 添加到 keychain 中. 添加到 keychain 是为了避免在刚开机且 ssh agent 的 session 未被建立时要求输入 key 的密码 来解锁
-        # key.
+        # 验证成功后将对应的 key 添加到 keychain 中. 添加到 keychain 是为了避免在刚开机且 ssh agent 的 session 未被建立时要求输入 key 的密码 来解锁 key.
         UseKeychain yes
 
     Host Tencent-1C2G
@@ -278,7 +289,7 @@ ssh-keygen -t rsa -C "你的邮箱地址"
 
 ### `known_hosts` 文件作用
 
-`~/.ssh/known_hosts` 的作用是记录已连接过的远程主机历史记录. 当下次访问相同计算机时, OpenSSH 会核对公钥. 如果公钥不同, OpenSSH 会发出警告, 避免你受到 DNS Hijack 之类的攻击.
+服务端有公钥`/etc/ssh/ssh_host_rsa_key.pub` 与私钥 `/etc/ssh/ssh_host_rsa_key`, 在建立安全连接过程中, 服务器会提供自己的公钥给客户端, 客户端将其存储在 `~/.ssh/known_hosts` 中. 当下次访问相同计算机时, OpenSSH 会核对公钥. 如果公钥不同, OpenSSH 会发出警告, 避免你受到 DNS Hijack 之类的攻击.
 
 有些时候, 一个远程主机经常换系统, 那么本地连接的时候有可能公钥就不同了, 但是 ip 是相同的, 这就会触发 `known_host` 的规则, 会报错, 解决办法就是直接删除 `known_host` 中的对应主机地址和公钥就可以了. 或者在 `config` 文件中加入一些配置 (基本不需要用到这一步, 用到时候再查吧)
 
@@ -332,6 +343,16 @@ scp/sftp 属于开源协议, 我们可以免费使用不像 FTP 那样使用上�
 ### *Skipping ssh-dss key id_dsa - not in PubkeyAcceptedKeyTypes*
 
 *openssh* 自 7.0 之后不再支持 *DSA* 类型的加密. 为避免报错, 请改用 *RSA* 类型加密
+
+### authorized_keys 权限问题
+
+如果 authorized_keys 没有正确的权限的话, 那么即使配置了正确的 key 也不能正常登录, 使用如下命令赋予权限
+
+```zsh
+chmod 755 ~
+chmod 755 ~/.ssh
+chmod 644 ~/.ssh/authorized_keys
+```
 
 ## 参考
 

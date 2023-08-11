@@ -4,7 +4,7 @@ date: 2020-01-05
 comments: true
 path: present-a-viewcontroller
 categories: iOS
-tags: ⦿ios, ⦿present, ⦿viewcontroller
+tags: ⦿ios, ⦿uikit, ⦿present, ⦿viewcontroller
 updated:
 ---
 
@@ -24,21 +24,21 @@ updated:
 
 ### Modal 分类
 
-只要视图四周任一侧有留白情况, 在视图 dismiss 后不会呼叫`viewWillDisappear` 和 `viewDidDisappear`
+只要视图四周任一侧有留白情况, 在视图 dismiss 后不会呼叫 `viewWillDisappear` 和 `viewDidDisappear`
 
-1. automatic
+1. `automatic`
 
     系统默认的, 一般会映射为 pageSheet. 有例外情况
 
-2. fullScreen
+2. `fullScreen`
 
     全屏弹出, `iOS 13` 之前系统默认的样式, 弹出的视图覆盖整个屏幕, 视图消失时会呼叫 `viewWillDisappear` 和 `viewDidDisappear`
 
-3. pageSheet
+3. `pageSheet`
 
     视图顶部露出下方视图部分内容. 在垂直方向为 `compact` 的环境下显示的效果与 `fullScreen` 相同
 
-4. formSheet
+4. `formSheet`
 
     在水平和垂直都为 `regular` 的环境下会显示在屏幕中央, 四周留白并有 `dim` 效果
 
@@ -46,47 +46,47 @@ updated:
 
     在垂直 `vertical` 环境下与 `fullScreen` 的效果和功能相同
 
-5. currentContext
+5. `currentContext`
 
-    弹出上下文选单视图(小视图)
+    弹出上下文选单视图 (小视图)
 
-6. custom
+6. `custom`
 
     自定义弹出式图, 需配合 `delegate` 使用
 
-7. overFullscreen
+7. `overFullscreen`
 
     覆盖整改屏幕. 下方视图在被覆盖后不会消失, 因此如果被弹出的视图是透明的, 那么下方被覆盖的内容仍可以被看到.
 
-8. overCurrentContext
+8. `overCurrentContext`
 
     在一个视图的内容上弹出另一个小视图
 
-9. popover
+9. `popover`
 
     在水平 `regular` 的环境下, 背景被 `dim`, 四周留白, 点击空白处会 `dismiss`
 
     在水平 `compact` 的环境下, 与 `fullScreen` 效果相同
 
-10. blurOverFullScreen
+10. `blurOverFullScreen`
 
     在全屏展示新内容视图之前模糊被覆盖的视图
 
 ### 弹出或关闭视图时的动画 - Transition
 
-1. coverVertical
+1. `coverVertical`
 
     视图自底部弹出占据整个页面, 当 `dismiss` 时视图返回下方. 此为默认选项
 
-2. flipHorizontal
+2. `flipHorizontal`
 
     视图使用 `3D` 翻转, 像是从背面转过来, 当 `dismiss` 时视图原路翻转回去
 
-3. crossDissolve
+3. `crossDissolve`
 
     被弹出视图淡入的时候, 下方视图同时淡出, 当 `dismiss` 时顺序相反. 效果不明显, 不建议使用
 
-4. partialCurl
+4. `partialCurl`
 
     视图从右下角被掀起向上翻页, 露出被弹出的视图.
 
@@ -108,7 +108,7 @@ updated:
 
 1. 使需要更新数据与视图的父控制器遵守此协议
 2. 父控制器实现协议中的方法, 比如 [`presentationControllerDidDismiss(_:)`](https://developer.apple.com/documentation/uikit/uiadaptivepresentationcontrollerdelegate/3229889-presentationcontrollerdiddismiss)
-3. 父控制器中设置父控制器为 `presentedController` 的代理(也可以在 `presentedVC` 中设置父控制器为`presentedVC` 的代理, 原理相同)
+3. 父控制器中设置父控制器为 `presentedController` 的代理 (也可以在 `presentedVC` 中设置父控制器为 `presentedVC` 的代理, 原理相同)
 
 具体实现代码如下:
 
@@ -140,7 +140,7 @@ protocol HLDelegate {
     func updateListVC()
 }
 
-// 2. 设置父 VC 遵守协议, 实现协议的相应方法, 并将父 VC 设置为childVC 的代理
+// 2. 设置父 VC 遵守协议, 实现协议的相应方法, 并将父 VC 设置为 childVC 的代理
 class superVC: HLDelegate {
 
     override func viewDidLoad() {
@@ -168,9 +168,9 @@ class childVC {
 
 ## present 与 dismiss 的关系
 
-假设有3个UIViewController, 分别是A, B, C
+假设有 3 个 UIViewController, 分别是 A, B, C
 
-- 如果 A 已经弹了B, 这个时候你想想弹一个C, 此时应该使用 B 弹 C(多层级弹窗应该由父控制器弹出子控制器)
+- 如果 A 已经弹了 B, 这个时候你想想弹一个 C, 此时应该使用 B 弹 C(多层级弹窗应该由父控制器弹出子控制器)
 - 此时
     - A.presentingViewController (null)
     - A.presentedViewController B
@@ -178,7 +178,7 @@ class childVC {
     - B.presentedViewController C
     - C.presentingViewController B
     - C.presentedViewController (null)
-- dismiss时, 遵守如下规则
-    - 父节点负责调用dismiss来关闭他弹出来的子节点, 也可以直接在子节点中调用dismiss方法, UIKit会通知父节点去处理.
-    - 如果你连续弹出多个节点, 应当由最底层的父节点调用dismiss来一次性关闭所有子节点.
+- dismiss 时, 遵守如下规则
+    - 父节点负责调用 dismiss 来关闭他弹出来的子节点, 也可以直接在子节点中调用 dismiss 方法, UIKit 会通知父节点去处理.
+    - 如果你连续弹出多个节点, 应当由最底层的父节点调用 dismiss 来一次性关闭所有子节点.
     - 关闭多个子节点时, 只有最顶层的子节点会有动画效果, 下层的子节点会直接被移除, 不会有动画效果.

@@ -4,6 +4,7 @@ date: 2019-12-10
 comments: true
 path: usage-of-terminal
 categories: Terminal
+tags: ⦿terminal, ⦿tool
 updated:
 ---
 
@@ -319,93 +320,6 @@ shell 的行为可以测试, 使用 `set -x` 命令, 会开启 shell 的命令�
 可见 `echo $(cmd)` 和 `echo "$(cmd)"`, 结果差不多, 但是仍然有区别. 注意观察, 双引号转义完成的结果会自动增加单引号, 而前者不会.
 
 也就是说, 如果 $ 读取出的参数字符串包含空格, 应该用双引号括起来, 否则就会出错.
-
-## 工具使用
-
-### cd
-
-`cd`: 在你知道路径的情况下, 比如 `/usr/local/bin` 你可以输入 `cd /u/l/b` 然后按进行补全快速输入 (路径分为绝对路径与相对路径, 绝对路径总以 `/` 开头, 相对路径直接以文件名开头)
-
-- `cd ~/.oh-my-zsh/themes && ls`: 查看当前 zsh 涵盖主题
-- `cd ..`: 返回到上一级目录
-- `cd ../.vim`: 返回到上一级目录, 并进入上一级目录下的 `.vim` 目录下
-- `cd -`: 返回到上一次访问的目录
-
-### touch
-
-- `touch filename`: 新建一个文件
-
-### env
-
-- `env`: 总是指向 `/usr/bin/env` 文件, 或者说, 这个二进制文件总是在目录 `/usr/bin`
-- `/usr/bin/env bash`: 返回 `bash` 可执行文件的位置, 前提是 bash 的路径是在 $PATH 里面.
-    - `-i`: --ignore-environment, 不带环境变量启动.
-    - `-u`: --unset=NAME, 从环境变量中删除一个变量.
-    - `--help`: 显示帮助.
-    - `--version`: 输出版本信息.
-- `env -i /bin/sh`: 新建一个不带任何环境变量的 Shell
-
-### ln
-
-- `ln -s source/file.txt destination/file.txt`: 将 source 文件夹的 file.txt 文件在 destination 文件夹创建一个符号链接 (软链接)
-- `ln source/file.txt destination/file.txt`: 将 source 文件夹的 file.txt 文件在 destination 文件夹创建一个硬链接
-
-### users
-
-- `groups`: 查看当前用户所属组
-    - `wheel`: 是系统管理员组, 默认有用户 root, 此组中的用户拥有系统最高权限, 100% 的控制系统, wheel 源于 BSD UNIX, 而 wheel 又有掌舵意思, 意味这掌控着系统方向
-    - `admin`: 是用户管理员组, 在此组中的成员可以通过 sudo 命令暂时升级为 root 去执行命令, 和 wheel 同样身为管理员, 但是在平时, 如果不使用 sudo 的话就和普通用户没什么区别, 安全性更好
-    - `staff`: 本机的用户都会在此组中, 注意, 并不包括用户 guest
-    - `everyone`: 直译过来就是任何人, 包括任何用户, 比如 guest 或者是远程连接过来的用户
-- `groups user_name`: 查看指定用户所属组
-- `groupadd [option] [groupname]`: 添加某一用户组
-    - `-g`: 指定新用户组的组标识号 (GID).
-    - `-o`: 一般与 - g 选项同时使用, 表示新用户组的 GID 可以与系统已有用户组的 GID 相同.
-- `groupdel [groupname]`: 删除某一用户组
-- `groupmode [option] [groupname]`: 修改某一个用户组属性
-    - `-g`: GID 为用户组指定新的组标识号.
-    - `-o`: 与 - g 选项同时使用, 用户组的新 GID 可以与系统已有用户组的 GID 相同.
-    - `-n`: 新用户组 将用户组的名字改为新名字
-
-    > `groupmod –g 10000 -n group3 group2`: 将组 group2 的标识号改为 10000, 组名修改为 group3.
-
-- `newgrp root`: 将用户切换到 root 组中 (前提是 root 组中是有本用户的)
-
-- `cat /etc/passwd`: 查看所有用户
-- `cat /etc/group`: 查看所有用户组
-- `w`: 查看当前活跃用户
-- `whoami`: 当前用户
-- `useradd [option] hanley`: 添加用户 hanley
-    - `-c`: comment 指定一段注释性描述.
-    - `-d`: 目录 指定用户主目录, 如果此目录不存在, 则同时使用 `-m` 选项, 可以创建主目录.
-    - `-g`: 指定用户所属的 `primary group` (一个用户只能有一个).
-    - `-G`: 指定用户所属的 `secondary group` (一个用户可以有 0 个或多个). `sudo user add -g root -G wheel docker hanleylee`
-    - `-s`: 指定用户的登录 Shell. `sudo useradd -s /usr/bin/zsh hanley`
-    - `-u`: 用户号 指定用户的用户号, 如果同时有 - o 选项, 则可以重复使用其他用户的标识号.
-    - `-D`: 单用显示默认新建用户的配置, 如 `sudo useradd -D`; 后面添加其他参数时用于修改新创建的默认用户的配置, 例如 `sudo useradd -D -s /bin/zsh`
-- `userdel [option] hanley`: 删除用户 hanley
-    - `-r`: 将用户的主目录一起删除
-- `usermod [option] hanley`: 修改用户 hanley 的配置
-    - `-c`: comment 指定一段注释性描述.
-    - `-d`: 目录 指定用户主目录, 如果此目录不存在, 则同时使用 `-m` 选项, 可以创建主目录.
-    - `-g`: 指定用户所属的 `primary group`
-    - `-G`: 指定用户所属的 `secondary group`
-    - `-s`: Shell 文件 指定用户的登录 Shell.
-    - `-u`: 用户号指定用户的用户号, 如果同时有 - o 选项, 则可以重复使用其他用户的标识号.
-
-    > `usermod -s /bin/ksh -d /home/z –g developer hanley`: 此命令将用户 sam 的登录 Shell 修改为 ksh, 主目录改为 / home/z, 用户组改为 developer.
-- `id username` 查看当前用户的详情 (用户名, 所属组)
-
-- `passwd [option] hanley`: 修改用户 hanley 的密码
-    - `-l`: 锁定口令, 即禁用账号.
-    - `-u`: 口令解锁.
-    - `-d`: 使账号无口令.
-    - `-f`: 强迫用户下次登录时修改口令.
-
-    > 非 root 下不能修改指定用户名的密码, 只能使用 passwd 修改自身密码
-
-- `su - hanley`: 切换到用户 hanley
-- `su`: 切换到 root
 
 ## 常见问题解决
 

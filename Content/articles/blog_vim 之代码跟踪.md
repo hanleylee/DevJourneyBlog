@@ -4,7 +4,7 @@ date: 2021-05-19
 comments: true
 path: tracing-code-in-vim
 categories: Terminal
-tags: ⦿blog, ⦿vim, ⦿track, ⦿code
+tags: ⦿vim, ⦿track-code, ⦿tool
 updated:
 ---
 

@@ -4,7 +4,7 @@ date: 2022-09-25
 comments: true
 path: manage-process-and-timed-task-by-launchd
 categories: tools
-tags: ⦿timer,⦿tools
+tags: ⦿mac, ⦿timer, ⦿tool
 updated: 2022-09-25
 ---
 
@@ -204,6 +204,14 @@ updated: 2022-09-25
 
 - 一个服务, 必须在被加载后才能使用 start 进行启动, 如果使用了 `RunAtLoad` 或 `KeepAlive` 则在加载时就启动.
 - 在执行 start 和 unload 前, 任务必须先 load 过, 否则报错
+
+## 推荐一个好用的管理 launchctl 的 gui 工具
+
+如果对每次都要敲以上命令感到恐惧的话, 可以使用一款好用的 GUI 软件 - <https://www.soma-zone.com/LaunchControl/>
+
+![himg](https://a.hanleylee.com/HKMS/2023-02-15093612.jpg?x-oss-process=style/WaMa)
+
+这款软件基本涵盖了以上全部命令操作, 可视化的方式让你更方便一览当前所有定时任务的状态
 
 ## Ref
 

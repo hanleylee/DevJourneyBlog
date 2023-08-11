@@ -4,7 +4,7 @@ date: 2019-12-24
 comments: true
 path: principle-and-usage-of-git
 categories: Terminal
-tags: ⦿git, ⦿terminal
+tags: ⦿git, ⦿tool
 updated:
 ---
 
@@ -77,9 +77,10 @@ updated:
 
 - `git help <command>`: 对 git 的某一命令查看帮助, e.g. `git help config`
 - `git help --web log`: 在浏览器中查看 `git log` 的用法
+- `git help --man log`: 在 man 中查看 `git log` 的用法
 
 - `git -C path/to/repo`: 指定 repo 的路径进行相关 git 操作, 写脚本时非常有用(可以避免 cd)
-- `git ls-remote <url> --tags test | cut -f 1`: 获取远程仓库 test 分支最新的 commit 值
+- `git ls-remote <url> --tags origin | cut -f 1`: 获取远程仓库 origin 分支最新的 commit 值
 - `git --git-dir=/path/to/repo/.git rev-parse origin/<targeted-banch>`: 获得本地仓库分支的最新 commit 值
 - `git symbolic-ref --short HEAD`: 获得当前分支名
 - `git rev-parse --abbrev-ref HEAD`: 获得当前分支名(同上)
@@ -156,6 +157,7 @@ updated:
 
 - `git fetch`: 从远端获取仓库对应分支的最新状态
     - `git fetch -a`: 从远端获取仓库所有分支的更新 (不合并任何分支)
+    - `git fetch --all --prune --force --tags`
     - `git fetch origin`: 手动指定了要 `fetch` 的 `remote`, 在不指定分支时通常默认为 `master`
     - `git fetch origin dev`: 指定远程 `remote` 和 `FETCH_HEAD`, 并且只拉取该分支的提交
     - `git fetch origin branch1:branch2`: 从服务器拉取远程分支 `branch1` 到本地为 `branch2`, 并使 `branch2` 与 `branch1` 合并
@@ -184,11 +186,18 @@ updated:
     - `git show 5e68b0d8 a.txt`: 查看 `sha` 值为 `5e68b0d8` 的 `commit` 中 *a.txt* 文件的具体修改情况
 
 - `git diff`: 显示目前的保存区与最近一次 `commit` 的原工作目录相比有什么差异. 即, 在 `git add` 后会向暂存区提交什么内容
-    - `git diff --staged`: 查看暂存区与最近一次 `commit` 的原工作目录相比有什么差异. 即, 这条指令可以让你提前知道你 `commit` 会提交什么内容.  这个命令与 `git diff --cached` 完全等价
+    - `git diff --staged`: 查看暂存区与最近一次 `commit` 的原工作目录相比有什么差异. 即, 这条指令可以让你提前知道你 `commit` 会提交什么内容. 这个命令与 `git diff --cached` 完全等价
     - `git diff master..branch`: 比较 `master` 与 `branch` 之间的不同
     - `git diff 0023cdd..fcd6199`: 比较两个 `commit` 之间的不同
-    - `git diff README.md`: 查看当前分支 `README.md` 文件的变动
-    - `git diff adt312d`: 查看 `adt312d` 这个 `commit` 与当前最新 `commit` 的异同
+    - `git diff master..master~2 -- README.md`: 比较两个 `commit` 之间的 `README.md` 不同
+    - `git diff -- README.md`: 查看当前分支 `README.md` 文件的变动
+    - `git diff adt312d`: 查看 `adt312d` 这个 `commit` 与当前最新 `commit` 的异同(从 adt312d 到 HEAD 中间有什么变化)
+    - `git diff E..A^ | git apply`: 先获取从 E 到 A 的前一个节点之间的变化, 然后这个改动就是这几个 commit 的逆操作, 使用 `git apply` 将其应用到代码上, 然后再 `add` `commit`
+    - `git diff A..B`: 对比 `AB` 两个提交的差异
+    - `git diff A...B`: `AB` 两次提交的共同祖先和 `B` 之间的 diff
+    - `git diff --theirs`: 在合并冲突时表示当前冲突相对于 theirs 的变化
+
+    ![himg](https://a.hanleylee.com/HKMS/2023-04-02233700.jpg?x-oss-process=style/WaMa)
 
 - `git ls-files`: 列出本分支下所跟踪的文件列表
 
@@ -218,6 +227,7 @@ updated:
 - `git cherry-pick`: 挑选 `commit`
     - `git cherry-pick commit1 commit2 commit3`: 将三个 `commit` 合并入本 `branch`
     - `git cherry-pick commit1 commit2 commit3 --no-commit`: 将三个 `commit` 的内容放入本 `branch` 的暂存区但是先不合并
+    - `git cherry-pick 00b44e4..b135951`: 连续 commit
     - `git cherry-pick -x commit1`: 在合并时将 `commit1` 的原有作者信息进行保留
 
 - `git commit`: 提交通过 `add` 命令放入暂存区的改动
@@ -299,6 +309,7 @@ updated:
     - `git checkout --conflict=diff3 test.txt`: 将文件重置回冲突状态, 适用于 merge 时发生冲突后没有完全解决时被一些其他工具将文件标记为了解决
     - `git checkout --conflict=merge test.txt`: 将文件重置回冲突状态
     - `git checkout --ours test.txt`: 在合并冲突时选择 `ours` 作为解决方案
+    - `git checkout --theirs test.txt`: 在合并冲突时选择 `theirs` 作为解决方案
 
 - `git blame`: 责怪~
     - `git blame <filename>`: 查看某个文件的修改历史记录, 含时间, 作者, 以及内容
@@ -319,13 +330,14 @@ updated:
 - `git reflog`: head 记录
     - `git reflog`: `reference log` 的缩写. 可查看 `Git` 仓库的 `head` 的所有移动记录. 可以在误删 branch 等情况下使用
     - `git reflog master`: 查看关于 `master` 的所有 `head` 的移动记录.
+    - `git reset --hard HEAD@{3}`: 恢复到指定节点状态
 
-    > 使用 `git reset --hard hash` 即可回退到 reflog 对应的节点上
+    > 使用 `git reset --hard hash` 也可回退到 reflog 对应的节点上
 
 - `git rm`: 移除
-    - `git rm <filename>`: 删除对文件的跟踪, 并删除本地文件 (未添加到暂存区时使用)
+    - `git rm <filename>`: 删除对文件的跟踪, 并删除本地文件 (在工作区中保留, 但从版本库中移除, 如果已经放入暂存区的话会报错)
+    - `git rm --cached <filename>`: 取消对某个文件的跟踪. 而不删除本地文件(在工作区中保留, 但从暂存区和版本库中移除)
     - `git rm -f <filename>`: 删除对文件的跟踪, 并删除本地文件 (已添加到暂存区时使用). `f` 是强制的意思
-    - `git rm --cached <filename>`: 取消对某个文件的跟踪. 而不删除本地文件
     - `git rm -r --cached <foldername>`: 取消对某个文件夹的跟踪. `r` 为递归的意思. `git rm -r *` 会将当前目录下的所有文件与子目录删除
     - `git rm -rf.`: 清除当前目录下的所有文件, 不过不会删除 `.git` 目录
     - `-n`: 所有的 `rm` 命令后面加上此命令后, 不会删除任何东西, 仅作为提示使用
@@ -342,7 +354,7 @@ updated:
 - `git tag`: 不可移动的标识点, 通常用来作为里程碑标记, 最广泛的使用就是作为版本标记
 
     - `git tag`: 显示所有 `tag`
-    - `git ls-remote --tags origin`: 列出远程所有标签
+    - `git ls-remote --tags origin`: 列出远程所有标签(不加 origin 也可以)
     - `git tag <tag name>`: 为最新 commit 的创建 tag
     - `git tag <tag name> <commit name>`: 为之前的某个 commit 点创建 tag
     - `git show <tag name>`: 显示指定 tag 信息
@@ -351,7 +363,6 @@ updated:
         - `git push origin:refs/tags/<tag name>`: 使用推送命令将一个空 tag 推送到远程以达到删除该 tag 的效果
     - `git push origin <tag name>`: 推送指定 tag 到远程
     - `git push origin --tags`: 推送所有本地 tag 到远程
-    - `git ls-remote --tags origin`: 显示远程所有 tag(不加 origin 也可以)
     - `git tag -l | xargs git tag -d` && `git fetch origin --prune`: 先删除本地所有分支, 然后从远端拉取所有分支, 适用于远端的 tag 被修改但是本地 tag 仍然是旧的
     - `git tag -l v1.*`: 筛选符合条件的 tag
     - `git tag -a v1.4 -m "my version 1.4"`: 创建含标注的 tag, 并为此标注直接添加信息 (标注可通过 git log 查看)
@@ -362,7 +373,7 @@ updated:
     - `git revert HEAD^`: 增加一条与当前 `head` 指向的 `commit` 的内容完全相反的 `commit`. 从而达到"中和"的效果以对其进行撤销. 用在错误内容已经合并在 `master` 但是需要修改的时候.
     - `git revert OLDER_COMMIT^..NEWER_COMMIT`
 
-- `git reset`: 重置到某个 `commit`
+- `git reset`: 重置到某个 `commit`(第一个参数是提交的 SHA-1, 默认是 HEAD, 第二个参数如果不写则是整体重置, 否则只重置单个文件)
     - `git reset a.txt`: 将文件 a.txt 从 `HEAD` 中还原到 `staged area`, 然后再退回到 `work dir` 中 (默认使用的是 `mixed`)
     - `git reset --mixed HEAD a.txt`: 是上一个命令的全称
     - `git reset HEAD./README.md`: 仅重置某文件到 `HEAD`

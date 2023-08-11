@@ -4,7 +4,7 @@ date: 2022-01-02
 comments: true
 path: design-pattern-and-principle
 categories: Basic
-tags: ⦿design, ⦿pattern, ⦿principle
+tags: ⦿design-pattern, ⦿principle
 updated:
 ---
 
@@ -45,7 +45,7 @@ updated:
 
 ## 面向接口进行开发, 而不是面向实现
 
-> 面向接口进行开发, 而不是面向实现; 依赖于抽象类 型, 而不是具体类.
+> 面向接口进行开发, 而不是面向实现; 依赖于抽象类型, 而不是具体类.
 
 当你需要两个类进行合作时, 可以让其中一个类依赖于另一个类. 但是, 你可用另外一种更灵活的方式来设置对象之间的合作关系.
 
