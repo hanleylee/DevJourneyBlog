@@ -2,7 +2,7 @@
 title: 网络端口科普
 date: 2023-06-25
 comments: true
-urlname: network-port
+path: network-port
 tags: ⦿network, ⦿port
 updated:
 ---

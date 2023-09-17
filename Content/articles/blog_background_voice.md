@@ -2,7 +2,7 @@
 title: iOS 推送方式实现收款语音播报
 date: 2023-05-19
 comments: true
-urlname: ios_push_background_notification_voice
+path: ios-push-background-notification-voice
 tags: ⦿iOS, ⦿push, ⦿notification
 updated:
 ---

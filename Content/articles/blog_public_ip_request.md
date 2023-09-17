@@ -2,7 +2,7 @@
 title: 深圳天威家庭宽带公网 IP 申请
 date: 2023-06-18
 comments: true
-urlname: public-ip-request-record
+path: public-ip-request-record
 tags: ⦿network, ⦿ip
 updated:
 ---

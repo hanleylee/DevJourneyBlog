@@ -2,7 +2,7 @@
 title: 使用 Swift Package Manager 作为你的算法游乐场
 date: 2023-07-28
 comments: true
-urlname: make-algorithm-playground-with-spm
+path: make-algorithm-playground-with-spm
 tags: ⦿algorithm, ⦿spm, ⦿swift, ⦿xcode
 updated:
 ---

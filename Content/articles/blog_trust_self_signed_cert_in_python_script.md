@@ -2,7 +2,7 @@
 title: 在 Python 脚本中信任自签名证书
 date: 2023-05-05
 comments: true
-urlname: trust_self_signed_certificate_in_python_script
+path: trust-self-signed-certificate-in-python-script
 tags: ⦿python,⦿https,⦿ssl,⦿certificate
 updated:
 ---

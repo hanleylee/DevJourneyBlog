@@ -2,7 +2,7 @@
 title: AirPods Pro 杂音维权记录
 date: 2023-05-01
 comments: true
-urlname: airpods_pro_maintenance_record
+path: airpods-pro-maintenance-record
 tags: ⦿airpods, ⦿apple, ⦿maintenance
 updated:
 ---

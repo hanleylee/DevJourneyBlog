@@ -2,7 +2,7 @@
 title: 在外访问家庭内网资源
 date: 2023-06-18
 comments: true
-urlname: access-local-network-from-anywhere
+path: access-local-network-from-anywhere
 tags: ⦿network
 updated:
 ---

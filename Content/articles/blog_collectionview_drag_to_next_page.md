@@ -2,7 +2,7 @@
 title: 为 UICollectionView 手动添加滑动到下一页手势
 date: 2023-07-05
 comments: true
-urlname: collectionview_drag_to_next_page
+path: collectionview-drag-to-next-page
 tags: ⦿ios, ⦿collectionview
 updated:
 ---

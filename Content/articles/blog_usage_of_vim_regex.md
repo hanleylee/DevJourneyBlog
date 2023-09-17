@@ -453,6 +453,8 @@ global 语法有两种
 - `:g/re/p`: 打印所有匹配到 `re` 的行
 - `:g//d`: 使用上次的查找结果进行匹配然后删除
 - `:g/^$/,/./-j`: reduce multiple blank to a single blank
+- `:1,.g/^/''+m.|-j!`: 合并两块区域
+- `:1,.g/^/''+m.|s/^/\t/|-j!`: 合并两块区域, 并在两块区域中添加分隔符
 - `:10,20g/^/ mo 10`: reverse the order of the lines starting from the line 10 up to the line 20.
 - `:'a,'b g/^Error/ . w >> errors.txt`: in the text block marked by `'a` and `'b` find all the lines starting with Error and copy (append) them to `errors.txt` file. Note: . (current line address) in front of the `w` is very important, omitting it will cause `:write` to write the whole file to `errors.txt` for every Error line found.
 - `:g/^Error:/ copy $ | s /Error/copy of the error/`: will copy all Error line to the end of the file and then make a substitution in the copied line. Without giving the line address `:s` will operate on the current line, which is the newly copied line.

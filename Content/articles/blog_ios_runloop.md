@@ -185,15 +185,15 @@ func scheduledTimer(timeInterval ti: TimeInterval, target aTarget: Any, selector
 let block = { (ob: CFRunLoopObserver?, ac: CFRunLoopActivity) in
     if ac ==.entry {
         NSLog("进入 Runlopp")
-    } else if ac ==.beforeTimers {
+    } else if ac == .beforeTimers {
         NSLog("即将处理 Timer 事件")
-    } else if ac ==.beforeSources {
+    } else if ac == .beforeSources {
         NSLog("即将处理 Source 事件")
-    } else if ac ==.beforeWaiting {
+    } else if ac == .beforeWaiting {
         NSLog("Runloop 即将休眠")
-    } else if ac ==.afterWaiting {
+    } else if ac == .afterWaiting {
         NSLog("Runloop 被唤醒")
-    } else if ac ==.exit {
+    } else if ac == .exit {
         NSLog("退出 Runloop")
     }
 }

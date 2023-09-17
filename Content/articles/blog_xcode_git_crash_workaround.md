@@ -2,7 +2,7 @@
 title: Xcode git "invalid data in index" workaround
 date: 2023-04-01
 comments: true
-urlname: xcode-git-crash-workaround
+path: xcode-git-crash-workaround
 tags: ⦿xcode,⦿git
 updated:
 ---
