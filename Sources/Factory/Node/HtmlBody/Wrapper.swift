@@ -24,12 +24,8 @@ extension Node where Context == HTML.BodyContext {
                 .forEach(sectionIDs) { section in
                     .li(
                         .a(
-                            .if(
-                                section as! DevJourneyBlog.SectionID == .about,
-                                .class("selected")
-                            ),
                             .class(section == selectedSection ? "selected" : ""),
-                            .if(section as! DevJourneyBlog.SectionID == .recent, .href(context.index.path),
+                            .if(section as? DevJourneyBlog.SectionID == .recent, .href(context.index.path),
                                 else: .href(context.sections[section].path)),
                             .text(context.sections[section].title)
                         )

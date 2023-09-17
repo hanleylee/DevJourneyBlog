@@ -26,7 +26,7 @@ extension DevJourneyHTMLFactory {
             .siteHeader(for: item, on: context.site),
             .body(
                 .class("item-page"),
-                .pageHeader(for: context, selectedSection: item.sectionID),
+                .pageHeader(for: context, selectedSection: nil),
                 .container(
                     .wrapper(
                         .viewContainer(
