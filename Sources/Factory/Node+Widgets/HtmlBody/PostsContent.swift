@@ -20,21 +20,15 @@ extension Node where Context == HTML.BodyContext {
 
         return
             .wrapper(
-                // Create an unordered list
-                .ul(
-                    // Loop over each blog post that we have in our code
-                    .class("item-list"),
+                .ul( // Create an unordered list
+                    .class("item-list"), // Loop over each blog post that we have in our code
                     .forEach(
                         sortedItems
                     ) { item in
-                        // Creates a list item for each post
-                        .li(
-                            // Creates an article node to display our information
-                            .article(
-                                // Creates a heading with our post title
-                                .h1(
-                                    // Creates an anchor tag so we can create the link to our post
-                                    .a(
+                        .li( // Creates a list item for each post
+                            .article( // Creates an article node to display our information
+                                .h1( // Creates a heading with our post title
+                                    .a( // Creates an anchor tag so we can create the link to our post
                                         // Creates the link to our post so we can click it and read everything
                                         .href(item.path),
                                         .text(item.title)

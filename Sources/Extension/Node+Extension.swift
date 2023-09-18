@@ -18,4 +18,21 @@ extension Node where Context == HTML.BodyContext {
         )
     }
 
+    static func container(_ nodes: Node...) -> Node {
+        .div(
+            .class("container"),
+            .group(nodes)
+        )
+    }
+
+    static func centerContent(_ nodes: Node...) -> Node {
+        .div(
+            .class("centerContent"),
+            .group(nodes)
+        )
+    }
+
+    static func wrapper(_ nodes: Node...) -> Node {
+        .div(.class("wrapper"), .group(nodes))
+    }
 }

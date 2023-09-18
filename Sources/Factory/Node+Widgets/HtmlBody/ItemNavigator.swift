@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Publish
 import Plot
+import Publish
 
 extension Node where Context == HTML.BodyContext {
     static func itemNavigator<Site: Website>(previousItem: Item<Site>?, nextItem: Item<Site>?) -> Node {
@@ -15,8 +15,7 @@ extension Node where Context == HTML.BodyContext {
             .class("item-navigator"),
             .table(
                 .tr(
-                    .if(
-                        previousItem != nil,
+                    .if(previousItem != nil,
                         .td(
                             .class("previous-item"),
                             .a(
@@ -27,11 +26,8 @@ extension Node where Context == HTML.BodyContext {
                         else:
                         .td(
                             .text("")
-                        )
-
-                    ),
-                    .if(
-                        nextItem != nil,
+                        )),
+                    .if(nextItem != nil,
                         .td(
                             .class("next-item"),
                             .a(
@@ -42,8 +38,7 @@ extension Node where Context == HTML.BodyContext {
                         else:
                         .td(
                             .text("")
-                        )
-                    )
+                        ))
                 )
             )
         )
