@@ -14,6 +14,7 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(name: "Publish", path: "./Publish"),
         .package(url: "https://github.com/JohnSundell/Splash", from: "0.16.0"),
 //        .package(name: "ReadingTimePublishPlugin", url: "https://github.com/alexito4/ReadingTimePublishPlugin", from: "0.2.0"),
     ],
@@ -38,12 +39,12 @@ let package = Package(
     ]
 )
 
-if isLocalDebug {
-    package.dependencies += [
-        .package(path: "../Publish"),
-    ]
-} else {
-    package.dependencies += [
-        .package(url: "https://github.com/hanleylee/Publish", .branchItem("master")),
-    ]
-}
+//if isLocalDebug {
+//    package.dependencies += [
+//        .package(path: "../Publish"),
+//    ]
+//} else {
+//    package.dependencies += [
+//        .package(url: "https://github.com/hanleylee/Publish", .branchItem("master")),
+//    ]
+//}
