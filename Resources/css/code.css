@@ -93,25 +93,48 @@ pre code .preprocessing {
     margin-left: -5px;
 }
 
+@media (prefers-color-scheme: dark) {
+
+    .content pre code {
+        background-color: #1a1a1a;
+    }
+}
+
+/*
+
+Atom One Dark by Daniel Gamage
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+
+base:    #fafafa
+mono-1:  #383a42
+mono-2:  #686b77
+mono-3:  #a0a1a7
+hue-1:   #0184bb
+hue-2:   #4078f2
+hue-3:   #a626a4
+hue-4:   #50a14f
+hue-5:   #e45649
+hue-5-2: #c91243
+hue-6:   #986801
+hue-6-2: #c18401
+
+*/
+
 .hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    color: #383a42;
-    background: #fafafa;
+  color: #383a42;
+  background: #fafafa;
 }
 
 .hljs-comment,
 .hljs-quote {
-    /*    color: #a0a1a7;*/
-    color: #998;
-    font-style: italic;
+  color: #a0a1a7;
+  font-style: italic;
 }
 
 .hljs-doctag,
 .hljs-keyword,
 .hljs-formula {
-    color: #a626a4;
+  color: #a626a4;
 }
 
 .hljs-section,
@@ -119,24 +142,19 @@ pre code .preprocessing {
 .hljs-selector-tag,
 .hljs-deletion,
 .hljs-subst {
-    color: #e45649;
+  color: #e45649;
 }
 
 .hljs-literal {
-    color: #0184bb;
+  color: #0184bb;
 }
 
 .hljs-string,
 .hljs-regexp,
 .hljs-addition,
 .hljs-attribute,
-.hljs-meta-string {
-    color: #50a14f;
-}
-
-.hljs-built_in,
-.hljs-class .hljs-title {
-    color: #c18401;
+.hljs-meta .hljs-string {
+  color: #50a14f;
 }
 
 .hljs-attr,
@@ -147,7 +165,7 @@ pre code .preprocessing {
 .hljs-selector-attr,
 .hljs-selector-pseudo,
 .hljs-number {
-    color: #986801;
+  color: #986801;
 }
 
 .hljs-symbol,
@@ -156,26 +174,44 @@ pre code .preprocessing {
 .hljs-meta,
 .hljs-selector-id,
 .hljs-title {
-    color: #4078f2;
+  color: #4078f2;
+}
+
+.hljs-built_in,
+.hljs-title.class_,
+.hljs-class .hljs-title {
+  color: #c18401;
 }
 
 .hljs-emphasis {
-    font-style: italic;
+  font-style: italic;
 }
 
 .hljs-strong {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .hljs-link {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 @media (prefers-color-scheme: dark) {
+    /*
+     base:    #282c34
+     mono-1:  #abb2bf
+     mono-2:  #818896
+     mono-3:  #5c6370
+     hue-1:   #56b6c2
+     hue-2:   #61aeee
+     hue-3:   #c678dd
+     hue-4:   #98c379
+     hue-5:   #e06c75
+     hue-5-2: #be5046
+     hue-6:   #d19a66
+     hue-6-2: #e6c07b
+
+     */
     .hljs {
-        display: block;
-        overflow-x: auto;
-        padding: 0.5em;
         color: #abb2bf;
         background: #282c34;
     }
@@ -208,13 +244,8 @@ pre code .preprocessing {
     .hljs-regexp,
     .hljs-addition,
     .hljs-attribute,
-    .hljs-meta-string {
+    .hljs-meta .hljs-string {
         color: #98c379;
-    }
-
-    .hljs-built_in,
-    .hljs-class .hljs-title {
-        color: #e6c07b;
     }
 
     .hljs-attr,
@@ -237,6 +268,12 @@ pre code .preprocessing {
         color: #61aeee;
     }
 
+    .hljs-built_in,
+    .hljs-title.class_,
+    .hljs-class .hljs-title {
+        color: #e6c07b;
+    }
+
     .hljs-emphasis {
         font-style: italic;
     }
@@ -247,10 +284,5 @@ pre code .preprocessing {
 
     .hljs-link {
         text-decoration: underline;
-    }
-
-
-    .content pre code {
-        background-color: #1a1a1a;
     }
 }

@@ -1,6 +1,7 @@
 import Foundation
 import Plot
 import Publish
+import SwiftPygments
 
 
 struct DevJourneyBlog: Website {
@@ -29,7 +30,8 @@ try DevJourneyBlog().publish(
         .copyResources(at: "Resources", to: "/", includingFolder: false),
         .setSectionTitle(),
         .installPlugin(.setDateFormatter()), // 设置时间显示格式, 必须在 addMarkdownFiles() 之前, 涉及到时间解析格式问题
-        .installPlugin(.splash(withClassPrefix: "")),
+        .installPlugin(.highlightJS()),
+//        .installPlugin(.splash(withClassPrefix: "")),
         .addMarkdownFiles(),
         .makeDateArchive(),
         .installPlugin(.countTags()), // 计算 tag 的数量, tag 必须在 addMarkDownFiles() 之后,否则 alltags 没有值

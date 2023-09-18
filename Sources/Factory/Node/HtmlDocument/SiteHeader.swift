@@ -21,7 +21,7 @@ extension Node where Context == HTML.DocumentContext {
         for location: Location,
         on site: T,
         titleSeparator: String = " | ",
-        stylesheetPaths: [Path] = css,
+        stylesheetPaths: [Path] = siteCSS,
         rssFeedPath: Path? = .defaultForRSSFeed,
         rssFeedTitle: String? = nil
     ) -> Node {
@@ -66,19 +66,19 @@ extension Node where Context == HTML.DocumentContext {
     }
 }
 
-private let newGoogleAnalytics = """
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-95XGB44EJH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-95XGB44EJH');
-</script>
-"""
-
-private let css: [Path] = [
+//private let newGoogleAnalytics = """
+//<!-- Global site tag (gtag.js) - Google Analytics -->
+//<script async src="https://www.googletagmanager.com/gtag/js?id=G-95XGB44EJH"></script>
+//<script>
+//  window.dataLayer = window.dataLayer || [];
+//  function gtag(){dataLayer.push(arguments);}
+//  gtag('js', new Date());
+//
+//  gtag('config', 'G-95XGB44EJH');
+//</script>
+//"""
+//
+private let siteCSS: [Path] = [
     "/css/styles.css",
     "/css/code.css", // 代码高亮
     "/css/toc.css", // 文章正文 toc
