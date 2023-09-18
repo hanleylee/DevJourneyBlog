@@ -14,9 +14,7 @@ public extension Plugin {
     ///   - defaultClass: The default class name for Tag. Example: "tag".
     ///   - variantPrefix: The class prefix in css file. Example: "variant".
     ///   - numberOfVariants: The number of color classes in css.
-    static func colorfulTags(
-        defaultClass: String, variantPrefix: String, numberOfVariants: Int
-    ) -> Self {
+    static func colorfulTags(defaultClass: String, variantPrefix: String, numberOfVariants: Int) -> Self {
         Plugin(name: "ColorfulTags") { context in
             TagColorfier.setup(
                 defaultClass: defaultClass, variantPrefix: variantPrefix,

@@ -27,7 +27,7 @@ extension DevJourneyHTMLFactory {
                         .viewContainer(
                             .centerContent(
                                 .itemList(for: context, items: context.allItems(sortedBy: \.date, order: .descending), limit: 10),
-                                .indexFooter(context: context, showTitle: false)
+                                .indexFooter(context: context)
                             ),
                             .sideNav(
                                 .div(
@@ -55,15 +55,11 @@ extension DevJourneyHTMLFactory {
     }
 }
 
-fileprivate extension Node where Context == HTML.BodyContext {
+private extension Node where Context == HTML.BodyContext {
     // 首页下方的 "显示全部文章"
-    static func indexFooter<Site: Website>(
-        context: PublishingContext<Site>,
-        showTitle: Bool = true
-    ) -> Node {
+    static func indexFooter<Site: Website>(context: PublishingContext<Site>) -> Node {
         return .div(
             .class("section-header float-container"),
-            .if(showTitle, .h2(.text("最新文章"))),
             .a(
                 .class("browse-all"),
                 .href("/articles/"),

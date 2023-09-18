@@ -23,18 +23,19 @@ public extension Modifier {
         let highlighter = SyntaxHighlighter(format: format)
 
         return Modifier(target: .codeBlocks) { html, markdown in
-            var markdown = markdown.dropFirst("```".count)
+            let begin = markdown.components(separatedBy: .newlines).first ?? "```"
+            let language = begin.dropFirst("```".count)
 
-            guard !markdown.hasPrefix("no-highlight") else {
+            guard language != "no-highlight" else {
                 return html
             }
 
-            markdown = markdown
+            let code = markdown
                 .drop(while: { !$0.isNewline })
                 .dropFirst()
                 .dropLast("\n```".count)
 
-            let highlighted = highlighter.highlight(String(markdown))
+            let highlighted = highlighter.highlight(String(code))
             return "<pre><code>" + highlighted + "\n</code></pre>"
         }
     }

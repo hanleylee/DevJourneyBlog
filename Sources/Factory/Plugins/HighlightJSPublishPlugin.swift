@@ -1,3 +1,11 @@
+//
+//  File.swift
+//
+//
+//  Created by Hanley Lee on 2023/09/1.
+//
+
+import Foundation
 import Publish
 
 public extension Plugin {
@@ -14,7 +22,7 @@ public extension Modifier {
     static func highlightCodeBlocks() -> Self {
         let highlighter = HighlightJS()
 
-        return Self(target: .codeBlocks) { html, markdown in
+        return Modifier(target: .codeBlocks) { html, markdown in
             let begin = markdown.components(separatedBy: .newlines).first ?? "```"
             let language = begin.dropFirst("```".count)
 
@@ -27,8 +35,7 @@ public extension Modifier {
                 .drop(while: { !$0.isNewline })
                 .dropLast("\n```".count)
 
-            let highlighted = highlighter.highlight(String(code),
-                                                    as: String(language))
+            let highlighted = highlighter.highlight(String(code), as: String(language))
             return "<pre data-language=\"\(highlighted.language)\" class=\"hljs\"><code>\(highlighted.value)\n</code></pre>"
         }
     }

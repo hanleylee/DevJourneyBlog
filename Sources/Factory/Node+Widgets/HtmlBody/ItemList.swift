@@ -27,7 +27,6 @@ extension Node where Context == HTML.BodyContext {
                         .div(
                             .class("content"),
                             .raw(context.markdownParser.parse(item.description).html)
-//                            .markdown(item.description)
                         ),
                         .if(item.imagePath != nil, .div(.img(.src(item.imagePath?.absoluteString ?? ""))))
                     )

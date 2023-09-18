@@ -15,9 +15,9 @@ extension Node where Context == HTML.BodyContext {
             .script(
                 .raw(
                     """
-                        $(window).resize(function(){
-                            setHeight();
-                        })
+                    $(window).resize(function(){
+                        setHeight();
+                    })
                     """
                 )
             ),
