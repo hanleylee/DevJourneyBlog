@@ -360,14 +360,18 @@ updated:
     - 设置 view 的 Frame 会触发 `layoutSubviews` (frame 发生变化触发).
     - 滚动一个 UIScrollView 会触发 `layoutSubviews`.
     - 旋转 Screen 会触发父 UIView 上的 `layoutSubviews` 事件.
-    - 改变一个 UIView 大小的时候也会触发父 UIView 上的 `layoutSubviews` 事件.
-    - 直接调用 `setLayoutSubviews`.
+    - 改变一个 UIView 大小的时候会触发其 `superView` 上的 `layoutSubviews` 事件.
+    - 直接调用 `layoutIfNeeded`
 
 - `drawrect`:
 
     This method is called when a view is first displayed or when an event occurs that invalidates a visible part of the view. You should never call this method directly yourself.
 
     To invalidate part of your view, and thus cause that portion to be redrawn, call the `setNeedsDisplay()` or `setNeedsDisplay(_:)` method instead.
+
+- `sizeThatFits`:
+    - `sizeToFit` 内部会调用 `sizeThatFit`, 我们不应该重写子类的 `sizeToFit` 方法, 而是重写 `sizeThatFits`
+    - `[UITableView _heightForCell:atIndexPath:]` 会调用 `sizeThatFits`, 因此cell自动高度的关键是 `sizeThatFits` 方法
 
 ## 常见问题
 

@@ -14,7 +14,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/JohnSundell/Splash", from: "0.1.0"),
+        .package(url: "https://github.com/JohnSundell/Splash", from: "0.16.0"),
 //        .package(name: "ReadingTimePublishPlugin", url: "https://github.com/alexito4/ReadingTimePublishPlugin", from: "0.2.0"),
     ],
     targets: [

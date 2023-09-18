@@ -11,11 +11,11 @@ import ShellOut
 
 extension PublishingStep {
     static func uploadToServer() -> Self {
-        step(named: "update files to fatbobman.com") { _ in
+        step(named: "update files to hanleylee.com") { _ in
             print("uploading......")
             do {
                 try shellOut(
-                    to: "scp -i ~/.ssh/id_rsa -r  ~/fatbobmanBlog/Output root@111.229.200.169:/var/www")
+                    to: "scp -i ~/.ssh/id_rsa -r  Output root@xxx.xxx.xxx.xxx:/var/www")
             } catch {
                 print(error)
             }

@@ -22,10 +22,7 @@ extension PublishingStep where Site == DevJourneyBlog {
                         .ul(
                             .forEach(archiveItems[absoluteMonth]!) { item in
                                 .li(
-                                    .a(
-                                        .href(item.path),
-                                        .text(item.title)
-                                    )
+                                    .a(.href(item.path),.text(item.title))
                                 )
                             }
                         )
