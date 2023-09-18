@@ -10,7 +10,7 @@ import Foundation
 struct CommonTools {
     static var formatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "Posted on yyyy-MM-dd"
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }
 }
