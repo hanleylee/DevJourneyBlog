@@ -1,7 +1,6 @@
 import Foundation
 import Plot
 import Publish
-import SwiftPygments
 
 
 struct DevJourneyBlog: Website {
