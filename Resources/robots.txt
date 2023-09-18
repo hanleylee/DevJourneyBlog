@@ -8,4 +8,3 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 Sitemap: https://www.hanleylee.com/sitemap.xml
-Sitemap: https://www.hanleylee.com/baidusitemap.xml

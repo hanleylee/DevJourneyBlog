@@ -3,6 +3,7 @@ generate:
 	swift run DevJourneyBlog
 preview:
 	@echo listen on http://localhost:8000
+	@( sleep 1 ; open -a Safari.app http://localhost:8000 ) &
 	python3 -m http.server 8000 -d ./Output
 deploy:
 	swift run DevJourneyBlog --deploy
