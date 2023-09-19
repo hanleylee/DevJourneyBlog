@@ -26,9 +26,7 @@ public extension Modifier {
             let begin = markdown.components(separatedBy: .newlines).first ?? "```"
             let language = begin.dropFirst("```".count)
 
-            guard language != "no-highlight" else {
-                return html
-            }
+            guard language != "no-highlight" else { return html }
 
             let code = markdown
                 .dropFirst()
