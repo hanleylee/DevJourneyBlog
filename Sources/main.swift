@@ -41,6 +41,7 @@ try DevJourneyBlog().publish(
         .generateHTML(withTheme: .devJourney),
 //        .generateSearchIndex(includeCode: false),
         .generateSiteMap(),
-        .unwrap(.git("ssh://root@81.68.187.219:66/home/hanleylee.com/hexo.git", branch: "master"), PublishingStep.deploy),
+//        .unwrap(.git("ssh://root@81.68.187.219:66/home/hanleylee.com/web.git", branch: "master"), PublishingStep.deploy),
+        .unwrap(.git("ssh://Ctyun-1C2G/home/hanleylee.com/web.git", branch: "master"), PublishingStep.deploy),
     ]
 )
