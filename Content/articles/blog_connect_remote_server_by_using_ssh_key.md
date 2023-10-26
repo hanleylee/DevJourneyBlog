@@ -142,6 +142,7 @@ ssh [option] destination [command]
 - `ConnectTimeout 60`: 客户端进行连接时, 服务器在指定秒数内没有回复, 则中断连接尝试.
 - `DynamicForward 1080`: 指定动态转发端口.
 - `GlobalKnownHostsFile /users/smith/.ssh/my_global_hosts_file`: 指定全局的公钥数据库文件的位置.
+- `AuthorizedKeysFile .ssh/authorized_keys`: 密钥文件
 - `Host server.example.com`: 指定连接的域名或 IP 地址, 也可以是别名, 支持通配符. `Host` 命令后面的所有配置, 都是针对该主机的, 直到下一个 `Host` 命令为止.
 - `HostKeyAlgorithms ssh-dss,ssh-rsa`: 指定密钥算法, 优先级从高到低排列.
 - `HostName myserver.example.com`: 在 `Host` 命令使用别名的情况下, `HostName` 指定域名或 IP 地址.
@@ -230,7 +231,7 @@ PasswordAuthentication no     # 2. 添加此行, 如果已经有此行被注释,
 sudo service ssh restart      # 3. 重启 ssh, 在 centos 上为 sudo service sshd restart
 ```
 
-### 连接 GitHub 使用 *ssh 公钥认证* (gitlab 同理)
+#' '## 连接 GitHub 使用 *ssh 公钥认证* (gitlab 同理)
 
 与连接到远程主机过程中使用 `ssh 秘钥` 不同, GitHub 的 `ssh 秘钥` 生成出来后是需要添加到 `ssh agent` 中的, 从 GitHub 的公钥与本地 `ssh agent` 中的私钥进行配对, 如果配对成功则能正确连接
 

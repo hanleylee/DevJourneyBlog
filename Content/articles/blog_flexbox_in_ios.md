@@ -193,14 +193,6 @@ contentView.flex.define { flex in
 import UIKit
 import FlexLayout
 
-class FlexRootBaseView: UIView {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        flex.layout()
-    }
-}
-
 class ResultVC: ViewController, ResultProtocol {
     // MARK: Data
     var traxId: String = ""
@@ -208,7 +200,7 @@ class ResultVC: ViewController, ResultProtocol {
     private var vm: ResultVM!
 
     // MARK: Subviews
-    private let rootFlexContainer = FlexRootBaseView()
+    private let rootFlexContainer = UIView()
     private lazy var tableView: UITableView = .init().then {
         $0.backgroundColor = Color.background
         $0.rowHeight = UITableView.automaticDimension
