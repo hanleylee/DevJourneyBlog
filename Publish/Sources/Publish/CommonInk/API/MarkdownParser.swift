@@ -78,7 +78,7 @@ public struct MarkdownParser {
                 }
             }
         } else {
-            fatalError()
+            fatalError("macos must greater than 13.0")
         }
 
         var document = Document(parsing: markdown)

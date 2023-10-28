@@ -45,3 +45,5 @@ try DevJourneyBlog().publish(
         .unwrap(.git("ssh://Ctyun-1C2G/home/hanleylee.com/web.git", branch: "master"), PublishingStep.deploy),
     ]
 )
+
+//print(ProcessInfo.processInfo.environment["hello"])
