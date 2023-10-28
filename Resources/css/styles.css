@@ -593,9 +593,7 @@ p {
     margin-right: auto;
 }
 
-.content table,
-th,
-td {
+.content table, th, td {
     border: 1px solid gray;
 }
 
@@ -1120,8 +1118,7 @@ article hr {
     background-color: #00000000;
 }
 
-.tag-list a,
-.tag a {
+.tag-list a, .tag a {
     text-decoration: none;
     color: var(--tag-text-color-light);
     border-bottom: 0px;
@@ -1674,9 +1671,7 @@ li.selectedTag a {
 /* `code`在手机safari中显示不换行 */
 @media (max-width:800px) {
 
-    article p code,
-    article li code,
-    .discover .content code {
+    article p code, article li code, .discover .content code {
         line-break: anywhere
     }
 }
@@ -1979,10 +1974,7 @@ li.selectedTag a {
         background-color: var(--blockquote-background-color-dark);
     }
 
-    article p.info,
-    article blockquote p,
-    article .sponsorship .content>ul,
-    article .services .content>ul {
+    article p.info, article blockquote p, article .sponsorship .content>ul, article .services .content>ul {
         /* position: relative; */
         background-color: var(--blockquote-background-color-dark);
         border-left: var(--blockquote-headline-color-dark);
@@ -2001,8 +1993,7 @@ li.selectedTag a {
         background-color: var(--article-background-color-dark);
     }
 
-    .searchform input,
-    .local-search-result-cls p {
+    .searchform input, .local-search-result-cls p {
         color: var(--content-text-color-dark);
     }
 
@@ -2010,9 +2001,7 @@ li.selectedTag a {
         background-color: var(--article-background-color-dark);
     }
 
-    article p code,
-    article li code,
-    .discover .content code {
+    article p code, article li code, .discover .content code {
         background-color: var(--inline-code-background-dark);
         display: inline-block;
         padding: 0 5px 0px 5px;
@@ -2023,11 +2012,7 @@ li.selectedTag a {
     }
 
 
-    article,
-    .side-nav,
-    .index-list li.indexli,
-    .archiveList,
-    .local-search-input-cls li {
+    article, .side-nav, .index-list li.indexli, .archiveList, .local-search-input-cls li {
         box-shadow: var(--article-shadow-dark)
     }
 
@@ -2039,11 +2024,7 @@ li.selectedTag a {
         color: var(--footer-text-color-dark);
     }
 
-    .index-title,
-    article h1,
-    .item-list h1,
-    .item-list h1 a,
-    .local-search-result-cls a {
+    .index-title, article h1, .item-list h1, .item-list h1 a, .local-search-result-cls a {
         color: var(--item-title-color-dark);
     }
 
@@ -2051,31 +2032,20 @@ li.selectedTag a {
         border-bottom: var(--h2-border-bottem-line-dark);
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    h1, h2, h3, h4, h5, h6 {
         color: var(--item-title-color-dark);
     }
 
-    article p code,
-    article li code {
+    article p code, article li code {
         color: var(--inline-code-text-color-dark);
         display: inline;
     }
 
-    .item-list>li,
-    .index-list li.indexli {
+    .item-list>li, .index-list li.indexli {
         border-bottom: var(--item-list-separator-color-dark);
     }
 
-    article a,
-    .item-navigator a,
-    .index-item-more a,
-    .archiveContent a,
-    a.browse-all {
+    article a, .item-navigator a, .index-item-more a, .archiveContent a, a.browse-all {
         color: var(--content-link-text-color-dark);
         /* border-bottom: none; */
     }
@@ -2100,11 +2070,7 @@ li.selectedTag a {
 
 @media (prefers-color-scheme: dark) and (max-width: 600px) {
 
-    article,
-    .side-nav,
-    .index-list li.indexli,
-    .archiveList,
-    .local-search-input-cls li {
+    article, .side-nav, .index-list li.indexli, .archiveList, .local-search-input-cls li {
         box-shadow: none;
     }
 
