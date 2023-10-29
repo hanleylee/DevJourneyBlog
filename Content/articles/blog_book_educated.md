@@ -58,10 +58,6 @@ updated:
 
 尽管塔拉的家人带给塔拉的是无尽的伤害, 那是花多少时间都无法磨灭的, 但是塔拉仍然从内心深处爱着家人. 教育让塔拉成为了我们普通观念中的成功案例, 但是塔拉对此是轻描淡写, 因为教育让他与原来的愚昧家庭产生了一道深不见底的裂痕, 她感激这个教育打开的新世界, 却也还在努力寻找一条回家的路.
 
-- hello
-    - hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world
-    - nihao
-
 > "教育意味着获得不同的视角, 理解不同的人, 经历和历史. 接受教育, 但不要让你的教育僵化成傲慢. 教育应该是思想的拓展, 同理心的深化, 视野的开阔. 它不应该使你的偏见变得更顽固. 如果人们受过教育, 他们应该变得不那么确定, 而不是更确定. 他们应该多听, 少说, 对差异满怀激情, 热爱那些不同于他们的想法.
 >
 > "(塔拉·韦斯特弗, 福布斯杂志访谈)

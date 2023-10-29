@@ -43,7 +43,7 @@ updated:
 
     <p align="center">
     <a href="https://www.hanleylee.com">
-    <img src="http://hanleylee.oss-cn-shanghai.aliyuncs.com/HKMS/2019-12-29-040450.png"
+    <img src="http://a.hanleylee.com/HKMS/2019-12-29-040450.png?x-oss-process=style/WaMa"
     style="width: 888px;"
     alt="Hanley Lee">
     </a>

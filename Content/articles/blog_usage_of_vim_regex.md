@@ -691,7 +691,7 @@ EOL does not mean "there is an empty line after here", it means **this marks the
 
 ## 参考
 
-- [pattern.txt]($VIMRUNTIME/doc/pattern.txt)
+- pattern.txt(`$VIMRUNTIME/doc/pattern.txt`)
 - [vim pattern.txt](https://vimhelp.org/pattern.txt.html)
 - [理解使用 vim 中的正则表达式](https://zhuanlan.zhihu.com/p/26155536)
 - [Learn REGEX](https://github.com/ziishaned/learn-regex/blob/master/translations/README-cn.md)
