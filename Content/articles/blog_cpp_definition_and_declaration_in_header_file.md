@@ -165,8 +165,7 @@ extern int a = 0; // 定义
 
 ## 总结一些 `头文件` & `声明` & `定义` 的规则
 
-1. `header file` 中是对于该模块接口的声明, 接口包括该模块提供给其它模块调用的外部函数及外部全局变量, 对这些变量和函数都需在 `header file` 中冠以
-`extern` 关键字声明
+1. `header file` 中是对于该模块接口的声明, 接口包括该模块提供给其它模块调用的外部函数及外部全局变量, 对这些变量和函数都需在 `header file` 中冠以 `extern` 关键字声明
 2. 模块内的函数和全局变量需在 `implementation file` 开头冠以 `static` 关键字声明
 3. 永远不要在 `header file` 中定义变量
 4. 如果要用其它模块定义的变量和函数, 直接 `#include` 其 `header file` 即可.

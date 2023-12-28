@@ -55,7 +55,7 @@ updated:
 - `*`: 向下查找光标下的单词
 - `#`: 向上查找光标下的单词
 - `ga`: show unicode information of the character under cursor
-- `g<C-g>`: counts words
+- `g<C-g>`: counts words, 可以在 normal mode 与 visual mode 下使用
 - `:e.`: `.` 代表 `pwd` 的结果, 即当前工作路径, 这个命令会进入 `netrw` 的文件管理界面
 - `gq`: 重新布局 (如果设置了 `textwidth` 的话会根据 `textwidth` 进行断行)
 - `gq}` format a paragraph

@@ -105,3 +105,4 @@ updated:
 ## References
 
 - [关于 iOS 测试机个数上限的详细规则](https://blog.csdn.net/kylinbl/article/details/8852462)
+- [Internal Distribution](https://www.kodeco.com/books/ios-app-distribution-best-practices/v1.0/chapters/5-internal-distribution)
