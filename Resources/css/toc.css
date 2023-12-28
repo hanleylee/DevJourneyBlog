@@ -18,7 +18,7 @@
 .menu-root .h1-link {
     display: block;
     color: var(--memu-h1-text-color-light);
-    font-family: "source sans pro", "helvetica neue", Arial, sans-serif;
+    font-family: 'LXGW WenKai Mono', "source sans pro", "helvetica neue", Arial, sans-serif;
     font-size: 12px;
     font-weight: 420;
     height: auto;
@@ -38,7 +38,7 @@
 .menu-root .h2-link {
     color: var(--memu-h2-text-color-light);
     cursor: pointer;
-    font-family: "source sans pro", "helvetica neue", Arial, sans-serif;
+    font-family: 'LXGW WenKai Mono', "source sans pro", "helvetica neue", Arial, sans-serif;
     font-size: 12px;
     height: auto;
     line-height: 16px;
@@ -64,7 +64,7 @@
     color: var(--memu-h3-text-color-light);
     cursor: pointer;
     display: inline;
-    font-family: "source sans pro", "helvetica neue", Arial, sans-serif;
+    font-family: 'LXGW WenKai Mono', "source sans pro", "helvetica neue", Arial, sans-serif;
     font-size: 11px;
     height: auto;
     line-height: 15px;
