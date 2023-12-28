@@ -10,6 +10,8 @@ updated:
 
 Linux 文件系统基础知识
 
+![himg](https://a.hanleylee.com/HKMS/2023-12-28165301.jpg?x-oss-process=style/WaMa)
+
 <!-- more -->
 
 ## Linux 系统目录结构

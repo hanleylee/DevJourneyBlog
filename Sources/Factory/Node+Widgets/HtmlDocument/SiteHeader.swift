@@ -59,7 +59,7 @@ extension Node where Context == HTML.DocumentContext {
             },
             .script(.src("/js/jquery.min.js")),
 //            .raw(newGoogleAnalytics),
-            .link(.rel(.stylesheet), .href("/css/heti.min.css")),
+//            .link(.rel(.stylesheet), .href("/css/heti.min.css")),
             // 工具栏颜色
             .meta(.name("theme-color"), .content("#C62F1C"))
         )
@@ -82,6 +82,6 @@ private let siteCSS: [Path] = [
     "/css/styles.css",
     "/css/code.css", // 代码高亮
     "/css/toc.css", // 文章正文 toc
-    "/css/font.css",
+    "/css/font.css", // 字体
     "/css/search.css",
 ]

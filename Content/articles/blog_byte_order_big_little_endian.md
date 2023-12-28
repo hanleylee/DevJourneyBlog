@@ -9,6 +9,8 @@ updated:
 
 最近碰巧看到了一段判断字节序大小端的代码, 顺带学习了下大小端. 可是越学习越迷糊, CPU 大小端与文件编码大小端是什么关系? 经过深入了解后撰写本文进行总结分享
 
+![himg](https://a.hanleylee.com/HKMS/2023-12-28165148.jpg?x-oss-process=style/WaMa)
+
 <!-- more -->
 
 ## 什么是大端小端?

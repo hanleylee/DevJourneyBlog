@@ -76,10 +76,11 @@ pre code .preprocessing {
     border-radius: 8px;
     color: #a9bcbc;
     line-height: 1.4em;
-    font-size: 12px;
+    font-size: 14px;
     overflow-x: auto;
     white-space: pre;
-    font-family: 'Fira Code', Menlo, Monaco, Consolas, Courier New, monospace, SF Mono, Consolas, Courier New, monospace, Helvetica, Arial;
+/*    font-family: 'LXGW WenKai Mono', 'Fira Code', Menlo, Monaco, Consolas, Courier New, monospace, SF Mono, Consolas, Courier New, monospace, Helvetica, Arial;*/
+    font-family: 'LXGW WenKai Mono';
     -webkit-overflow-scrolling: touch;
 }
 

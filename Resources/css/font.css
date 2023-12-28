@@ -1,14 +1,12 @@
-/* 霞鹜文楷 Regular*/
-@import url('https://cdn.jsdelivr.net/gh/satouriko/LxgwWenKai_Webfonts@v1.101/dist/LXGWWenKai-Regular.css');
-/*霞鹜文楷 Lite*/
-@import url('https://cdn.jsdelivr.net/gh/satouriko/LxgwWenKai_Webfonts@v1.101/dist/LXGWWenKai-Light.css');
-/*霞鹜文楷 Bold*/
-@import url('https://cdn.jsdelivr.net/gh/satouriko/LxgwWenKai_Webfonts@v1.101/dist/LXGWWenKai-Bold.css');
-/*霞鹜文楷 Mono Regular*/
-@import url('https://cdn.jsdelivr.net/gh/satouriko/LxgwWenKai_Webfonts@v1.101/dist/LXGWWenKaiMono-Regular.css');
-/*霞鹜文楷 Mono Lite*/
-@import url('https://cdn.jsdelivr.net/gh/satouriko/LxgwWenKai_Webfonts@v1.101/dist/LXGWWenKaiMono-Light.css');
-/*霞鹜文楷 Mono Bold*/
-@import url('https://cdn.jsdelivr.net/gh/satouriko/LxgwWenKai_Webfonts@v1.101/dist/LXGWWenKaiMono-Bold.css');
 /*Fira Code*/
-@import url('https://cdn.jsdelivr.net/gh/tonsky/FiraCode@4/distr/fira_code.css');
+/*@import url('https://cdn.jsdelivr.net/gh/tonsky/FiraCode@4/distr/fira_code.css');*/
+
+/* 霞鹜文楷 Regular*/
+@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css')
+
+/*@import url('./lxgwwenkaimono-light.css');*/
+
+/*@font-face {*/
+/*    font-family: Sarasa Mono SC;*/
+/*    src:url("/font/SarasaMonoSC-ExtraLight.ttf");*/
+/*}*/
