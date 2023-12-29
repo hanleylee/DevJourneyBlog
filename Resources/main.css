@@ -397,13 +397,6 @@ hr {
 }
 
 
-@media (max-width: 700px) {
-    header .logo img {
-        padding: 80px 0px 10px 0px;
-        width: 380px;
-    }
-}
-
 @media(max-width: 600px) {
     .wrapper {
         padding: 0 0 10px 0;
@@ -474,11 +467,6 @@ hr {
 
 
 @media (max-width: 450px) {
-    header .logo img {
-        padding: 80px 0px 20px 0px;
-        width: 320px;
-    }
-
     nav {
         font-weight: 600;
     }
@@ -548,10 +536,6 @@ hr {
     body {
         background-color: var(--header-background-color-dark);
         color: var(--content-text-color-dark);
-    }
-
-    header {
-        background-color: var(--header-background-color-light);
     }
 
     .side-nav {

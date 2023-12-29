@@ -1,4 +1,6 @@
 header {
+    display: flex;
+    flex-direction: column;
     position: relative;
     background-color: var(--header-background-color-light);
     background-position: right;
@@ -7,7 +9,7 @@ header {
     background-size: 400px;
     line-height: 1.5em;
     padding: 0 20px;
-    height: 350px;
+/*    height: 350px;*/
 }
 
 header a {
@@ -58,28 +60,34 @@ header nav .search a {
 }
 
 header .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 0px 0 0px 0;
     text-align: center;
     background-color: #00000000;
 }
 
-header .logo {
-    max-width: 100%;
+.headerLogo {
+    width: 100px;
+    height: 100px;
+/*    max-width: 100%;*/
     /* margin-top: 50px; */
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 50px 0 50px 0;
+    margin-top: 30px;
 }
 
-header .logo img {
-    width: 100px;
-    height: 100px
+.headerLogo img {
+/*    object-fit: contain;*/
+    height: 100%;
+    width: 100%;
+    border-radius: 3px;
 }
 
 /* Header 的社交图标*/
 .headerIcons {
     display: block;
+    margin-top: 20px
     /* opacity: 0.6; */
 }
 
@@ -153,63 +161,31 @@ header .logo img {
     background-position: center;
 }
 
-h1 {
-    color: var(--item-title-color-light);
-    font-size: 32px;
-    font-weight: bold;
+.headerSections {
     margin-top: 20px;
     margin-bottom: 20px;
-    padding-bottom: 12px;
-    /*    text-align: left;*/
-    /*    margin-block-start: 1em;*/
-    /*    margin-block-end: 1em;*/
-    /*    margin-inline-start: 0px;*/
-    /*    margin-inline-end: 0px;*/
-
 }
 
-h2 {
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--item-title-color-light);
-    margin-top: 25px;
-    margin-bottom: 25px;
+@media (max-width: 700px) {
+    .headerLogo {
+        display: none;
+    }
+    
+    .headerIcons {
+        display: none;
+    }
 }
 
-h3 {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--item-title-color-light);
-    margin-top: 20px;
-    margin-bottom: 13px;
-}
-
-h4 {
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--item-title-color-light);
-    margin-top: 15px;
-    margin-bottom: 7px;
-}
-
-h5 {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--item-title-color-light);
-    margin-top: 7px;
-    margin-bottom: 7px;
-}
-
-h6 {
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--item-title-color-light);
-    margin-top: 5px;
-    margin-bottom: 5px;
+@media (max-width: 450px) {
+/*    header .logo img {*/
+/*        padding: 80px 0px 20px 0px;*/
+/*        width: 320px;*/
+/*    }*/
 }
 
 @media (prefers-color-scheme: dark) {
-    h1, h2, h3, h4, h5, h6 {
-        color: var(--item-title-color-dark);
+    header {
+        background-color: var(--header-background-color-dark);
     }
+
 }

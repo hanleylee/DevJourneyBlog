@@ -11,35 +11,6 @@ import Publish
 
 extension Node where Context == HTML.BodyContext {
 
-    static func nav<T: Website>(
-        for context: PublishingContext<T>,
-        selectedSection: T.SectionID?
-    ) -> Node {
-        let sectionIDs = T.SectionID.allCases
-        return .nav(
-            .ul(
-                .forEach(sectionIDs) { section in
-                    .li(
-                        .a(
-                            .class(section == selectedSection ? "selected" : ""),
-                            .if(section as? DevJourneyBlog.SectionID == .recent, .href(context.index.path),
-                                else: .href(context.sections[section].path)),
-                            .text(context.sections[section].title)
-                        )
-                    )
-                }
-            ),
-            .div(
-                .class("weixinHeadQcode"),
-                .onclick(
-                    """
-                    $('.weixinHeadQcode').css('display','none');
-                    """
-                )
-            )
-        )
-    }
-
     // static func toc(_ nodes: Node<HTML.BodyContext>...) -> Node {
     //     .element(named: "sidebar", nodes: nodes)
     // }
