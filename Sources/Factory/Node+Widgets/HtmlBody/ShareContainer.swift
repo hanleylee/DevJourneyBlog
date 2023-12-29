@@ -12,7 +12,7 @@ import Publish
 // 首页的分享栏
 
 extension Node where Context == HTML.BodyContext {
-    static func shareContainer(title: String, url: String) -> Node {
+    static func postActions(title: String, url: String) -> Node {
         .div(
             .class("post-actions"),
             .div(

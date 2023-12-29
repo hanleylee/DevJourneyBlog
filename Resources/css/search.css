@@ -1,3 +1,8 @@
+.searchContent {
+    padding: 0 20px 20px 20px;
+}
+
+
 .local-search {
     position: relative;
     text-align: left;
@@ -9,7 +14,7 @@
     margin: 10px 0;
     padding: 8px 12px;
     border-radius: 4px;
-    border: 1px solid #CCC;
+    border: 1px solid #ccc;
     color: #666;
     font-size: 14px;
     color: #404040;
@@ -26,8 +31,7 @@
     line-height: 20px;
     text-align: center;
     font-size: 16px;
-    font-family: 'LXGW WenKai Mono', consolas;
-    border: 1px solid #CCC;
+    border: 1px solid #ccc;
     display: block;
     width: 20px;
     height: 20px;
@@ -69,14 +73,14 @@
         min-height: 0;
         height: auto;
         overflow-y: auto;
-        border: 1px solid #CCC;
+        border: 1px solid #ccc;
         padding: 10px 20px;
-        background: #FFF;
-        box-shadow: 1px 2px 4px #CCC;
+        background: #fff;
+        box-shadow: 1px 2px 4px #ccc;
 
         li {
             text-align: left;
-            border-bottom: 1px solid #CCC;
+            border-bottom: 1px solid #ccc;
             padding-bottom: 20px;
             margin-bottom: 20px;
             line-height: 30px;
@@ -138,7 +142,7 @@
 .local-search-result-cls p {
     text-align: justify;
     margin-top: 10px;
-    font-size: 1.1em;
+    font-size: 16px;
     line-height: 1.4em;
     /* max-height: 124px; */
     overflow: hidden;
@@ -176,4 +180,100 @@
     }
 }
 
+.searchContent {
+    padding: 0px 0px 20px 0px;
+    max-width: 960px;
+    margin: auto;
+}
+
+.searchform {
+    /* background: #F9F0DA; */
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 15px;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search .search-box input[type="submit"] {
+    background-image: url('data:image/svg+xml,%3Csvg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Crect fill="%23FFF" transform="rotate(-45 9 29.5)" x="-1" y="27" width="20" height="5" rx="2.5"/%3E%3Ccircle stroke="%23FFF" stroke-width="5" cx="23" cy="15" r="12"/%3E%3C/g%3E%3C/svg%3E');
+}
+
+.searchform input {
+    border: var(--search-input-border-color-light);
+    border-radius: 5px;
+    background: transparent;
+    top: 0;
+    font-size: 12px;
+    color: var(--content-text-color-light);
+}
+
+.site-search-form {
+    padding: 5px;
+    /* border: 1px solid #CCC;
+     border-radius: 10px;
+     display: block;
+     margin-bottom:40px;
+     margin-top: 20px;
+     max-width:500px;
+     min-width:200px; */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.st-search-input {
+    width: 100%;
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    color: #404040;
+    outline: none;
+    padding-left: 10px;
+}
+
+.st-search-input::-ms-clear {
+    display: none;
+}
+
+.st-search-input:valid + .clearSearchInput {
+    display: inline;
+}
+
+.clearSearchInput {
+    display: none;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin: 9px 0 0 -20px;
+    background: url('/img/clear.svg') no-repeat;
+    background-size: 12px 12px;
+    outline: none;
+}
+
+@media (max-width: 600px) {
+    .searchContent {
+        padding: 20px 10px 20px 10px;
+    }
+
+    .searchform {
+        width: 300px;
+    }
+
+    .searchContent .all-tags {
+        padding: 0 30px 0px 30px;
+    }
+
+    /* .site-search-form {
+     margin-top: 0px;
+     margin-bottom: 0px;
+     } */
+
+    /* .local-search-result-cls {
+     padding-left: 20px;
+     padding-right: 20px;
+     max-width: auto;
+     min-width: auto;
+     } */
+}
 

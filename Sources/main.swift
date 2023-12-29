@@ -2,7 +2,6 @@ import Foundation
 import Plot
 import Publish
 
-
 struct DevJourneyBlog: Website {
     enum SectionID: String, WebsiteSectionID {
         case recent
@@ -23,27 +22,28 @@ struct DevJourneyBlog: Website {
     var imagePath: Path? { nil }
 }
 
-try DevJourneyBlog().publish(
-    using: [
-        .addModifier(modifier: hrefOpenNewTab, modifierName: "hrefOpenNewTab"),
-        .copyResources(at: "Resources", to: "/", includingFolder: false),
-        .setSectionTitle(),
-        .installPlugin(.setDateFormatter()), // 设置时间显示格式, 必须在 addMarkdownFiles() 之前, 涉及到时间解析格式问题
-        .installPlugin(.highlightJS()),
+try DevJourneyBlog()
+    .publish(
+        using: [
+            .addModifier(modifier: hrefOpenNewTab, modifierName: "hrefOpenNewTab"),
+            .copyResources(at: "Resources", to: "/", includingFolder: false),
+            .setSectionTitle(),
+            .installPlugin(.setDateFormatter()), // 设置时间显示格式, 必须在 addMarkdownFiles() 之前, 涉及到时间解析格式问题
+            .installPlugin(.highlightJS()),
 //        .installPlugin(.splash(withClassPrefix: "")),
-        .addMarkdownFiles(),
-        .makeDateArchive(),
-        .installPlugin(.countTags()), // 计算 tag 的数量, tag 必须在 addMarkDownFiles() 之后,否则 alltags 没有值
-        .installPlugin(.colorfulTags(defaultClass: "tag", variantPrefix: "variant", numberOfVariants: 8)), // 给tag多种颜色
-        .installPlugin(.readingTime()),
-        .sortItems(by: \.date, order: .descending), // 对所有文章排序
-        .generateShortRSSFeed(including: [.articles], itemPredicate: nil),
-        .generateHTML(withTheme: .devJourney),
+            .addMarkdownFiles(),
+            .makeDateArchive(),
+            .installPlugin(.countTags()), // 计算 tag 的数量, tag 必须在 addMarkDownFiles() 之后,否则 alltags 没有值
+            .installPlugin(.colorfulTags(defaultClass: "tag", variantPrefix: "variant", numberOfVariants: 8)), // 给tag多种颜色
+            .installPlugin(.readingTime()),
+            .sortItems(by: \.date, order: .descending), // 对所有文章排序
+            .generateShortRSSFeed(including: [.articles], itemPredicate: nil),
+            .generateHTML(withTheme: .devJourney),
 //        .generateSearchIndex(includeCode: false),
-        .generateSiteMap(),
+            .generateSiteMap(),
 //        .unwrap(.git("ssh://root@81.68.187.219:66/home/hanleylee.com/web.git", branch: "master"), PublishingStep.deploy),
-        .unwrap(.git("ssh://Ctyun-1C2G/home/hanleylee.com/web.git", branch: "master"), PublishingStep.deploy),
-    ]
-)
+            .unwrap(.git("ssh://Ctyun-1C2G/home/hanleylee.com/web.git", branch: "master"), PublishingStep.deploy),
+        ]
+    )
 
-//print(ProcessInfo.processInfo.environment["hello"])
+// print(ProcessInfo.processInfo.environment["hello"])

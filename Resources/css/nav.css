@@ -1,0 +1,53 @@
+/* nav */
+
+nav {
+    display: inline-block;
+    /* background-color: #fff; */
+    /* border-radius: 10px; */
+    margin-top: 30px;
+    overflow: hidden;
+    vertical-align: center;
+    font-weight: 400;
+}
+
+nav .searchIcon {
+    width: 16px;
+    height: 16px;
+}
+
+
+.mobileSidenav {
+    display: none;
+    height: 100%;
+    width: 200;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #c4c4c4ee;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.mobileSidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* 侧边栏 */
+.side-nav {
+    position: sticky;
+    top: 30px;
+    max-width: 300px;
+    background-color: var(--article-background-color-light);
+    display: block;
+    padding: 30px 30px 10px 10px;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: var(--article-shadow-light);
+}
+

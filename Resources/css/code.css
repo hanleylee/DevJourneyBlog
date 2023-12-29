@@ -1,19 +1,76 @@
 /* every thing about code highlight*/
-pre {
+
+code {
+    color: var(--inline-code-text-color-light);
+    background-color: var(--inline-code-background-light);
+    display: inline-block;
+/*    display: inline;*/
+    padding: 0 2px 0px 2px;
+    border-radius: 3px;
+    font-size: 14px;
+    margin: 1px;
+    line-break: auto;
 }
 
-pre code {
+/* `code`在手机safari中显示不换行 */
+@media (max-width:800px) {
+    code {
+        line-break: anywhere
+    }
+}
+@media (prefers-color-scheme: dark) {
+    code {
+        background-color: var(--inline-code-background-dark);
+        color: var(--inline-code-text-color-dark);
+    }
+/*     article p code, article li code {*/
+/*        color: var(--inline-code-text-color-dark);*/
+/*        display: inline;*/
+/*    }*/
+}
+
+pre {
+/*    font-family: 'Fira Code', 'LXGW WenKai Mono';*/
+}
+
+.content pre,
+.item-list pre {
+    padding: 10px;
+}
+
+/* 在一些需要严格等宽的内容中, 不能使用多种等宽字体, 否则会造成整体不等宽. 这是因为每种等宽字体的字符宽度可能不同 */
+pre[data-language="undefined"] code {
     font-family: 'LXGW WenKai Mono';
+}
+
+
+pre code {
     display: block;
     padding: 0 20px;
     color: #a9bcbc;
+    background-color: black;
     line-height: 1.4em;
-    font-size: 1.2em;
+    font-size: 13px;
     overflow-x: auto;
     white-space: pre;
-    border-radius: 10px;
-    padding: 20px;
+    border-radius: 8px;
+/*    padding: 20px;*/
+    padding: 15px 12px;
     -webkit-overflow-scrolling: touch;
+}
+
+.content pre code,
+.item-list pre code {
+/*    font-family: 'LXGW WenKai Mono';*/
+}
+
+pre code .highlight {
+    display: inline-block;
+    padding: 0 4px 2px 4px;
+    border: 1px solid #546AFF;
+    border-radius: 5px;
+    background-color: #1A1721;
+    margin-left: -5px;
 }
 
 /*pre code::-webkit-scrollbar {*/
@@ -61,37 +118,6 @@ pre code .dotAccess {
 }
 pre code .preprocessing {
     color: #b68a00;
-}
-
-.content pre,
-.item-list pre {
-    padding: 10px;
-}
-
-.content pre code,
-.item-list pre code {
-    display: block;
-    background-color: black;
-    padding: 15px 12px;
-    border-radius: 8px;
-    color: #a9bcbc;
-    line-height: 1.4em;
-    font-size: 14px;
-    overflow-x: auto;
-    white-space: pre;
-/*    font-family: 'LXGW WenKai Mono', 'Fira Code', Menlo, Monaco, Consolas, Courier New, monospace, SF Mono, Consolas, Courier New, monospace, Helvetica, Arial;*/
-    font-family: 'LXGW WenKai Mono';
-    -webkit-overflow-scrolling: touch;
-}
-
-.content pre code .highlight,
-.item-list pre code .highlight {
-    display: inline-block;
-    padding: 0 4px 2px 4px;
-    border: 1px solid #546AFF;
-    border-radius: 5px;
-    background-color: #1A1721;
-    margin-left: -5px;
 }
 
 @media (prefers-color-scheme: dark) {

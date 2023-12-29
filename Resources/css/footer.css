@@ -1,0 +1,43 @@
+footer {
+    color: var(--footer-text-color-light);
+    text-align: center;
+    /* margin-top: 20px; */
+    /* margin-bottom: 30px; */
+    /* border-top: 1px var(--healthnote-green) solid; */
+    padding: 30px 30px 80px 30px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 10px;
+    background-color: var(--footer-background-color-light);
+}
+
+
+footer p {
+    margin: 5px;
+    text-align: center;
+}
+
+
+footer li {
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+footer img {
+    width: 20px;
+    height: 20px;
+}
+
+footer .twitter {
+    width: 23px;
+    height: 23px;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    footer {
+        background-color: var(--footer-background-color-dark);
+        color: var(--footer-text-color-dark);
+    }
+}

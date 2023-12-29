@@ -1,0 +1,43 @@
+.supporter {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 2px solid #078076;
+    padding: 15px 20px 15px 20px;
+    background-color: var(--article-background-color-light);
+}
+
+.supporter p {
+    font-size: 20px;
+}
+
+.supporter a {
+    cursor: pointer;
+    color: #0269c8;
+    font-weight: bold;
+}
+
+.supporter img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.supporter .label {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background-color: #078076;
+    padding: 3px 6px 3px 6px;
+    border-radius: 5px;
+    color: #f2f2f2;
+    font-size: 22px;
+}
+
+@media (max-width: 600px) {
+    .supporter {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}

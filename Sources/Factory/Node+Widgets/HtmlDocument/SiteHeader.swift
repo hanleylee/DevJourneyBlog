@@ -79,9 +79,28 @@ extension Node where Context == HTML.DocumentContext {
 //"""
 //
 private let siteCSS: [Path] = [
-    "/css/styles.css",
-    "/css/code.css", // 代码高亮
-    "/css/toc.css", // 文章正文 toc
-    "/css/font.css", // 字体
+    "/css/about.css",
+    "/css/actionButton.css",
+    "/css/archive.css",
+    "/css/article.css",
+    "/css/code.css",
+    "/css/common.css",
+    "/css/font.css",
+    "/css/footer.css",
+    "/css/gitalk.css",
+    "/css/header.css",
+    "/css/index.css",
+    "/css/item-navigator.css",
+    "/css/license.css",
+    "/css/list.css",
+    "/css/nav.css",
+    "/css/sidebar.css",
+    "/css/toc.css",
+    "/css/blockquote.css",
     "/css/search.css",
+    "/css/sponsor.css",
+    "/css/supporter.css",
+    "/css/table.css",
+    "/css/tag.css",
+    "/main.css",
 ]

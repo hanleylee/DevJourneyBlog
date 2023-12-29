@@ -1,0 +1,215 @@
+header {
+    position: relative;
+    background-color: var(--header-background-color-light);
+    background-position: right;
+    background-position-y: top;
+    background-repeat: no-repeat;
+    background-size: 400px;
+    line-height: 1.5em;
+    padding: 0 20px;
+    height: 350px;
+}
+
+header a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+header h2 {
+    /* margin-top: 80px; */
+    font-size: 65px;
+    color: #ffffff;
+}
+
+header nav li {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+header nav a {
+    display: block;
+    color: #cacaca;
+    padding: 0 10px;
+    line-height: 30px;
+    text-decoration: none;
+}
+
+header nav a:hover {
+    color: #fff;
+    /* background-color:var(--healthnote-green); */
+}
+
+header nav .selected {
+    color: #fff;
+    /* background-color: var(--healthnote-green); */
+}
+
+
+
+header nav .search a {
+    background-image: url(/img/search.svg);
+    background-repeat: no-repeat;
+    background-size: 65% 65%;
+    background-position: center center;
+    width: 34px;
+    color: transparent !important;
+    user-select: none;
+}
+
+header .wrapper {
+    padding: 0px 0 0px 0;
+    text-align: center;
+    background-color: #00000000;
+}
+
+header .logo {
+    max-width: 100%;
+    /* margin-top: 50px; */
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px 0 50px 0;
+}
+
+header .logo img {
+    width: 100px;
+    height: 100px
+}
+
+/* Header 的社交图标*/
+.headerIcons {
+    display: block;
+    /* opacity: 0.6; */
+}
+
+.headerIcons a {
+    color: blue;
+}
+
+.headerIcons .icon {
+    padding: 0 18px 0 18px;
+    font-size: 30px;
+    width: 24px;
+    height: 24px;
+    position: relative;
+}
+
+.headIconWeixin {
+    background-image: url('/img/whiteWeixin.svg');
+    background-size: 21px 21px;
+    background-repeat: no-repeat;
+}
+
+/* 头部的微信公共号 */
+.weixinHeadQcode {
+    position: relative;
+    width: 400px;
+    height: 246px;
+    background-image: url("/img/weixincode.jpg");
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+    z-index: 9999;
+    border-radius: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.headIconTwitter {
+    background-image: url('/img/whiteTwitter.svg');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.headIconEmail {
+    background-image: url('/img/whiteEmail.svg');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.headIconGithub {
+    background-image: url('/img/whiteGithub.svg');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.headIconZhihu {
+    background-image: url('/img/whiteZhihu.svg');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.headIconRss {
+    background-image: url('/img/whiteRss.svg');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+h1 {
+    color: var(--item-title-color-light);
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    /*    text-align: left;*/
+    /*    margin-block-start: 1em;*/
+    /*    margin-block-end: 1em;*/
+    /*    margin-inline-start: 0px;*/
+    /*    margin-inline-end: 0px;*/
+
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--item-title-color-light);
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--item-title-color-light);
+    margin-top: 20px;
+    margin-bottom: 13px;
+}
+
+h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--item-title-color-light);
+    margin-top: 15px;
+    margin-bottom: 7px;
+}
+
+h5 {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--item-title-color-light);
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+h6 {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--item-title-color-light);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--item-title-color-dark);
+    }
+}

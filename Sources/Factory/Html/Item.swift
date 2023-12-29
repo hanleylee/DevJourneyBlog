@@ -30,8 +30,8 @@ extension DevJourneyHTMLFactory {
                 .container(
                     .wrapper(
                         .viewContainer(
+                            .postActions(title: item.title, url: context.site.url.appendingPathComponent(item.path.string).absoluteString),
                             .centerContent(
-                                .shareContainer(title: item.title, url: context.site.url.appendingPathComponent(item.path.string).absoluteString),
                                 .article(
                                     .div(
                                         .class("post-title"),

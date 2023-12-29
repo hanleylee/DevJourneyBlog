@@ -20,51 +20,21 @@ extension Node where Context == HTML.BodyContext {
             ),
             .p(
                 .text("Generated using "),
-                .a(
-                    .text("Publish"),
-                    .href("https://github.com/johnsundell/publish"),
-                    .target(.blank)
-                )
+                .a(.text("Publish"), .href("https://github.com/johnsundell/publish"), .target(.blank))
             ),
             .ul(
-                .li(
-                    .a(
-                        .img(
-                            .class("twitter"),
-                            .src("/img/twitter.svg")
-                        ),
-                        .href("https://twitter.com/Hanley_Lei"),
-                        .target(.blank)
-                    )
-                ),
-                .li(
-                    .a(
-                        .img(.src("/img/github.svg")),
-                        .href("https://github.com/hanleylee/"),
-                        .target(.blank)
-                    )
-                ),
-                .li(
-                    .a(
-                        .img(.src("/img/zhihu.svg")),
-                        .href("https://www.zhihu.com/column/HanleyLee"),
-                        .target(.blank)
-                    )
-                ),
-                .li(
-                    .a(
-                        .img(.src("/img/rss.svg")),
-                        .href("/feed.rss")
-                    )
-                )
+                .li(.a(.img(.class("twitter"), .src("/img/twitter.svg")), .href("https://twitter.com/Hanley_Lei"), .target(.blank))),
+                .li(.a(.img(.src("/img/github.svg")), .href("https://github.com/hanleylee/"), .target(.blank)) ),
+                .li(.a(.img(.src("/img/zhihu.svg")), .href("https://www.zhihu.com/column/HanleyLee"), .target(.blank))),
+                .li(.a(.img(.src("/img/rss.svg")), .href("/feed.rss")))
             )
 //            .raw(googleAndBaidu)
         )
     }
 }
 
-//private let googleAndBaidu = """
-//<script>
+// private let googleAndBaidu = """
+// <script>
 //    // dynamic User by Hux
 //    var _gaId = 'UA-165296388-1';
 //    var _gaDomain = 'hanleylee.com';
@@ -77,5 +47,5 @@ extension Node where Context == HTML.BodyContext {
 //
 //    ga('create', _gaId, _gaDomain);
 //    ga('send', 'pageview');
-//</script>
-//"""
+// </script>
+// """

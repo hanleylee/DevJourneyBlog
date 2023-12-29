@@ -1,0 +1,77 @@
+.index-list {
+    padding: 0px;
+}
+
+.index-list .content {
+    margin-bottom: 0;
+}
+
+.index-list blockquote p {
+    background-color: var(--index-list-blockquote-light);
+}
+
+
+.index-list ul.indexul {
+    padding: 0px;
+    margin: 0px;
+}
+
+.index-list li.indexli {
+    background-color: var(--content-background-color-light);
+    margin: 0px;
+    margin-bottom: 10px;
+    list-style: none;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1.2px 3.5px rgb(0 0 0 / 16%);
+}
+
+
+.index-list li article h2 {
+    font-size: 24px;
+    /* color:#4078f2; */
+}
+
+.index-list li article h3 {
+    font-size: 1.8px;
+}
+
+.index-list li article h4,
+.index-list li article h5 {
+    font-size: 15px;
+}
+
+.index-item-more {
+    color: var(--index-item-more-color-light);
+    font-weight: normal;
+    float: right;
+    line-height: 1em;
+    margin: 0px;
+    padding: 0px;
+    margin-top: -16px;
+    text-decoration: none;
+}
+
+.index-item-more a {
+    text-decoration: none;
+    color: var(--content-link-text-color-light);
+    font-size: 14px;
+}
+
+.index-title {
+    color: var(--item-title-color-light);
+}
+
+.index-item-more a:hover {
+    color: blue;
+}
+
+.index-title a {
+    text-decoration: none;
+}
+
+.index-title a:hover {
+    color: var(--item-title-hover-color);
+}
+
+

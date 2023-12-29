@@ -70,7 +70,7 @@ extension Node where Context == HTML.BodyContext {
         )
     }
 
-    static func searchInput() -> Node {
+    static func searchForm() -> Node {
         .div(
             .class("searchform"),
             .form(

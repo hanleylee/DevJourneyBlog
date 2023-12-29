@@ -1,0 +1,72 @@
+.sidebar {
+    /* position:absolute;
+     top: 0;
+     right: 0; */
+    /* padding-top: 260px;
+     padding-right: 20px; */
+    overflow-x: hidden;
+    /*overflow-y: auto; */
+    width: 180px;
+    /* position:fixed; */
+    /* float: right; */
+}
+
+.sidebar .active {
+    color: #2c2c2c;
+    font-weight: 500;
+    background-color: var(--sidebar-active-background-light);
+    border-radius: 1px;
+    padding: 2px;
+}
+
+@media (max-width: 450px) {
+    /* 调整手机端的各级标题大小 */
+
+    .content-with-sidebar h1 {
+        font-size: 22px;
+    }
+
+    .index-list h1 {
+        font-size: 22px;
+    }
+
+    .content-with-sidebar h2 {
+        font-size: 20px;
+    }
+
+    .index-list li article h2 {
+        font-size: 20px;
+        border-bottom: none;
+    }
+
+    .content-with-sidebar h3 {
+        font-size: 18px;
+    }
+
+    .index-list li article h3 {
+        font-size: 18px;
+    }
+
+    .content-with-sidebar h4 {
+        font-size: 17px;
+    }
+
+    .index-list li article h4 {
+        font-size: 17px;
+    }
+
+    .content-with-sidebar h5 {
+        font-size: 16px;
+    }
+
+    .index-list li article h5 {
+        font-size: 16px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .sidebar .active {
+        color: #2c2c2c;
+        background-color: var(--sidebar-active-background-dark);
+    }
+}

@@ -1,0 +1,36 @@
+/* Archive 页面  */
+/* .archiveList {
+ padding: 20px;
+ background: var(--article-background-color-light);
+ box-shadow: 0 1.2px 3.5px rgba(0, 0, 0, 0.16);
+ border-radius: 5px;
+ } */
+.archiveContent {
+    /* margin: 20px; */
+    font-size: 20px;
+    background: var(--article-background-color-light);
+    box-shadow: var(--article-shadow-light);
+    border-radius: 5px;
+    padding: 20px 60px 80px 60px;
+}
+
+.archiveContent h3 {
+    font-size: 22px;
+}
+
+.archiveContent ul {
+    padding-left: 20px;
+    font-size: 15px;
+}
+
+.archiveContent li {
+    line-height: 1.6em;
+    font-size: 18px;
+    padding-bottom: 10px;
+}
+
+.archiveContent a {
+    color: var(--content-link-text-color-light);
+}
+
+

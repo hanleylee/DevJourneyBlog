@@ -1,0 +1,109 @@
+article {
+    background-color: var(--article-background-color-light);
+    padding: 20px 60px 20px 60px;
+    border-radius: 4px;
+    margin-block-end: 12px;
+    margin-inline-start: 0px;
+    box-shadow: var(--article-shadow-light);
+}
+
+article h1 {
+    color: var(--item-title-color-light);
+}
+
+article h2 {
+    border-bottom: var(--h2-border-bottem-line-light);
+}
+
+article a {
+    text-decoration: none;
+    color: var(--content-link-text-color-light);
+    /* border-bottom: 1px solid #d1e9ff; */
+}
+
+article p {
+    /*    text-indent: 2em;*/
+    line-height: 1.4em;
+    text-align: justify;
+    margin-block-start: 16px;
+    margin-block-end: 16px;
+    font-size: 16px;
+}
+article p.info, article .sponsorship .content>ul, article .services .content>ul {
+    /* position: relative; */
+    background-color: var(--blockquote-background-color-light);
+    padding: 10px 20px 10px 10px;
+    /* border-top-right-radius: 7px;
+     border-bottom-right-radius: 7px; */
+    border-left: var(--blockquote-headline-color-light);
+    margin-left: 0px;
+    text-indent: 0em;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.index-list article {
+    box-shadow: none;
+}
+
+article hr {
+    display: block;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 256px;
+    border-style: solid;
+    border-color: #cdd8e7;
+    border-width: 0.5px;
+    border-radius: 10px;
+}
+
+@media(max-width: 600px) {
+    article {
+        border-radius: 0;
+        padding: 20px;
+        box-shadow: none;
+    }
+    .content article {
+        padding: 20px 0 20px 0;
+    }
+    .item-list article {
+        padding: 5px 20px 40px 20px;
+    }
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+    article {
+        background-color: var(--article-background-color-dark);
+        box-shadow: var(--article-shadow-dark)
+    }
+    
+    article p.info, article .sponsorship .content>ul, article .services .content>ul {
+        /* position: relative; */
+        background-color: var(--blockquote-background-color-dark);
+        border-left: var(--blockquote-headline-color-dark);
+    }
+    
+    article h2 {
+        border-bottom: var(--h2-border-bottem-line-dark);
+    }
+
+    article a {
+        color: var(--content-link-text-color-dark);
+        /* border-bottom: none; */
+    }
+}
+
+@media (prefers-color-scheme: dark) and (max-width: 600px) {
+
+    article {
+        box-shadow: none;
+    }
+
+    article hr {
+        border-color: #3d4045;
+    }
+}

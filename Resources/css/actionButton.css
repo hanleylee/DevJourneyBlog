@@ -1,0 +1,91 @@
+.actionButton {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    background-color: var(--article-background-color-light);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04);
+    cursor: pointer;
+    margin: 0 0 10px 0;
+}
+
+.actionButton .twitter {
+    background-image: url("/img/buttonTwitterGray.svg");
+    background-size: 20px 20px;
+}
+
+.actionButton .twitter:hover {
+    background-image: url("/img/buttonTwitterColor.svg");
+    background-size: 22px 22px;
+}
+
+.actionButton .weibo {
+    background-image: url("/img/buttonWeiboGray.svg");
+    background-size: 20px 20px;
+}
+
+.actionButton .weibo:hover {
+    background-image: url("/img/buttonWeiboColor.svg");
+    background-size: 22px 22px;
+}
+
+.actionButton .weixin {
+    background-image: url("/img/buttonWeixinGray.svg");
+    background-size: 20px 20px;
+}
+
+.actionButton .weixin:hover {
+    background-image: url("/img/buttonWeixinColor.svg");
+    background-size: 22px 22px;
+}
+
+.actionButton .comment {
+    background-image: url("/img/buttonCommentGray.svg");
+    background-size: 17px 17px;
+}
+
+.actionButton .comment:hover {
+    background-image: url("/img/buttonCommentColor.svg");
+    background-size: 20px 20px;
+}
+
+.actionButton .donate {
+    background-image: url("/img/buttonDonateGray.svg");
+    background-size: 20px 20px;
+    position: relative;
+}
+
+.actionButton .donate:hover {
+    background-image: url("/img/buttonDonateColor.svg");
+    background-size: 22px 22px;
+    position: relative;
+}
+
+.actionButton .donateQcode {
+    position: fix;
+    width: 400px;
+    height: 246px;
+    background-image: url("/img/wechat_reward.jpg");
+    margin: 0 0 0 50px;
+    display: none;
+    z-index: 9999;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+
+.actionButton .weixinQcode {
+    position: fix;
+    width: 400px;
+    height: 246px;
+    background-image: url("/img/weixincode.jpg");
+    margin: 0 0 0 50px;
+    display: none;
+    z-index: 9999;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+

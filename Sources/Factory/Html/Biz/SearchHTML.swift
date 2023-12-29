@@ -20,7 +20,7 @@ extension HTML {
                     .wrapper(
                         .div(
                             .class("searchContent"),
-                            .searchInput(),
+                            .searchForm(),
                             .ul(
                                 .class("all-tags"),
                                 .forEach(context.allTags.sorted()) { tag in

@@ -1,0 +1,131 @@
+.content ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    list-style: cross-fade();
+    margin-left: 11px;
+    font-weight: 400;
+}
+
+.content li {
+    line-height: 1.6em;
+}
+
+.content ol {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    line-height: 1.6em;
+    list-style: decimal;
+    margin-left: 12px;
+}
+
+.content ol li {
+    margin-left: 30px;
+    margin-right: 20px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    line-height: 1.6em;
+}
+
+.content ul li {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    line-height: 1.6em;
+}
+
+.content ol ul,
+.content ol ol,
+.content ul ol,
+.content ul ul {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.item-list.grid > li {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    vertical-align: text-top;
+}
+
+.item-list article {
+    margin: 0px;
+    padding: 5px 40px 40px 40px;
+}
+
+.item-list.grid ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.item-list.grid p {
+    margin: 0px;
+}
+
+.item-list.grid li:hover {
+    background-color: #ddd;
+}
+
+.item-list.grid a:any-link {
+    cursor: pointer;
+}
+
+.item-list.grid a {
+    padding: 0px;
+    margin: 0px;
+}
+
+/* item-list */
+
+.item-list > li {
+    display: block;
+    padding: 0px;
+    border-radius: 10px;
+    background-color: var(--content-background-color-light);
+    margin-bottom: 10px;
+    /* border-bottom: 1px solid #00000000; */
+}
+
+.item-list > li:last-child {
+    margin-bottom: 0;
+    /* border-bottom: 1px solid #00000000; */
+}
+
+.item-list h1 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--item-title-color-light);
+    text-rendering: optimizeLegibility;
+}
+
+.item-list h1 a {
+    border-bottom: 0px;
+    color: var(--item-title-color-light);
+}
+
+.item-list p {
+    margin-bottom: 0;
+}
+
+.itme-list-title a:hover {
+    color: var(--item-title-hover-color);
+}
+
+.item-list article img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 90%;
+}
+
+@media (max-width: 600px) {
+    header nav li {
+        display: inline-block;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+}
