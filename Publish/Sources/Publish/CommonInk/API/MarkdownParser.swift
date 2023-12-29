@@ -45,40 +45,38 @@ public struct MarkdownParser {
         var metadata: [String: String] = [:]
 
         var markdown = markdown
-        if #available(macOS 13.0, *) {
-            if let metadataString = markdown.metadataString() {
-                markdown.removeMetadata()
+//        fatalError("macos must greater than 13.0")
+//        if #available(macOS 13.0, *) {
+        if let metadataString = markdown.metadataString() {
+            markdown.removeMetadata()
 
-                var metadataLines = metadataString.split(separator: "\n").map { $0.trimmingWhitespaces() }
-                    metadataLines.removeAll(where: { $0.isEmpty })
-                    let hasMetadataKV = metadataLines
-                        .map { $0.contains(":") }
-                        .reduce(into: true) { $0 = $0 && $1 }
-                    if hasMetadataKV {
-                        for string in metadataLines {
-                            let firstColonIndex = string.firstIndex(of: ":")!
-                            let key = String(string[string.startIndex..<firstColonIndex].trimmingWhitespaces())
-                            let value = String(string[string.index(firstColonIndex, offsetBy: 1)..<string.endIndex].trimmingWhitespaces())
-                            metadata[key] = value
-                        }
-                        // Modify Metadata
-                        modifiers.applyModifiers(for: .metadataKeys) { modifier in
-                            for (key, value) in metadata {
-                                let newKey = modifier.closure((key, Substring(key)))
-                                metadata[key] = nil
-                                metadata[newKey] = value
-                            }
-                        }
+            var metadataLines = metadataString.split(separator: "\n").map { $0.trimmingWhitespaces() }
+            metadataLines.removeAll(where: { $0.isEmpty })
+            let hasMetadataKV = metadataLines
+                .map { $0.contains(":") }
+                .reduce(into: true) { $0 = $0 && $1 }
+            if hasMetadataKV {
+                for string in metadataLines {
+                    let firstColonIndex = string.firstIndex(of: ":")!
+                    let key = String(string[string.startIndex..<firstColonIndex].trimmingWhitespaces())
+                    let value = String(string[string.index(firstColonIndex, offsetBy: 1)..<string.endIndex].trimmingWhitespaces())
+                    metadata[key] = value
+                }
+                // Modify Metadata
+                modifiers.applyModifiers(for: .metadataKeys) { modifier in
+                    for (key, value) in metadata {
+                        let newKey = modifier.closure((key, Substring(key)))
+                        metadata[key] = nil
+                        metadata[newKey] = value
+                    }
+                }
 
-                        modifiers.applyModifiers(for: .metadataValues) { modifier in
-                            metadata = metadata.mapValues { value in
-                                modifier.closure((value, Substring(value)))
-                            }
-                        }
+                modifiers.applyModifiers(for: .metadataValues) { modifier in
+                    metadata = metadata.mapValues { value in
+                        modifier.closure((value, Substring(value)))
+                    }
                 }
             }
-        } else {
-            fatalError("macos must greater than 13.0")
         }
 
         var document = Document(parsing: markdown)

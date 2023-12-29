@@ -22,11 +22,7 @@ internal extension String {
     }
 
     func metadataString() -> Substring? {
-        if #available(macOS 13.0, *) {
-            return firstSubstring(between: "---", and: "---")
-        } else {
-            fatalError()
-        }
+        return firstSubstring(between: "---", and: "---")
     }
 
     mutating func removeMetadata() {
