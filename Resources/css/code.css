@@ -3,8 +3,8 @@
 code {
     color: var(--inline-code-text-color-light);
     background-color: var(--inline-code-background-light);
-    display: inline-block;
-/*    display: inline;*/
+/*    display: inline-block;*/
+    display: inline;
     padding: 0 2px 0px 2px;
     border-radius: 3px;
     font-size: 14px;

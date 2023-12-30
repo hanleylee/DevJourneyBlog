@@ -79,6 +79,7 @@ extension Node where Context == HTML.DocumentContext {
 //"""
 //
 private let siteCSS: [Path] = [
+    "/css/title.css",
     "/css/about.css",
     "/css/actionButton.css",
     "/css/archive.css",
@@ -86,9 +87,9 @@ private let siteCSS: [Path] = [
     "/css/code.css",
     "/css/common.css",
     "/css/font.css",
-    "/css/footer.css",
     "/css/gitalk.css",
     "/css/header.css",
+    "/css/footer.css",
     "/css/index.css",
     "/css/item-navigator.css",
     "/css/license.css",

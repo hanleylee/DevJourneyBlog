@@ -73,32 +73,9 @@
     margin: 0;
     padding: 0;
     border: 0;
-    box-sizing: border-box;
+/*    box-sizing: border-box;*/
     font-family: 'Fira Code', 'LXGW WenKai Mono', "Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", Menlo, -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Monaco, Consolas, monospace, SF Mono, Courier New, Helvetica, Arial, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, "source sans pro", "helvetica neue", Arial, sans-serif;
 }
-
-
-/* @import 'css/toc.css'; */
-/* @import 'css/about.css'; */
-/* @import 'css/actionButton.css'; */
-/* @import 'css/archive.css'; */
-/* @import 'css/article.css'; */
-/* @import 'css/code.css'; */
-/* @import 'css/common.css'; */
-/* @import 'css/font.css'; */
-/* @import 'css/footer.css'; */
-/* @import 'css/gitalk.css'; */
-/* @import 'css/header.css'; */
-/* @import 'css/index.css'; */
-/* @import 'css/item-navigator.css'; */
-/* @import 'css/license.css'; */
-/* @import 'css/list.css'; */
-/* @import 'css/nav.css'; */
-/* @import 'css/search.css'; */
-/* @import 'css/sponsor.css'; */
-/* @import 'css/supporter.css'; */
-/* @import 'css/table.css'; */
-/* @import 'css/tag.css'; */
 
 body {
     background: var(--header-background-color-light);
@@ -197,6 +174,8 @@ a.browse-all:hover {
 .content {
     margin-top: 20px;
     margin-bottom: 20px;
+    display: block flex;
+    flex-direction: column;
     /* text-align: justify; */
 }
 

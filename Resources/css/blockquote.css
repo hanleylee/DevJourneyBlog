@@ -8,6 +8,7 @@ blockquote {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     border-left: var(--blockquote-headline-color-dark);
+    display: block;
 }
 
 @media (prefers-color-scheme: dark) {

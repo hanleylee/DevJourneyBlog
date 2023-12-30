@@ -110,15 +110,15 @@ contentView.flex.define { flex in
         flex.addItem(titleLb).marginTop(16)
         flex.addItem(amountLb).marginTop(8)
         flex.addItem().direction(.row).marginTop(32).define { flex in
-            flex.addItem(transferToLb)
-            flex.addItem().shrink(1).grow(1).marginLeft(16).alignItems(.end).define { flex in
+            flex.addItem(transferToLb).marginRight(16)
+            flex.addItem().shrink(1).grow(1).alignItems(.end).define { flex in
                 flex.addItem(receiverNameLb)
                 flex.addItem(bankNameLb).marginTop(4)
                 flex.addItem(accountNoLb).marginTop(4)
             }
         }
     }
-    flex.addItem().marginLeft(16).backgroundColor(Color.dividing_line).height(0.5).marginTop(16)
+    flex.addItem().marginLeft(16).height(0.5).marginTop(16)
 }
 ```
 
