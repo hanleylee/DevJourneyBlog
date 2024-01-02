@@ -130,6 +130,8 @@ body {
     margin-right: 10px;
     margin-left: 10px;
     flex-direction: column;
+    /* 让中间内容随着用户拖拽宽度而自动换行 */
+    overflow-x: hidden;
 }
 
 div .publishDate {
