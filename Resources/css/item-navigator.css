@@ -28,23 +28,26 @@
 .item-navigator .previous-item {
     /* float: left; */
     text-overflow: ellipsis;
+    text-align: left;
     background-image: url("/img/leftarrow.svg");
     background-repeat: no-repeat;
     background-position-x: left;
     background-size: 13px 13px;
     padding-left: 18px;
+    padding-top: 0px;
 }
 
 .item-navigator .next-item {
     /* float: right; */
     /* display: block; */
     text-overflow: ellipsis;
+    text-align: right;
     background-image: url("/img/rightarrow.svg");
     background-repeat: no-repeat;
     background-position-x: right;
     background-size: 13px 13px;
     padding-right: 18px;
-    text-align: right;
+    padding-top: 0px;
 }
 
 @media(max-width: 600px) {
