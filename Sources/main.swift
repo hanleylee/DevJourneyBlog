@@ -22,6 +22,26 @@ struct DevJourneyBlog: Website {
     var imagePath: Path? { nil }
 }
 
+/**
+
+ Swift CLI 程序入口点有两种:
+
+ - *main.swift*
+ - type marked with `@main`
+
+    ```swift
+     @main
+     struct DevJourneyBlogCLI { // the name is arbitrary
+         static func main() async throws {
+             setbuf(stdout, nil)
+             // your code goes here
+         }
+     }
+    ```
+
+ 这两种入口不能同时存在. 如果在 *main.swift* 文件中再使用 `@main`, 就会报错
+  */
+
 try DevJourneyBlog()
     .publish(
         using: [
