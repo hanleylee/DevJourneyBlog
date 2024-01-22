@@ -51,25 +51,23 @@ end
 hanley@Hanleys-Mac-mini-home ~/.cache/repo/App  on git:master x   ✔︎ 0
 $ dutree --depth=1
 [ App 1.84 GiB ]
-├─ .git                   │ ███████████████████████████████████████████████████│  99%      1.82 GiB
-├─ App.xcframework        │                                                    │   0%     15.97 MiB
-├─ .DS_Store              │                                                    │   0%      6.00 KiB
-├─ upload.sh              │                                                    │   0%      2.38 KiB
-├─ App.podspec.json       │                                                    │   0%         795 B
-└─ LICENSE                │                                                    │   0%           3
+├─ .git                     1.82 GiB
+├─ App.xcframework         15.97 MiB
+├─ .DS_Store                6.00 KiB
+├─ upload.sh                2.38 KiB
+├─ App.podspec.json            795 B
+└─ LICENSE                       3
 ```
 
 这导致我们开发人员每次使用 `pod update` 更新代码时都会在 `pod App` 这里停留很久. 近一年来我一直在想找一个妥善的解决方案, 但是一直没有好的思路. 最近业务需求渐少, 那就集中精力研究这个问题吧 💪
 
-PS: 本文内容涉及多个方案优劣取舍对比, 细节较多, 篇幅较长, 如想直接查看最终方案及实现, 可跳转至 [最终方案](#plan-maven-plugin) 和 [最终效果](#最终效果)
+PS: 本文内容涉及多个方案优劣取舍对比, 细节较多, 篇幅较长, 如想直接查看最终方案及实现, 可跳转至 [最终方案](#plan-maven-plugin) 和 [最终效果](#plan-practice)
 
-## 能想到的解决方案
-
-### 方案一: 剥离出变化的二进制产物 + 每次新提交时如果已经有该分支则使用 `git commit --amend` 命令
-
-#### 剥离出变化的二进制产物
+## 方案一: 剥离出变化的二进制产物 + 每次新提交时如果已经有该分支则使用 `git commit --amend` 命令
 
 这个方案其实就是我一年前使用的临时解决方案, 也是靠着这个方案在一年多时间里让仓库体积只增长到了 2GB, 而不是 10GB 🤡
+
+### 剥离出变化的二进制产物
 
 具体思路是这样的, `flutter build ios-framework` 其实会编译出很多二进制产物, 如下
 
@@ -103,7 +101,7 @@ build
 
 我们项目的 Flutter 版本是锁死的, 因此每次编译的 `Flutter.xcframework` 可以确定是不变的. 又因为我们项目是以原生为主的混合开发, 因此不涉及 plugin 业务代码, 编译产物中的 Plugins 产物都是第三方库产生的, 因为第三方库的版本也是固定的, 因此每次编译的 Plugins 产物也可以确定是不变的. 那么变化的就只有 `App.xcframework` 了, 因此我们可以把 `App.xcframework` 单独剥离开做一个独立的仓库, 每次 flutter 业务改动后, 只需要将 `App.xcframework` 提交到仓库即可
 
-#### `git commit --amend` 压缩无用的历史记录
+### `git commit --amend` 压缩无用的历史记录
 
 flutter 业务在开发时, 一个业务需求会对应一个分支, 提测时执行打包脚本, 脚本会在 App 产物仓库中自动创建该分支并提交第一个 commit, 后面 flutter 代码的每次修改又会执行打包脚本, 继续在分支上提交新的 commit, 分支模型大致就是这样的:
 
@@ -201,7 +199,7 @@ done
 
 这种方式只能缓解燃眉之急, 想要根本解决产物存储问题, 还要另寻他法
 
-### 方案二: pod 使用 `:tag => 'xxx' 格式
+## 方案二: pod 使用 `:tag => 'xxx'` 格式
 
 根据这篇 [blog](https://andresalla.com/en/stop-using-branch-in-your-podfiles/) 对 cocoapods 源码的分析, 我们在使用 `pod xxx, :git => 'xxx'` 时, 建议使用 `:tag  => 'xxx'` 而不是 `:branch => 'xxx'`. 这样可使 cocoapods 使用 `git clone --depth 1 ...` 的命令进行 shallow clone, 进而忽略仓库的海量历史, 只聚焦最后一次 commit, 体积也会大大减小.
 
@@ -219,11 +217,11 @@ Resolving deltas: 100% (4/4), done.
 hanley@Hanleys-Mac-mini-home ~/Downloads    ✔︎ 0
 $ dutree --depth=1 App
 [ App 22.59 MiB]
-├─ App.xcframework           │ ████████████████████████████████████████████████████████████████████████████│  70%     15.97 MiB
-├─ .git                      │                                               ██████████████████████████████│  29%      6.62 MiB
-├─ upload.sh                 │                                                                             │   0%      2.38 KiB
-├─ App.podspec.json          │                                                                             │   0%         795 B
-└─ LICENSE                   │                                                                             │   0%           3 B
+├─ App.xcframework         15.97 MiB
+├─ .git                     6.62 MiB
+├─ upload.sh                2.38 KiB
+├─ App.podspec.json            795 B
+└─ LICENSE                       3 B
 ```
 
 可以看到, 使用了 `--depth 1` 参数后, 克隆后的文件夹体积仅有 20MB 左右 🆒️
@@ -234,7 +232,7 @@ $ dutree --depth=1 App
 
 最终, 我认为这个方案仍然不能从根本上解决问题, 不值得采用
 
-### 方案三: pod 使用 `:http => 'xxx'` 格式 + maven 存储
+## 方案三: pod 使用 `:http => 'xxx'` 格式 + maven 存储
 
 cocoapods 也支持 http 链接形式的远程压缩包作为资源文件, 格式为 `pod 'Flutter', :http => 'https://storage.flutter-io.cn/xxx/ios-release/artifacts.zip'`
 
@@ -384,11 +382,11 @@ end
 
  <span id="plan-maven-plugin">
 
-### 方案四 (最终方案): maven + cocoapods 插件 + 上传脚本
+## 方案四 (最终方案): maven + cocoapods 插件 + 上传脚本
 
 经过了以上几种方案的分析, 我们目前能确定的一点是资源存储位置为 maven, 然后我们就尝试以这个点出发, 解决其他能想象到的问题
 
-#### 如何让 cocoapods 在 pod update 时能获取到该链接在 maven 上的更新?
+### 如何让 cocoapods 在 pod update 时能获取到该链接在 maven 上的更新?
 
 还是看源码, 我们发现使用 `:git => 'xxx'` 形式引用的 pod 是能自动检测到远端更新并判断是否下载的, 这是怎么实现的呢?
 
@@ -520,7 +518,7 @@ end
 
 那按照这样, 我们可以 **创建一个 cocoapods plugin**, 像 `Pod::Downloader::Git` 一样, 创建一个继承自 `Pod::Downloader::Base` 的子类, 然后重写 `preprocess_options` 方法, 在其中请求 maven HTTP API 该产物是否有更新即可
 
-#### 如何自定义一个类似 `:http` 形式的 `:maven` 命令
+### 如何自定义一个类似 `:http` 形式的 `:maven` 命令
 
 我们知道 cocoapods 支持 `:http`, `:git` 这种使用形式, 因为我们要使用 maven 上的资源, 因此希望能使用 `:maven` 形式引用一个 maven 上的资源, 那我们能不能自定义这样一个参数呢? 当看到了开源插件 [cocoapods-s3-download](https://github.com/samuelabreu/cocoapods-s3-download) 后, 我发现这不就是我想要的效果嘛! 感谢开源社区 🙏
 
@@ -562,7 +560,7 @@ end
 
 `original[:maven] = Maven` 中的 `Maven` 代表着我们自己的下载类, 我们的 `preprocess_options` 也正是要在这个类中实现
 
-#### 如何设计下载地址
+### 如何设计下载地址
 
 一般来说, mavens 上产物的链接地址一般为 `http://192.168.6.1:8081/repository/maven-hosts/com/xxx/ios/App/0.0.1/App-0.0.1.zip` 这种形式, 拼接形式很复杂, 在更新 `pod App` 的版本时, 很容易写错. 有没有根据参数获取下载链接的方法呢? 经过研究, 我发现 maven 提供的 REST API 中有一个 `/v1/search/assets`
 
@@ -593,7 +591,7 @@ end
 
 因此为了更方便地组装参数请求 API, 最终确定我们的 maven pod 引用形式为 `pod 'xxx', :maven => 'http://192.168.6.1:8081', :repo => 'ios-framework', :group => 'com.xxx.ios', :artifact => 'App', :type => 'zip', :version => 'tech/t1'`
 
-#### 设计上传脚本
+### 设计上传脚本
 
 maven 支持使用 curl 上传产物, 也可以使用官方提供的终端命令 `mvn` 进行上传, 出于稳定考虑, 最终选择了官方命令行工具 `mvn`. 如下是完整脚本, 供参考
 
@@ -695,6 +693,8 @@ end
 </settings>
 ```
 
+ <span id="plan-practice">
+
 ## 最终方案效果
 
 上面说了最终方案这么多实现细节, 最后看下最终使用效果吧
@@ -718,7 +718,7 @@ end
 
 1. 修改插件代码
 2. `gem build cocoapods.maven && gem install cocoapods-maven-0.0.1.gem`
-3. 等待...
+3. 等待 ...
 4. `pod install` 查看效果
 
 每次改一处代码就需要重新执行一遍上面流程, 大概要阻塞 20s 左右, 很低效
