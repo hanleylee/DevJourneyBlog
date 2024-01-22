@@ -7,7 +7,6 @@ code {
     display: inline;
     padding: 0 2px 0px 2px;
     border-radius: 3px;
-    font-size: 14px;
     margin: 1px;
     line-break: auto;
 }
@@ -49,7 +48,7 @@ pre code {
     padding: 0 20px;
     color: #a9bcbc;
     background-color: black;
-    line-height: 1.4em;
+    line-height: 1.5em;
     font-size: 13px;
     overflow-x: auto;
     white-space: pre;
