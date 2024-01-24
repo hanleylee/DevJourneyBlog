@@ -1,15 +1,15 @@
 ---
-title: 将 iOS framework 产物由 git 仓库迁移至 maven
+title: 将 iOS framework 产物由 git 仓库迁移至 nexus
 date: 2024-01-21
 comments: true
-path: migrate-ios-framework-from-git-to-maven
-tags: ⦿framework, ⦿cocoapods,⦿git, ⦿maven
+path: migrate-ios-framework-from-git-to-nexus
+tags: ⦿framework, ⦿cocoapods,⦿git, ⦿nexus, ⦿maven
 updated:
 ---
 
-最近为了解决 iOS 编译产物存储与引用的问题, 深入调研了一番 cocoapods 源码与 maven 技术, 最后开发出了一套以 maven 为核心的 ios 编译产物存储引用方案, 包含上传脚本与 cocoapods 下载插件
+最近为了解决 iOS 编译产物存储与引用的问题, 深入调研了一番 cocoapods 源码与 nexus 技术, 最后开发出了一套以 nexus 为核心的 ios 编译产物存储引用方案, 包含上传脚本与 cocoapods 下载插件
 
-![himg](https://a.hanleylee.com/HKMS/2024-01-22162629.png?x-oss-process=style/WaMa)
+![himg](https://a.hanleylee.com/HKMS/2024-01-23132419.png?x-oss-process=style/WaMa)
 
 <!-- more -->
 
@@ -61,7 +61,7 @@ $ dutree --depth=1
 
 这导致我们开发人员每次使用 `pod update` 更新代码时都会在 `pod App` 这里停留很久. 近一年来我一直在想找一个妥善的解决方案, 但是一直没有好的思路. 最近业务需求渐少, 那就集中精力研究这个问题吧 💪
 
-PS: 本文内容涉及多个方案优劣取舍对比, 细节较多, 篇幅较长, 如想直接查看最终方案及实现, 可跳转至 [最终方案](#plan-maven-plugin) 和 [最终效果](#plan-practice)
+PS: 本文内容涉及多个方案优劣取舍对比, 细节较多, 篇幅较长, 如想直接查看最终方案及实现, 可跳转至 [最终方案](#plan-nexus-plugin) 和 [最终效果](#plan-practice)
 
 ## 方案一: 剥离出变化的二进制产物 + 每次新提交时如果已经有该分支则使用 `git commit --amend` 命令
 
@@ -201,7 +201,7 @@ done
 
 ## 方案二: pod 使用 `:tag => 'xxx'` 格式
 
-根据这篇 [blog](https://andresalla.com/en/stop-using-branch-in-your-podfiles/) 对 cocoapods 源码的分析, 我们在使用 `pod xxx, :git => 'xxx'` 时, 建议使用 `:tag  => 'xxx'` 而不是 `:branch => 'xxx'`. 这样可使 cocoapods 使用 `git clone --depth 1 ...` 的命令进行 shallow clone, 进而忽略仓库的海量历史, 只聚焦最后一次 commit, 体积也会大大减小.
+根据这篇 [blog](https://andresalla.com/en/stop-using-branch-in-your-podfiles/) 对 cocoapods 源码的分析, 我们在使用 `pod xxx, :git => xxx` 时, 建议使用 `:tag  => xxx` 而不是 `:branch => xxx`. 这样可使 cocoapods 使用 `git clone --depth 1 ...` 的命令进行 shallow clone, 进而忽略仓库的海量历史, 只聚焦最后一次 commit, 体积也会大大减小.
 
 ```txt
 hanley@Hanleys-Mac-mini-home ~/Downloads    ✔︎ 0
@@ -228,23 +228,25 @@ $ dutree --depth=1 App
 
 这样能解决开发同事使用 `pod update` 更新到 `pod 'App'` 时等待很久的问题.
 
-但是在提交 git 更新时操作一个超级大的仓库仍然很慢, 且可以预见到这个产物仓库会越来越大, 最后甚至可能会突破 10GB. 另外我觉得使用 `:tag => 'xxx'` 可以触发 `--depth 1` 参数属于 cocoapods 开发团队的这个问题属于设计缺陷
+但是在提交 git 更新时操作一个超级大的仓库仍然很慢, 且可以预见到这个产物仓库会越来越大, 最后甚至可能会突破 10GB. 另外我觉得使用 `:tag => xxx` 可以触发 `--depth 1` 参数属于 cocoapods 开发团队的这个问题属于设计缺陷
 
 最终, 我认为这个方案仍然不能从根本上解决问题, 不值得采用
 
-## 方案三: pod 使用 `:http => 'xxx'` 格式 + maven 存储
+## 方案三: pod 使用 `:http => 'xxx'` 格式 + nexus 存储
 
 cocoapods 也支持 http 链接形式的远程压缩包作为资源文件, 格式为 `pod 'Flutter', :http => 'https://storage.flutter-io.cn/xxx/ios-release/artifacts.zip'`
 
-继续延伸想下去, 我们也可以使用脚本将 `App.xcframework` 压缩为 zip 文件, 放在公司内网服务器上, 然后在 Podfile 中使用这种 http 链接形式. 经过沟通, 我们公司内部的 nexus 可以用于做这个事情 (nexus 是 maven 的仓库管理器, java 后端与安卓的产物文件一般都是放在这个上面, 是 maven 仓库最常见的一种解决方案)
+继续延伸想下去, 我们也可以使用脚本将 `App.xcframework` 压缩为 zip 文件, 放在公司内网服务器上, 然后在 Podfile 中使用这种 http 链接形式. 经过沟通, 我们公司内部的 nexus 可以用于做这个事情
+
+nexus 是仓库管理器, 支持存储 maven, npm, apt, yum, pypi 等格式的二进制包存储, 后端与安卓的构建产物一般都使用这个方案进行存储
 
 这样我们在 Podfile 中的书写形式大概是这样的:
 
 ```ruby
-  pod 'App', :http => 'http://192.168.6.1:8081/repository/ios-framework/com/xxx/ios/App/0.0.1/App-0.0.1.zip'
+pod 'App', :http => 'http://192.168.6.1:8081/repository/ios-framework/com/xxx/ios/App/0.0.1/App-0.0.1.zip'
 ```
 
-这下我觉得可能找到最终解决方案了, 但在验证可行性时又遇到了问题: 同一个链接在被下载过一次后, 我们再去更新该链接对应的远程压缩文件, 然后使用 `pod update` 并不会拉取远程更新的文件.
+到这里我觉得可能找到最终解决方案了, 但在验证可行性时又遇到了问题: 同一个链接在被下载过一次后, 我们再去更新该链接对应的远程压缩文件, 然后使用 `pod update` 并不会拉取远程更新的文件.
 
 看了下源码, [CocoaPods/lib/cocoapods/downloader/cache.rb](https://github.com/CocoaPods/CocoaPods/blob/master/lib/cocoapods/downloader/cache.rb) 中的下载逻辑是这样的:
 
@@ -375,18 +377,18 @@ end
 
 但是我们的编译产物更新了之后, 肯定是希望 `pod update` 能取到最新资源的, 那么如何做到呢?
 
-- 上传新产物到 maven 时换一个新的版本号, 比如 `feature1.beta.1`, 这样能得到一个新的资源链接, 然后在我们的主工程更新链接, 提交改动
+- 上传新产物到 nexus 时换一个新的版本号, 比如 `feature1.beta.1`, 这样能得到一个新的资源链接, 然后在我们的主工程更新链接, 提交改动
 - 每次 `pod update` 前, 强制使用 `pod cache clean App --all` 清理指定 pod 的缓存
 
 第一种方式, 每次都要更改主工程代码并提交 commit, 不能接受; 第二种方式, 如果只考虑到 Flutter 编译产物情况下, 是可以接受的, 可是如果以后有更多的 pod 使用了二进制产物形式引用, 那么就需要在 `pod update` 前清理很多缓存, 而这些 pod 在远程很可能是没有更新的, 那我们每次都要去下载会浪费很多时间和资源, 因此也不可取.
 
- <span id="plan-maven-plugin">
+ <span id="plan-nexus-plugin">
 
-## 方案四 (最终方案): maven + cocoapods 插件 + 上传脚本
+## 方案四 (最终方案): nexus + cocoapods 插件 + 上传脚本
 
-经过了以上几种方案的分析, 我们目前能确定的一点是资源存储位置为 maven, 然后我们就尝试以这个点出发, 解决其他能想象到的问题
+经过了以上几种方案的分析, 我们目前能确定的一点是资源存储位置为 nexus, 然后我们就尝试以这个点出发, 解决其他能想象到的问题
 
-### 如何让 cocoapods 在 pod update 时能获取到该链接在 maven 上的更新?
+### 如何让 cocoapods 在 pod update 时能获取到该链接在 nexus 上的更新?
 
 还是看源码, 我们发现使用 `:git => 'xxx'` 形式引用的 pod 是能自动检测到远端更新并判断是否下载的, 这是怎么实现的呢?
 
@@ -516,11 +518,11 @@ end
 
 最终, `Pod::Downloader::Request.slug` 方法被调用, 使用了 `params` 参数来生成 digest 和 checksum 作为路径名的一部分, 那这个 params 是哪里传来的呢? 这是在之前调用 `Pod::Downloader.preprocess_request` 初始化生成的, 也就是 `Pod::Downloader.preprocess_options` 生成返回的, 终于闭环了 👍
 
-那按照这样, 我们可以 **创建一个 cocoapods plugin**, 像 `Pod::Downloader::Git` 一样, 创建一个继承自 `Pod::Downloader::Base` 的子类, 然后重写 `preprocess_options` 方法, 在其中请求 maven HTTP API 该产物是否有更新即可
+那按照这样, 我们可以 **创建一个 cocoapods plugin**, 像 `Pod::Downloader::Git` 一样, 创建一个继承自 `Pod::Downloader::Base` 的子类, 然后重写 `preprocess_options` 方法, 在其中请求 nexus HTTP API 该产物是否有更新即可
 
-### 如何自定义一个类似 `:http` 形式的 `:maven` 命令
+### 如何自定义一个类似 `:http` 形式的 `:nexus` 命令
 
-我们知道 cocoapods 支持 `:http`, `:git` 这种使用形式, 因为我们要使用 maven 上的资源, 因此希望能使用 `:maven` 形式引用一个 maven 上的资源, 那我们能不能自定义这样一个参数呢? 当看到了开源插件 [cocoapods-s3-download](https://github.com/samuelabreu/cocoapods-s3-download) 后, 我发现这不就是我想要的效果嘛! 感谢开源社区 🙏
+我们知道 cocoapods 支持 `:http`, `:git` 这种使用形式, 因为我们要使用 nexus 上的资源, 因此希望能使用 `:nexus` 形式引用一个 nexus 上的资源, 那我们能不能自定义这样一个参数呢? 当看到了开源插件 [cocoapods-s3-download](https://github.com/samuelabreu/cocoapods-s3-download) 后, 我发现这不就是我想要的效果嘛! 感谢开源社区 🙏
 
 原来在 [cocoapods-downloader/lib/cocoapods-downloader.rb](https://github.com/CocoaPods/cocoapods-downloader/blob/master/lib/cocoapods-downloader.rb) 中, 这些引用形式是通过 `downloader_class_by_key` 这个哈希表来定义好的
 
@@ -551,22 +553,24 @@ module Pod
 
     def self.downloader_class_by_key
       original = self.real_downloader_class_by_key
-      original[:maven] = Maven
+      original[:nexus] = NexusDownloader
       original
     end
   end
 end
 ```
 
-`original[:maven] = Maven` 中的 `Maven` 代表着我们自己的下载类, 我们的 `preprocess_options` 也正是要在这个类中实现
+`original[:nexus] = NexusDownloader` 中的 `NexusDownloader` 代表着我们自己的下载类, 我们的 `preprocess_options` 也正是要在这个类中实现
 
 ### 如何设计下载地址
 
-一般来说, mavens 上产物的链接地址一般为 `http://192.168.6.1:8081/repository/maven-hosts/com/xxx/ios/App/0.0.1/App-0.0.1.zip` 这种形式, 拼接形式很复杂, 在更新 `pod App` 的版本时, 很容易写错. 有没有根据参数获取下载链接的方法呢? 经过研究, 我发现 maven 提供的 REST API 中有一个 `/v1/search/assets`
+一般来说, nexus 上产物的链接地址一般为 `http://192.168.6.1:8081/repository/maven-hosts/com/xxx/ios/App/0.0.1/App-0.0.1.zip` 这种形式, 拼接形式很复杂, 在更新 `pod App` 的版本时, 很容易写错.
+
+那这个链接格式的每一部分都是什么含义呢? 原来 nexus 支持 maven, yum, apt, pypi, gem, raw 等格式的存储, 其中使用最广的应该就是 maven 了, 综合考虑了之后我们选择 maven 格式进行存储, 因为这样便于上传与通过参数下载. 比如 nexus 提供了 REST API 中有一个 `/v1/search/assets`
 
 ![himg](https://a.hanleylee.com/HKMS/2024-01-21161351.png?x-oss-process=style/WaMa)
 
-这个 api 中可以将需要查找的版本号, 产物名, 仓库等作为 url 链接参数传入, 例如 `http://192.168.6.1:8081/service/rest/v1/search/assets?sort=version&repository=ios-framework&maven.groupId=com.xxx.ios&maven.artifactId=App&maven.baseVersion=0.0.1&maven.extension=zip&prerelease=false`, 然后返回符合条件的产物信息, 返回格式如下:
+这个 api 中可以将需要查找的仓库, maven 版本号, maven 产物名, maven 组名等作为 url 链接参数传入, 例如 `http://192.168.6.1:8081/service/rest/v1/search/assets?sort=version&repository=ios-framework&maven.groupId=com.xxx.ios&maven.artifactId=App&maven.baseVersion=0.0.1&maven.extension=zip&prerelease=false`, 然后返回符合条件的产物信息, 返回格式如下:
 
 ```json
 {
@@ -589,11 +593,11 @@ end
 
 其中包含了我们想要的 `downloadUrl`, 然后我们就可以那这个链接进行下载. 返回结果中同时还包含了 `checksum` 字段, 对应了当前产物的唯一 id, 这正好满足了我们 `preprocess_options` 的检查更新要求
 
-因此为了更方便地组装参数请求 API, 最终确定我们的 maven pod 引用形式为 `pod 'xxx', :maven => 'http://192.168.6.1:8081', :repo => 'ios-framework', :group => 'com.xxx.ios', :artifact => 'App', :type => 'zip', :version => 'tech/t1'`
+因此为了更方便地组装参数请求 API, 最终确定我们的 nexus pod 引用形式为 `pod 'xxx', :nexus => 'http://192.168.6.1:8081', :repo => 'ios-framework', :group => 'com.xxx.ios', :artifact => 'App', :type => 'zip', :version => 'tech/t1'`
 
 ### 设计上传脚本
 
-maven 支持使用 curl 上传产物, 也可以使用官方提供的终端命令 `mvn` 进行上传, 出于稳定考虑, 最终选择了官方命令行工具 `mvn`. 如下是完整脚本, 供参考
+nexus 支持使用 curl 上传产物, 也可以使用 maven 提供的终端命令 `mvn` 进行上传, 出于稳定考虑, 最终选择了官方命令行工具 `mvn`. 如下是完整脚本, 供参考
 
 ```bash
 #!/usr/bin/env bash
@@ -615,8 +619,8 @@ MVN_PACKAGING="zip"
 GROUP_ID="com.xxx.ios"
 NEXUS_REPO_SERVER="http://192.168.6.1:8081/repository/ios-framework/"
 DATABASE_FILE="$HOME/.secrets/database.json"
-NEXUS_USR=$(jq -r '.maven.usr' "$DATABASE_FILE")
-NEXUS_PWD=$(jq -r '.maven.pwd' "$DATABASE_FILE")
+NEXUS_USR=$(jq -r '.nexus.usr' "$DATABASE_FILE")
+NEXUS_PWD=$(jq -r '.nexus.pwd' "$DATABASE_FILE")
 VERSION="${CURRENT_LOCAL_BRANCH//\//_}" # test/v0.1 => test_v0.1
 
 # flutter
@@ -655,7 +659,7 @@ for framework in "${FRAMEWORKS[@]}"; do
 done
 ```
 
-该脚本执行时使用业务分支名为参数, 例如 `./uploadFrameworkToMaven.sh feature/t1`
+该脚本执行时使用业务分支名为参数, 例如 `./uploadFrameworkToNexus.sh feature/t1`
 
 以上脚本中的 podspec 文件按照自己需要编写, 内容参考如下:
 
@@ -670,7 +674,7 @@ Internal Google Utilities including Network, Reachability Environment, Logger an
   s.homepage         = 'http://192.168.6.1/xxx_iOS/Flutter/App.git'
   s.license          = { :type => 'Apache' }
   s.author           = { 'Google, Inc.' => 'flutter-dev@googlegroups.com' }
-  # s.source           = { :git => 'git@192.168.6.1:xxx_iOS/Flutter/App.git', :tag => s.version.to_s }
+  s.source           = { :nexus => 'http://192.168.6.1:8081', :repo => 'ios-framework' }
   s.ios.deployment_target = '10.0'
   s.vendored_frameworks = 'App.xcframework'
   s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
@@ -679,7 +683,7 @@ Internal Google Utilities including Network, Reachability Environment, Logger an
 end
 ```
 
-注意, `mvn` 会去 `~/.m2/settings.xml` 文件中查找服务器登录字段, 该文件内容如下(如果没有, 则创建一个):
+注意, `mvn` 会去 `~/.m2/settings.xml` 文件中查找服务器登录字段, 该文件内容如下 (如果没有, 则创建一个):
 
 ```xml
 <settings>
@@ -700,13 +704,13 @@ end
 上面说了最终方案这么多实现细节, 最后看下最终使用效果吧
 
 1. flutter 需求第一次打包时
-    1. 执行 `uploadFrameworkToMaven.sh`, 编译并上传产物到 maven
-    2. 在主工程的 Podfile 中, 填写引用 `pod 'App', :maven => 'http://192.168.6.1:8081', :repo => 'ios-framework', :group => 'com.xxx.ios', :artifact => 'App', :type => 'zip', :version => 'feature/t1'`
-2. 后续该需求 flutter 代码更新后, 只需重复直接执行 `uploadFrameworkToMaven.sh`, iOS 不需要改动直接重新打包即可
+    1. 执行 `uploadFrameworkToNexus.sh`, 编译并上传产物到 nexus
+    2. 在主工程的 Podfile 中, 填写引用 `pod 'App', :nexus => 'http://192.168.6.1:8081', :repo => 'ios-framework', :group => 'com.xxx.ios', :artifact => 'App', :type => 'zip', :version => 'feature/t1'`
+2. 后续该需求 flutter 代码更新后, 只需重复直接执行 `uploadFrameworkToNexus.sh`, iOS 不需要改动直接重新打包即可
 
 ## 项目开源
 
-目前项目已经开源在 [Github](https://github.com/hanleylee/cocoapods-maven), 并上传到了 [RubyGems](https://rubygems.org/gems/cocoapods-maven) 上, 欢迎使用❤️️
+目前项目已经开源在 [Github](https://github.com/hanleylee/cocoapods-nexus-downloader), 并上传到了 [RubyGems](https://rubygems.org/gems/cocoapods-nexus-downloader) 上, 欢迎使用❤️️
 
 ## 开发中的坑
 
@@ -714,10 +718,10 @@ end
 
 ### ruby 开发要合理使用 bundle
 
-开发 cocoapods-maven 插件的时候, 按照网上的标准插件开发教程, 开发流程是:
+开发 cocoapods-nexus-downloader 插件的时候, 按照网上的标准插件开发教程, 开发流程是:
 
 1. 修改插件代码
-2. `gem build cocoapods.maven && gem install cocoapods-maven-0.0.1.gem`
+2. `gem build cocoapods.nexus-downloader && gem install cocoapods-nexus-downloader-0.0.1.gem`
 3. 等待 ...
 4. `pod install` 查看效果
 
@@ -725,7 +729,7 @@ end
 
 后面我发现使用 bundle 就好啦!
 
-1. 在 iOS Demo 项目中的 `Gemfile` 文件中定义 `gem cocoapods-maven,:path => '../cocoapods-maven'`
+1. 在 iOS Demo 项目中的 `Gemfile` 文件中定义 `gem cocoapods-nexus-downloader, :path => '../cocoapods-nexus-downloader'`
 2. `bundle install`
 3. 后续任何改动后, 直接执行 `bundle exec pod install` 即可实时查看效果 ✌
 
