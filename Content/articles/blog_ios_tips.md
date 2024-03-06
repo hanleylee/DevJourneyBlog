@@ -200,6 +200,17 @@ updated:
     - 当 `UIView` 的 `opaque` 为 `YES` 时, 其 `alpha` 必须为 `1.0`, 这样才符合 `opaque` 为 YES 的场景. 如果 `alpha` 不为 1.0, 最终的结果将是不可预料的 (`unpredictable`).
     - opaque 只对 UIView 及其 subclass 生效, 对系统提供的类 (像 UIButton, UILabel) 是没有效果的.
 
+### UIKit Scale 影响
+
+|                    | iPhone 8 | iPhone X  |
+| :----------------: | :------: | --------- |
+| UIKit Size         | 375*667  | 375*812   |
+| 分辨率             | 750*1334 | 1125*2436 |
+| UIKit Scale factor | 2        | 3         |
+| 1 像素消耗点       | 0.5      | 0.33      |
+
+iOS 系统的针对像素的绘制采用四舍五入的方式, 比如说 22.1999, 在 iPhone 8 上 `22.1999 * 2 = 44.3998`, 因为 `0.3998 < 0.5`, 故丢弃, 故实际显示为 44 像素. 在 iPhone X 上 `22.1999 * 3 = 66.60575756`, 因为 `0.60575756 > 0.5`, 补充为 1 个像素, 故实际显示为 67 像素.
+
 ## `UIWindow` 操作
 
 - 通过 `.isHidden` 来控制隐藏及显示
@@ -371,7 +382,7 @@ updated:
 
 - `sizeThatFits`:
     - `sizeToFit` 内部会调用 `sizeThatFit`, 我们不应该重写子类的 `sizeToFit` 方法, 而是重写 `sizeThatFits`
-    - `[UITableView _heightForCell:atIndexPath:]` 会调用 `sizeThatFits`, 因此cell自动高度的关键是 `sizeThatFits` 方法
+    - `[UITableView _heightForCell:atIndexPath:]` 会调用 `sizeThatFits`, 因此 cell 自动高度的关键是 `sizeThatFits` 方法
 
 ## 常见问题
 
@@ -383,7 +394,7 @@ updated:
 
 ### `setValue:forKey:` 原理
 
-当一个对象调用 setValue:forKey: 方法时, 方法内部会做以下操作:
+当一个对象调用 `setValue:forKey:` 方法时, 方法内部会做以下操作:
 
 1. 判断有没有指定 key 的 set 方法, 如果有 `set` 方法, 就会调用 `set` 方法, 给该属性赋值
 2. 如果没有 `set` 方法, 判断有没有跟 `key` 值相同且带有下划线的成员属性 (`_key`). 如果有, 直接给该成员属性进行赋值
@@ -399,16 +410,16 @@ updated:
 
     ![himg](https://a.hanleylee.com/HKMS/2021-11-05225053.jpg?x-oss-process=style/WaMa)
 
-    delay deep link 是指当设备没有安装 app 时会指引到应用市场安装app, 安装完打开app后仍然会定位到目标页
+    delay deep link 是指当设备没有安装 app 时会指引到应用市场安装 app, 安装完打开 app 后仍然会定位到目标页
 
 - Universal link 本地调试
 
-    通常情况下用户会在下载完APP后由系统请求所关联的域名, 下载相应的 json 文件, 这个请求并不是每次下载都会触发, 也并不是每次请求都会请求最新文件(而是一个CDN), 因此我们在开发时需要:
+    通常情况下用户会在下载完 APP 后由系统请求所关联的域名, 下载相应的 json 文件, 这个请求并不是每次下载都会触发, 也并不是每次请求都会请求最新文件 (而是一个 CDN), 因此我们在开发时需要:
 
     1. 设置为开发模式, 在 associated domain 后添加 `?mode=developer`
-    2. 使用 Charles 的 `Map to Local` 功能, 直接使用本地 json 文件返回(目的是每次请求的都是最新文件)
+    2. 使用 Charles 的 `Map to Local` 功能, 直接使用本地 json 文件返回 (目的是每次请求的都是最新文件)
 
-    为了验证一个指定url在app内打开的页面效果, 我们可以将url 拷贝至备忘录中, 然后在备忘录中点击url
+    为了验证一个指定 url 在 app 内打开的页面效果, 我们可以将 url 拷贝至备忘录中, 然后在备忘录中点击 url
 
 - 显式动画与隐式动画: 隐式动画一直存在, 如需关闭需设置; 显式动画是不存在, 如需显式 要开启 (创建). UIView 动画, 又称隐式动画, 动画后 frame 的数值发生了变化. 另一种是 CALayer 动画, 又称显示动画
 - 持久化存储时如果要频繁写入或读取最好使用 CoreData 或其他数据库而不是使用文件以减少 I/O 次数
@@ -467,7 +478,7 @@ updated:
 
     1. 在禁用 `cell` 预估高度的情况下, 系统会先把所有 `cell` 实际高度先计算出来, 也就是先执行 `tableView:heightForRowAtIndexPath:` 代理方法, 接着用获取的 `cell` 实际高度总和来参与计算 `contentSize`, 然后才显示 `cell` 的内容. 在这个过程中, 如果实际高度计算比较复杂的话, 可能会消耗更多的性能.
 
-    2. 在使用 `cell` 预估高度的情况下, 系统会先执行所有 `cell` 的预估高度, 也就是先执行 `tableView:estimatedHeightForRowAtIndexPath:` 代理方法, 接着用所有 `cell` 预估高度总和来参与计算 `contentSize`, 然后才显示 `cell` 的内容. 这时候从下往上滚动 `tableView`, 当有新的 `cell` 出现的时候, 如果 `cell` 预估值高度减去实际高度 (实际高度根据 `cell` 中所持有控件约束计算得出) 的差值不等于 0, `contentSize` 的高度会以这个差值来动态变化, 如果差值等于 `0`, `contentSize` 的高度不再变化. 在这个过程中, 由之前的所有 `cell` 实际高度一次性先计算变成了现在预估高度一次性先计算, 然后实际高度分步计算. 正如苹果官方文档所说, 减少了实际高度计算时的性能消耗, 但是这种实际高度和预估高度差值的动态变化在滑动过快时可能会产生跳跃现象, 所以此时的预估高度和真实高度越接近越好(为了解决这种问题, 可以使用字典缓存所有的预估高度然后在代理方法中返回当前 `cell` 的高度).
+    2. 在使用 `cell` 预估高度的情况下, 系统会先执行所有 `cell` 的预估高度, 也就是先执行 `tableView:estimatedHeightForRowAtIndexPath:` 代理方法, 接着用所有 `cell` 预估高度总和来参与计算 `contentSize`, 然后才显示 `cell` 的内容. 这时候从下往上滚动 `tableView`, 当有新的 `cell` 出现的时候, 如果 `cell` 预估值高度减去实际高度 (实际高度根据 `cell` 中所持有控件约束计算得出) 的差值不等于 0, `contentSize` 的高度会以这个差值来动态变化, 如果差值等于 `0`, `contentSize` 的高度不再变化. 在这个过程中, 由之前的所有 `cell` 实际高度一次性先计算变成了现在预估高度一次性先计算, 然后实际高度分步计算. 正如苹果官方文档所说, 减少了实际高度计算时的性能消耗, 但是这种实际高度和预估高度差值的动态变化在滑动过快时可能会产生跳跃现象, 所以此时的预估高度和真实高度越接近越好 (为了解决这种问题, 可以使用字典缓存所有的预估高度然后在代理方法中返回当前 `cell` 的高度).
 
 - `UIScrollView` 如果被设置 `contentOffset` 或者 `setContentOffset()` 的话, 会触发其 `scrillViewDidScroll` 代理方法
 - `UITableViewCell` 的 `contentView` 的 `bgColor` 位于 `self` 的 `bgColor` 之上
@@ -499,5 +510,5 @@ updated:
 
 - [UITableviewCell 复用机制](https://www.jianshu.com/p/1046c741fce1)
 - [应用测试与分发渠道简析](https://xiaozhuanlan.com/topic/2076153984)
-- [You don’t always need weak self](https://medium.com/flawless-app-stories/you-dont-always-need-weak-self-a778bec505ef)
-- [iOS Deferred Deep Link 延遲深度連結實作(Swift)](https://medium.com/zrealm-ios-dev/ios-deferred-deep-link-延遲深度連結實作-swift-b08ef940c196)
+- [You don"t always need weak self](https://medium.com/flawless-app-stories/you-dont-always-need-weak-self-a778bec505ef)
+- [iOS Deferred Deep Link 延遲深度連結實作 (Swift)](https://medium.com/zrealm-ios-dev/ios-deferred-deep-link- 延遲深度連結實作 -swift-b08ef940c196)

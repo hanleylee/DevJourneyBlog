@@ -159,7 +159,7 @@ server {
     listen [::]:80 default_server;
     root /home/hexoBlog;    #需要修改
 
-    server_name evenyao.com; #博主的域名, 需要修改成对应的域名
+    server_name hanleylee.com; #博主的域名, 需要修改成对应的域名
 
     # Load configuration files for the default server block.
     include /etc/nginx/default.d/*.conf;

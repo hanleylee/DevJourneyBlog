@@ -210,6 +210,8 @@ updated:
     - `git add --ignore-removal.`: 只提交新文件与修改文件 (不理会删除文件)
     - `git add --all -- ':!path/to/file1' ':!path/to/file2' ':!path/to/folder1/*'`: 排除指定路径下的改动(path 可以使用 `/` 表示 repo 的根目录)
     - `git add -- . ':!path/to/file1' ':!path/to/file2' ':!path/to/folder1/*'`: 排除指定路径下的改动
+    - `git add --patch filename.txt`: 暂存一个文件的一部分, 会打开交互模式, 使用 s 进行存储操作
+    - `git add -N filename.txt`: 暂存一个新文件的一部分, 会打开交互模式, 使用 e 手动选择需要添加的行
 
     ![himg](https://a.hanleylee.com/HKMS/2020-05-01-051414.jpg?x-oss-process=style/WaMa)
 
