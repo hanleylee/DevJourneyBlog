@@ -1,0 +1,530 @@
+---
+title: 引用 xcframework 同时支持源码跳转与调试
+date: 2024-06-06
+comments: true
+path: retain-source-code-ability-when-use-xcframework-as-dependency
+tags: ⦿ios, ⦿xcframework, ⦿cocoapods, ⦿lldb
+updated:
+---
+
+最近一段时间一直在研究 xcframwork 相关问题:
+
+- xcframwork 编译
+- 依赖 xcframework 的同时支持点击跳转源码
+- 依赖 xcframework 的同时支持源码断点调试
+
+到目前为止已经有些阶段性成果了, 因此在这里把我们使用第三方库编译为 xcframwork 引用的整体方案给大家分享一下
+
+![himg](https://a.hanleylee.com/HKMS/2024-06-06180509.jpg?x-oss-process=style/WaMa)
+
+<!-- more -->
+
+全文较长, 涉及到方案原理分析及对比, 如果想直接使用最终方案, 可以直接跳转到 [方案汇总](#summary)
+
+## 背景
+
+在 [上一篇文章][migrate-to-nexus] 中, 我介绍了我们使用 nexus 存储 Flutter 的编译产物 -- 包含 `*.xcframework` 的压缩文件, 在项目中使用了一段时间后感觉很好. 有兴趣的可以点击 [这里][migrate-to-nexus] 翻看
+
+目前我们项目依赖第三方库的方式是先预编译为 xcframewok, 然后提交到内部 gitlab 上, 这些第三方库都比较旧了, 如 `RxSwift` 还是两年多以前的 `5.x` 版本, 与最新的 `6.x` 差了一个大版本, 为了跟随最新技术以及避免出现问题, 我们决定升级这些依赖的第三方库. 这就需要重新编译为二进制, 然后上传到 gitlab, 考虑到 git 不适合存储大体积的非文本文件, 因此这次我计划将所有编译后的第三方库放到到 nexus 上. 同时二进制库形式的依赖一直有些问题影响着开发效率:
+
+- xcframework 无法方便地切换查看源码, 之前的临时方案就是在 Podfile 中改为指向源码地址, 然后 `pod update` 更新工程
+- xcframework 无法方便地调试, 一旦遇到崩溃只会显示汇编界面
+
+这两个问题之前都有想过如何解决, 但是一直没有时间进行深入的研究, 这次也借助这个升级需求尝试将这两个问题研究解决掉
+
+## 什么是 xcframework?
+
+因为我们通篇文章都在讨论 xcframework, 所以我们必须要先了解一下 xcframework 的定义
+
+> xcframework: An XCFramework bundle, or artifact, is a binary package created by Xcode that includes the frameworks and libraries necessary to build for multiple platforms (iOS, macOS, visionOS, tvOS, watchOS, and DriverKit),
+> including Simulator builds. The frameworks can be static or dynamic and also include headers. from [Apple](https://developer.apple.com/documentation/xcode/creating-a-multi-platform-binary-framework-bundle)
+
+就是说, xcframework 是 xcode 创建出来的包含了多平台 framework 的一种包, 里面能包含动态库或静态库, 头文件, 甚至还可以包含 dSYM 调试信息文件.
+
+以下就是 [Alamofire](https://github.com/Alamofire/Alamofire) 编译出来的 xcframework 结构
+
+```txt
+Alamofire.xcframework
+├── Info.plist
+├── ios-arm64
+│   └── Alamofire.framework
+├── ios-arm64_x86_64-simulator
+│   └── Alamofire.framework
+├── macos-arm64_x86_64
+│   └── Alamofire.framework
+├── tvos-arm64
+│   └── Alamofire.framework
+├── tvos-arm64_x86_64-simulator
+│   └── Alamofire.framework
+├── watchos-arm64_arm64_32_armv7k
+│   └── Alamofire.framework
+├── watchos-arm64_i386_x86_64-simulator
+│   └── Alamofire.framework
+└── xros-arm64
+    └── Alamofire.framework
+
+17 directories, 1 file
+```
+
+Xcode 在编译时会将目标设备对应的 framework 拷贝到编译目录中进行编译, 忽略其他平台的 framework. 在我们工程中只需要关注 iOS 真机与 iOS 模拟器, 对应的名称为 `ios-arm64` / `ios-arm64_x86_64-simulator`
+
+## xcframework 创建方式
+
+那 xcframework 是怎么基于源码创建出来的呢?
+
+- xcodebuild 命令方式: 即通过 Xcode 提供的命令行工具 `xcodebuild` 执行, 先生成基础的 framework 产物, 然后将不同架构的 framework 产物合并为 xcframework. 示例如下:
+
+    ```sh
+    # generate .framework for various platform and arch
+    xcodebuild build -scheme 'Alamofire iOS' -sdk iphoneos -destination "generic/platform=iOS" -configuration Release ARCHS="arm64" BUILD_DIR="./Build" OTHER_SWIFT_FLAGS="-debug-prefix-map $PWD=."
+    xcodebuild -create-xcframework -framework Release-iphoneos/Alamofire.framework -debug-symbols "$(realpath Release-iphoneos/Alamofire.framework.dSYM)" -framework Release-iphonesimulator/Alamofire.framework -debug-symbols "$(realpath Release-iphonesimulator/Alamofire.framework.dSYM)" -output Alamofire.xcframework
+    ```
+
+    可以直接看 RxSwift 的 [例子](https://github.com/ReactiveX/RxSwift/blob/e2b0aa8dbbafe1552d3cfbc9b8c8087615762f0c/scripts/make-xcframeworks.sh)
+
+    这种方式的难点在于必须准备好一个 `.xcodeproj` 或 `.xcworkspace` 工程文件, 而有些第三方库提供, 有些不提供, 不提供的就要自己配置, 工作量会比较大.
+
+- [TyrantDante/cocoapods-xcframework](https://github.com/TyrantDante/cocoapods-xcframework): 一个命令 `pod framework xxx` 即可编译成 xcframework, 这个就是我们项目以前编译 xcframework 采用的方式
+- [segment-integrations/swift-create-xcframework](https://github.com/segment-integrations/swift-create-xcframework): `swift create-xcframework xxx` 执行即可
+
+    该工具基于 SPM 机制, 解析 `Package.swift` 文件创建出一个临时工程, 然后进行编译. 该工具的源码为纯 Swift, 相比于 `cocoapods-xcframework` 对 iOS 开发人员更加友好, 出现问题后也更容易调试, platform / arch / BuildSetting 都能通过命令直接指定
+
+最终我选择了使用 `segment-integrations/swift-create-xcframework`, 主要原因是因为该工具基于 Swift 语言开发, 比 ruby 语言更好调试, 不依赖于 cocoapods 环境, 而且 Swift Package Manager 是 iOS 开发未来的趋势, 使用该工具也能让我们接受新技术
+
+## 问题一: 如何在依赖 xcframwork 的同时支持点击跳转 source code?
+
+团队开发中, 将依赖的第三方库进行二进制化可以有效的提升编译速度, 这肯定是一个正确的方向, 但是也意味着无法查看源码了, 那有没有办法能同时兼顾 xcframework 与源码浏览两个功能呢?
+
+经过大量实验, 我发现如果在自己的 mac 上编译出的 xcframework 被同 mac 上的另一个项目依赖的话, 那么在项目里面是可以通过鼠标点击进入源码的, 就像浏览源码引用的依赖一样. 然后我又做了一些对比实验:
+
+- 把编译出 xcframework 的源码删除, 再点击就只能跳转到 interface 界面
+- 把 xcframwork 发送给同事, 在同事电脑的工程上引用时只能跳转到 interface 界面
+- xcode clean + 切换 Xcode 版本, 均可以在同 mac 上点击跳转到源码界面
+
+那肯定就说明在 xcframework 包中有一些字段存储了编译出该 xcframework 的源码路径了. 然后开始排查到底是被包含在哪个部分了, 这个是 Alamofire 的编译产物 `Alamofire.xcframework` 的目录结构
+
+```txt
+Alamofire.xcframework
+├── Info.plist
+├── ios-arm64
+│   ├── Alamofire.framework
+│   │   ├── Alamofire
+│   │   ├── Headers
+│   │   │   └── Alamofire-Swift.h
+│   │   ├── Info.plist
+│   │   └── Modules
+│   │       └── Alamofire.swiftmodule
+│   │           ├── Project
+│   │           │   └── arm64-apple-ios.swiftsourceinfo
+│   │           ├── arm64-apple-ios.abi.json
+│   │           ├── arm64-apple-ios.private.swiftinterface
+│   │           ├── arm64-apple-ios.swiftdoc
+│   │           └── arm64-apple-ios.swiftinterface
+│   └── dSYMs
+│       └── Alamofire.framework.dSYM
+│           └── Contents
+│               ├── Info.plist
+│               └── Resources
+│                   ├── DWARF
+│                   │   └── Alamofire
+│                   └── Relocations
+│                       └── aarch64
+│                           └── Alamofire.yml
+└── ios-arm64_x86_64-simulator
+    ├── Alamofire.framework
+    │   ├── Alamofire
+    │   ├── Headers
+    │   │   └── Alamofire-Swift.h
+    │   ├── Info.plist
+    │   ├── Modules
+    │   │   └── Alamofire.swiftmodule
+    │   │       ├── Project
+    │   │       │   ├── arm64-apple-ios-simulator.swiftsourceinfo
+    │   │       │   └── x86_64-apple-ios-simulator.swiftsourceinfo
+    │   │       ├── arm64-apple-ios-simulator.abi.json
+    │   │       ├── arm64-apple-ios-simulator.private.swiftinterface
+    │   │       ├── arm64-apple-ios-simulator.swiftdoc
+    │   │       ├── arm64-apple-ios-simulator.swiftinterface
+    │   │       ├── x86_64-apple-ios-simulator.abi.json
+    │   │       ├── x86_64-apple-ios-simulator.private.swiftinterface
+    │   │       ├── x86_64-apple-ios-simulator.swiftdoc
+    │   │       └── x86_64-apple-ios-simulator.swiftinterface
+    │   └── _CodeSignature
+    │       └── CodeResources
+    └── dSYMs
+        └── Alamofire.framework.dSYM
+            └── Contents
+                ├── Info.plist
+                └── Resources
+                    ├── DWARF
+                    │   └── Alamofire
+                    └── Relocations
+                        ├── aarch64
+                        │   └── Alamofire.yml
+                        └── x86_64
+                            └── Alamofire.yml
+
+29 directories, 30 files
+```
+
+起初我以为源码信息是包含在了 `Alamofire.xcframework/ios-arm64/dSYMs/Alamofire.framework.dSYM` 文件夹中, 因为我在其中的 `Contents/Resources/Relocations/aarch64/Alamofire.yml` 和反编译 `Contents/Resources/DWARF/Alamofire` 后的内容中都看到了我 mac 上的绝对路径. 然后我就一直往这个方向研究, 花了很长时间搜索相关内容并研究, 最后发现方向错了!
+
+为什么呢? 因为我发现在编译时把 BuildSetting 中的 `Generate Debug Symbols` 设置为 `No` 之后, 那么编译出来的 xcframework 包中就不包含 `Alamofire.xcframework/ios-arm64/dSYMs` 这整个文件夹了, 但是项目引用该 xcframework 后, 仍然能进行跳转源码!
+
+那就说明控制源码跳转的路径信息存储在其他地方, 然后我再查找哪些文件中可能包含路径字符串, 发现了 `Alamofire.xcframework/ios-arm64/Alamofire.framework/Modules/Alamofire.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo`. 这个是什么文件呢? 经过大量的资料搜索后, 发现这个文件就是用来存储源码信息的, 用于编译器进行一些诊断功能 [proposal](https://forums.swift.org/t/proposal-emitting-source-information-file-during-compilation/28794), 同时在 [swift-source](https://github.com/apple/swift/blob/c2ca810126074406f03dc29a44f4ad4b12f04c79/lib/Serialization/SerializeDoc.cpp#L765-L767) 中看到路径是直接作为绝对路径写入到二进制文件中的
+
+这就解释了为什么在我 mac 上能跳转源码, 别人 mac 上就不行, 因为别人 mac 上没有 xcframework 中存储的那个源码路径呀. 那有没有办法配置这个路径为相对路径呢, 从源码里面没有看到任何选项. 然后又在网上搜关于 `swiftsourceinfo` 关键字的内容, 发现结果很少, 官方文档也没有提及, 但是在 Swift 论坛中发现一个有价值的线索: <https://forums.swift.org/t/absolute-paths-in-swiftsourceinfo/70941>
+
+> During a recent investigation, we discovered that the .swiftsourceinfo file still contains absolute file paths, which are hardcoded . We've learned that this file is used for diagnostics and indexing. To address this issue, we've developed a tool to remap remote paths to local paths. Without this tool, the local development experience is impacted.
+
+顺藤摸瓜, 我找到了该用户提到的 tool: <https://github.com/qyang-nj/source-info-import>, 这个工具就是用来解决将 `.swiftsourceinfo` 信息中的绝对路径替换为使用者电脑上的绝对路径. 虽然没有达到直接可以设置相对路径的目的, 但是如果结合 `cocoapods` 的 [prepare_command](https://guides.cocoapods.org/syntax/podspec.html#prepare_command) 选项, 我们可以在使用者下载了 pod 后获取 cocoapods 缓存路径, 然后替换 xcframework 中的 swiftsourceinfo 中预置绝对路径为本 mac 上绝对路径, 示意代码如下:
+
+> 假设我们存储 xcframework 的压缩文件目录结构如下:
+>
+> ```txt
+>.
+> ├── Alamofire.podspec
+> ├── Alamofire.xcframework
+> │   ├── Info.plist
+> │   ├── ios-arm64
+> │   └── ios-arm64_x86_64-simulator
+> └── script
+>     └── source-info-import         <======= remap tool is here!!!
+> ```
+
+```ruby
+s.prepare_command = 
+  <<-CMD
+      shopt -s globstar
+      for sourceinfo_file in *.xcframework/**/*.swiftsourceinfo; do
+        script/source-info-import --remap="/the/path/of/original/Alamofire=${PWD}/Alamofire" "$sourceinfo_file" "$sourceinfo_file"
+      done
+  CMD
+s.preserve_paths = "Alamofire", "script"
+```
+
+这里有一个小问题, 经过实践我发现 archive 模式下不会在 xcframework 下生成 .swiftsourceinfo 文件, 只有 build 才会. 我搜遍了全网, 试图找到一个选项能让 xcodebuild 在 archive 模式下也生成 `.swiftsourceinfo` 文件, 最后甚至去找了源码, 发现只能两种方案可行:
+
+1. 不使用 archive, 使用 build 的产物创建 xcframework
+2. 使用 archive, 在 BuildSetting 的 `OTHER_SWIFT_FLAGS` 里添加 `-emit-module-source-path=/some/path` flag, 这会在指定位置生成 `.swiftsourceinfo` 文件, 然后再将其塞入 `.framework` 包中
+
+因为我要使用 `segment-integrations/swift-create-xcframework` 工具自动生成 xcframework, 这两种方式都需要对工具进行改造, 相比之下第一种方案的改造成本更小, 因此我对工具做了一些 [改良](https://github.com/hanleylee/swift-create-xcframework/commit/0f3122108afb99874127241531534227067ddcf2), 并给原仓库提交了一个 [PR](https://github.com/segment-integrations/swift-create-xcframework/pull/2), 目前该 PR 还处于待合并状态, 有需要的可以直接下载我的 [fork](https://github.com/hanleylee/swift-create-xcframework) 版本进行安装使用 🥰. 使用命令为 `swift-create-xcframework --platform ios --action build --stack-evolution Alamofire`
+
+## 问题二: 如何在依赖 xcframwork 的同时支持源码断点调试
+
+上面一步解决了浏览源码的问题, 但还不能直接在第三方库的源码文件中直接打断点.
+
+经过调研, 我们知道 `Alamofire.xcframework/ios-arm64/dSYMs/Alamofire.framework.dSYM/Contents/Resources/DWARF/Alamofire` 中是存储了绝对路径信息的, 通过 `dwarfdump` 命令可以查看到内容
+
+![himg](https://a.hanleylee.com/HKMS/2024-06-01213947.png?x-oss-process=style/WaMa)
+
+因为有了这个路径信息, 所以我们能在自己 Mac 上通过 lldb 调试命令的帮助下进入源码文件, 但是如果到了另一台 Mac 环境下, 因为没有该绝对路径, 所以就无法源码调试了. 关于这一点, 其实 wwdc 已经提供了解决方案了 <https://www.wwdcnotes.com/notes/wwdc22/110370/>, 罗列了一下有如下几种:
+
+1. 使用 lldb 命令 `settings set target.source-map old/path new/path` 命令, 将 `__debug_info` 中的绝对路径映射为另一个本地路径
+
+    具体方案实现可以参考 [这里](https://action121.github.io/2022/08/22/iOS%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%87%E6%8D%A2%E6%BA%90%E7%A0%81%E8%B0%83%E8%AF%95.html)
+
+    这种方案需要在当前 mac 上配置脚本, 维护配置文件, 提前下载好所有第三方库的源码, 并维护好每个库的指定版本, 还需要在 lldb 调试时执行指定命令. 说实话, 有些繁琐
+
+2. 在 xcframework 的 dSYM bundle 中的 `Contents -> Resources -> {UUID}.plist` 中设置 `DBGSourcePathRemapping` 字典
+
+    详细的原理及设置可以在 lldb 官方文档里找到: [Symbols on macOS](https://lldb.llvm.org/use/symbols.html)
+
+    概括一下, 我们可以在 `{UUID}.plist` 中设置 `DBGBuildSourcePath` 为编译时源码的路径前缀, 然后在 `DBGSourcePath` 中填写调试时希望替换为的路径前缀. 这种方式只能替换一组前缀, 如果有多组前缀需要分别替换为不同的, 则可以直接在 `DBGSourcePathRemapping` 中设置多个 source(需要 DGBVersion 为 3 及以上), plist 文件内容示例如下
+
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+    <dict>
+       <key>DBGArchitecture</key>
+       <string>arm64</string>
+       <key>DBGBuildSourcePath</key>
+       <string>/Users/hanley/github/ios/Alamofire</string>
+       <key>DBGSourcePath</key>
+       <string>/Users/hanley/Downloads/xcframework/Alamofire/Alamofire</string>
+       <!-- <key>DBGDSYMPath</key> -->
+       <!-- <string>/Users/hanley/Downloads/xcframework/Alamofire/Alamofire.xcframework/ios-arm64/dSYMs/Alamofire.framework.dSYM/Contents/Resources/DWARF/Alamofire</string> -->
+       <key>DBGVersion</key>
+       <string>3</string>
+       <!-- <key>DBGSourcePathRemapping</key> -->
+       <!-- <dict> -->
+       <!--     <key>/path/to/build/time/src/location1</key> -->
+       <!--     <string>/path/to/debug/time/src/location</string> -->
+       <!--     <key>/path/to/build/time/src/location2</key> -->
+       <!--     <string>/path/to/debug/time/src/location</string> -->
+       <!-- </dict> -->
+    </dict>
+    </plist>
+    ```
+
+    网上找到一些设置该文件的脚本:
+
+    - Python: <https://gist.github.com/GoatHunter/cf85b37eac2820ecb9a72792bc9011ef>
+    - Ruby: <https://gist.github.com/benasher44/fcf92fc12ff8b539bee7cc50fb52ed32>
+
+    > 关于 DBGSourcePathRemapping 设置的相关文档介绍太少了, 刚开始甚至都不知道这个 {UUID}.plist 文件要放在哪一层目录中. 看了 WWDC 原视频对此的描述也只是一笔带过. 最后是通过搜索相关的另一个字段 `DBGBuildSourcePath` 找到了这个 {UUID}.plist 文件的使用方式
+
+3. 在编译期添加 compile flag `-debug-prefix-map` 将绝对路径转为相对路径
+
+    ```txt
+    // Clang:
+    -fdebug-prefix-map $PWD=.
+
+    // Swift:
+    -debug-prefix-map $PWD=.
+    ```
+
+    实际编译时使用的命令就是 `swift-create-xcframework --platform ios --action build --xc-setting OTHER_SWIFT_FLAGS="-debug-prefix-map $PWD=." Alamofire`, 执行完毕后, 我们在使用 `dwarfdump` 命令看一下结果
+
+    ![himg](https://a.hanleylee.com/HKMS/2024-06-01215546.png?x-oss-process=style/WaMa)
+
+我认为第二种是很适合我们的方式, 因为在上一节的 swiftsourceinfo 设置中, 我们也需要使用 cocoapods 的 prepare_command 配置一些下载后执行的命令, 我们可以再多加一些设置 `{UUID}.plist` 内容的命令. 但是第三种方案经过实践有一个很惊人的发现: 只要设置好 swiftsourceinfo 路径能正常跳转, 然后编译时再加上 `OTHER_SWIFT_FLAGS="-debug-prefix-map $PWD=."`, 那么总是能断点到源码位置. 我猜测 `-debug-prefix-map $PWD=.` 中的 `.` 代表的相对路径会让 Xcode 模糊查找当前在编译系统中已经缓存过的路径, 因此 swiftsourceinfo 指向的路径也被匹配到了, 也就能正常跳转了. 因此最终决定使用第 3 种方案: 编译期增加 flag.
+
+<span id='summary'>
+
+## 方案汇总
+
+以上详细讨论整个思考过程以及可行的解决方案, 最后在这里进行一下汇总:
+
+1. 下载安装 [hanleylee/swift-create-xcframework](https://github.com/hanleylee/swift-create-xcframework)
+2. 在需要编译 xcframework 的源码路径下使用命令 `swift-create-xcframework --platform ios --action build --stack-evolution --xc-setting OTHER_SWIFT_FLAGS="-debug-prefix-map $PWD=." Alamofire | xcbeautify`
+3. 将 Alamofire 源码, `Alamofire.podspec` 及 [source-info-import](https://github.com/qyang-nj/source-info-import) 工具放在一起, 目录结构参考如下
+
+    ```txt
+    ├── Alamofire                       <======== source
+    ├── Alamofire.podspec
+    ├── Alamofire.xcframework
+    │   ├── Info.plist
+    │   ├── ios-arm64
+    │   └── ios-arm64_x86_64-simulator
+    └── script
+        └── source-info-import          <======= remap tool
+    ```
+
+4. 然后在 `Alamofire.podspec` 中添加如下内容
+
+    ```ruby
+    s.prepare_command = 
+      <<-CMD
+          shopt -s globstar
+          for sourceinfo_file in *.xcframework/**/*.swiftsourceinfo; do
+            script/source-info-import --remap="/the/path/of/original/Alamofire=${PWD}/Alamofire" "$sourceinfo_file" "$sourceinfo_file"
+          done
+      CMD
+    s.preserve_paths = "Alamofire", "script"
+    s.vendored_frameworks = 'Alamofire.xcframework'
+    ```
+
+5. 最后将整个文件夹打包上传到文件服务器, 例如 nexus
+
+## 问题汇总
+
+在整套方案施行过程中我遇到了很多问题, 最后都一一解决了, 这里也记录一下
+
+### `X is not a member type of class "X.X"`
+
+当我们将编译好的 xcframework 被主工程依赖后, 编译时在某些 xcframework 中会发出如下错误:
+
+![himg](https://a.hanleylee.com/HKMS/2024-06-04154429.jpg?x-oss-process=style/WaMa)
+
+会发生 `X is not a member type of class "X.X"` 这个错误, 是因为如果我们的 module 名为 `ModuleA`, 编译为 xcframework 时会在生成的 `.swiftinterface` 文件中为其中所有类型前添加一个 `ModuleA.` 前缀, 这时如果我们在代码中又创建了一个 `ModuleA` 的 class / struct / enum 类型, 那么 `.swiftinterface` 中就会存在 `ModuleA.ModuleA` 这种类型, 问题就出在 Swift 编译器一旦发现有 `ModuleA` 这个类型, 那么总会认为所有的 `ModuleA` 都是该类型, 因此 `ModuleA.ModuleA` 就报错了
+
+这个问题目前属于 Swift 的一个 [bug](https://github.com/apple/swift/issues/43510), 等待修复, [许多人都遇到了这个问题](https://forums.swift.org/t/frameworkname-is-not-a-member-type-of-frameworkname-errors-inside-swiftinterface/28962/9)
+
+临时的解决办法是直接将 xcframework 中的 `.swiftinterface` 内容进行替换, 删除模块名前缀. 我在编译 xcframework 过程中遇到这些问题时的解决命令如下:
+
+- Action: `find . -name "*.swiftinterface" -exec sed -i -E -e 's/\bAction\.//g' {} \;`
+- HandyJSON: `find . -name "*.swiftinterface" -exec sed -i -E -e "s/HandyJSON\.//g" {} \;`
+- IOSSecuritySuite: `find . -name "*.swiftinterface" -exec sed -i -E -e 's/\bIOSSecuritySuite\.//g' {} \;`
+- Reachability: `find . -name "*.swiftinterface" -exec sed -i -E -e 's/\bReachability\.Reachability\b/Reachability/g' {} \;`
+- Then: `find . -name "*.swiftinterface" -exec sed -i -E -e 's/\bThen\.//g' {} \;`
+
+这么多类似的命令是因为每个库的类型格式不同, 没能找到一个能用于所有场景的正则表达式
+
+### RxSwift 竟然把 zip 文件放到了仓库里
+
+RxSwift 官方在 [这个提交](https://github.com/ReactiveX/RxSwift/commit/c3c7c58011805138bae2676c5e0ad597536dfcbf#diff-8e042493fd9be4916c6c07fe836ac31b3cec232ee87afff9a748484661feaf39) 中加入了一个包含 xcframework 的 zip 压缩包, 这个压缩包的体积达到了 78MB, 然后又在之后的一次 [commit](https://github.com/ReactiveX/RxSwift/commit/e2b0aa8dbbafe1552d3cfbc9b8c8087615762f0c#diff-8e042493fd9be4916c6c07fe836ac31b3cec232ee87afff9a748484661feaf39) 中删除了该 zip 文件, 但是这个 zip 文件已经永远地留在了 git 历史中, 任何人在 clone 时都会被这个压缩包体积影响 (除非使用 --depth)
+
+实际来说, 现在正常下载 RxSwift 仓库要等一分钟之久
+
+![himg](https://a.hanleylee.com/HKMS/2024-06-04145724.png?x-oss-process=style/WaMa)
+
+90% 的体积都集中在了 `.git` 文件夹中
+
+![himg](https://a.hanleylee.com/HKMS/2024-06-04151023.png?x-oss-process=style/WaMa)
+
+### RxCocoa 的 依赖项 RxCocoaRuntime
+
+在 RxSwift 仓库的 Package.swift 中, RxCocoa 依赖了 RxCocoaRuntime
+
+```swift
+// swift-tools-version:5.1
+
+import PackageDescription
+
+// ...
+extension Target {
+  static func rxCocoa() -> [Target] {
+    #if os(Linux)
+      return [.target(name: "RxCocoa", dependencies: ["RxSwift", "RxRelay"])]
+    #else
+      return [.target(name: "RxCocoa", dependencies: ["RxSwift", "RxRelay", "RxCocoaRuntime"])]  // <============= here
+    #endif
+  }
+
+  static func rxCocoaRuntime() -> [Target] {
+    #if os(Linux)
+      return []
+    #else
+      return [.target(name: "RxCocoaRuntime", dependencies: ["RxSwift"])]
+    #endif
+  }
+  // ...
+}
+
+let package = Package(
+  name: "RxSwift",
+  platforms: [.iOS(.v9), .macOS(.v10_10), .watchOS(.v3), .tvOS(.v9)],
+  products: ([
+    [
+      .library(name: "RxSwift", targets: ["RxSwift"]),
+      .library(name: "RxCocoa", targets: ["RxCocoa"]),
+      .library(name: "RxRelay", targets: ["RxRelay"]),
+      // ...
+    ],
+    Product.allTests()
+  ] as [[Product]]).flatMap { $0 },
+  targets: ([
+    [
+      .target(name: "RxSwift", dependencies: []),
+    ], 
+    Target.rxCocoa(),
+    Target.rxCocoaRuntime(),
+    // ...
+  ] as [[Target]]).flatMap { $0 },
+  swiftLanguageVersions: [.v5]
+)
+```
+
+按照我们的做法, 我们要给 RxCocoaRuntime 创建一个 xcframework, 同时找到 RxCocoaRuntime 对应的 podspec, 但是奇怪的是 RxSwift 中没有提供 RxCococaRuntime.podspec 文件. 为什么?
+
+目前为止 (2024.6), SPM 在一个 target 中还是 [只支持一种语言](https://forums.swift.org/t/se-0403-package-manager-mixed-language-target-support/66202), RxCocoa 中有部分代码使用到了 oc 语言的特性, 是使用 oc 语言写的, 因此就必须要为这部分代码单独设置一个 target, 这就是 RxCocoaRuntime 的由来. 那为什么没有 RxCocoaRuntime.podspec 呢? 因为 CocoaPods 引用方式是支持多语言混编的, 那么就不需要将 oc 代码部分拆出来, 所以就不需要 RxCocoaRuntime.podspec 了.
+
+因为我们是基于 SPM 创建处 xcframework 的, 但引用方式还是项目原有的 CocoaPods, 因此就必须手动创建处一个 `RxCocoaRuntime.podspec`. 格式参考这里: [RxCocoaRuntime.podspec](https://github.com/pmanuelli/RxSwiftSpecs/blob/main/Specs/RxCocoaRuntime/6.5.0-xcframework/RxCocoaRuntime.podspec)
+
+### FlexLayout 模块
+
+根据 FlexLayout 的 Package.swift 信息, 最终产物 FlexLayout 依赖了 `FlexLayoutYogaKit` 与 `FlexLayoutYoga`
+
+```swift
+// swift-tools-version:5.3
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+  name: "FlexLayout",
+  products: [
+    .library(name: "FlexLayout", targets: ["FlexLayout"]),
+  ],
+  targets: [
+    .target(
+      name: "FlexLayout",
+      dependencies: ["FlexLayoutYogaKit"],
+      path: "Sources/Swift",
+      publicHeadersPath: "Public"
+    ),
+    .target(
+      name: "FlexLayoutYoga",
+      dependencies: [],
+      path: "Sources/yoga",
+      publicHeadersPath: "include/yoga"
+    ),
+    .target(
+      name: "FlexLayoutYogaKit",
+      dependencies: ["FlexLayoutYoga"],
+      path: "Sources/YogaKit",
+      publicHeadersPath: "include/YogaKit"
+    )
+  ],
+  cLanguageStandard: .gnu99,
+  cxxLanguageStandard: .gnucxx11
+)
+```
+
+由于 `FlexLayoutYogaKit` 与 `FlexLayoutYoga` 的源码语言为 oc 与 c, 如果要用 swift-create-xcframework 将这两个 target 编译为 xcframework 且是一个独立 module(能被 import) 的话, 需要在工程里面添加 `FlexLayoutYogaKit.h` 与 `FlexLayoutYoga.h` 头文件, 这样太麻烦了. 使用 cocoapods-xcframework 可以避免编译三个 framework, 但是又不能设置 buildsetting, 因此最终决定使用手动编译的方式
+
+手动编译创建 xcframework 的步骤如下:
+
+```bash
+# 生成真机的 framework
+xcodebuild build \
+    -workspace 'FlexLayout.xcworkspace' \
+    -scheme 'FlexLayout' \
+    -sdk iphoneos \
+    -destination "generic/platform=iOS" \
+    -configuration Release ARCHS="arm64" \
+    -archivePath "TestArchive" \
+    BUILD_DIR="./TestBuild" \
+    OTHER_SWIFT_FLAGS="-debug-prefix-map $PWD=." \
+    SKIP_INSTALL=NO \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+
+# 生成模拟器的 framework
+xcodebuild build \
+    -workspace 'FlexLayout.xcworkspace' \
+    -scheme 'FlexLayout' \
+    -sdk iphoneos \
+    -destination "generic/platform=iOS Simulator" \
+    -configuration Release ARCHS="arm64" \
+    -archivePath "TestArchive" \
+    BUILD_DIR="./TestBuild" \
+    OTHER_SWIFT_FLAGS="-debug-prefix-map $PWD=." \
+    SKIP_INSTALL=NO \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+
+# 合并 framework 为 xcframeowrk
+xcodebuild -create-xcframework \
+    -framework Release-iphoneos/FlexLayout.framework \
+    -debug-symbols "$(realpath Release-iphoneos/FlexLayout.framework.dSYM)" \
+    -framework Release-iphonesimulator/FlexLayout.framework \
+    -debug-symbols "$(realpath Release-iphonesimulator/FlexLayout.framework.dSYM)" \
+    -output FlexLayout.xcframework
+```
+
+### `xcodebuild -create-framework` 使用 `-debug-symbols` 参数报错
+
+xcframework 支持在其中内置 .dsym 调试信息, 只需要在制作 xcframework 时使用 `-debug-symbols` 指定 .dsym 路径即可, 但是在创建过程中遇到了错误
+
+```bash
+$ xcodebuild -create-xcframework \
+    -framework Release-iphoneos/FlexLayout.framework \
+    -debug-symbols Release-iphoneos/FlexLayout.framework.dSYM \
+    -framework Release-iphonesimulator/FlexLayout.framework \
+    -debug-symbols Release-iphonesimulator/FlexLayout.framework.dSYM \
+    -output FlexLayout.xcframework
+
+error: the path does not point to a valid debug symbols file: Release-iphoneos/FlexLayout.framework.dSYM
+```
+
+`Release-iphonesimulator/FlexLayout.framework.dSYM` 是真实的路径, 经过搜索, 很多人遇到了和我一样的问题: <https://forums.developer.apple.com/forums/thread/655768>
+
+有人反馈使用绝对路径可以成功, 经验证确实可以成功, 因此使用 `realpath` 命令为 `-debug-symbols` 提供路径
+
+```sh
+xcodebuild -create-xcframework \
+    -framework Release-iphoneos/FlexLayout.framework \
+    -debug-symbols "$(realpath Release-iphoneos/FlexLayout.framework.dSYM)" \
+    -framework Release-iphonesimulator/FlexLayout.framework \
+    -debug-symbols "$(realpath Release-iphonesimulator/FlexLayout.framework.dSYM)" \
+    -output FlexLayout.xcframework
+```
+
+## Ref
+
+- [Debug Swift debugging with LLDB](https://www.wwdcnotes.com/notes/wwdc22/110370/)
+- [Attaching sources to iOS/macOS binaries compiled on another machine](https://gist.github.com/GoatHunter/cf85b37eac2820ecb9a72792bc9011ef)
+- [美团 ZSource 背后那些事](https://tech.meituan.com/2019/08/08/the-things-behind-the-ios-project-zsource-command.html)
+
+[migrate-to-nexus]: https://hanleylee.com/articles/migrate-ios-framework-from-git-to-nexus/ "将 iOS framework 产物由 git 仓库迁移至 nexus"
