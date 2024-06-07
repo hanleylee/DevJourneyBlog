@@ -27,7 +27,6 @@ article p {
     text-align: justify;
 /*    margin-block-start: 16px;*/
 /*    margin-block-end: 16px;*/
-    font-size: 16px;
 }
 article p.info, article .sponsorship .content>ul, article .services .content>ul {
     /* position: relative; */

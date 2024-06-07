@@ -182,7 +182,7 @@ Alamofire.xcframework
 > 假设我们存储 xcframework 的压缩文件目录结构如下:
 >
 > ```txt
->.
+> .
 > ├── Alamofire.podspec
 > ├── Alamofire.xcframework
 > │   ├── Info.plist
@@ -344,7 +344,7 @@ s.preserve_paths = "Alamofire", "script"
 
 ### RxSwift 竟然把 zip 文件放到了仓库里
 
-RxSwift 官方在 [这个提交](https://github.com/ReactiveX/RxSwift/commit/c3c7c58011805138bae2676c5e0ad597536dfcbf#diff-8e042493fd9be4916c6c07fe836ac31b3cec232ee87afff9a748484661feaf39) 中加入了一个包含 xcframework 的 zip 压缩包, 这个压缩包的体积达到了 78MB, 然后又在之后的一次 [commit](https://github.com/ReactiveX/RxSwift/commit/e2b0aa8dbbafe1552d3cfbc9b8c8087615762f0c#diff-8e042493fd9be4916c6c07fe836ac31b3cec232ee87afff9a748484661feaf39) 中删除了该 zip 文件, 但是这个 zip 文件已经永远地留在了 git 历史中, 任何人在 clone 时都会被这个压缩包体积影响 (除非使用 --depth)
+RxSwift 官方在 [这个提交](https://github.com/ReactiveX/RxSwift/commit/c3c7c58011805138bae2676c5e0ad597536dfcbf#diff-8e042493fd9be4916c6c07fe836ac31b3cec232ee87afff9a748484661feaf39) 中加入了一个包含 xcframework 的 zip 压缩包, 这个压缩包的体积达到了 78MB, 然后又在之后的一次 [commit](https://github.com/ReactiveX/RxSwift/commit/e2b0aa8dbbafe1552d3cfbc9b8c8087615762f0c#diff-8e042493fd9be4916c6c07fe836ac31b3cec232ee87afff9a748484661feaf39) 中删除了该 zip 文件, 但是这个 zip 文件已经永远地留在了 git 历史中, 任何人在 clone 时都会被这个压缩包体积影响 (除非使用 `--depth`)
 
 实际来说, 现在正常下载 RxSwift 仓库要等一分钟之久
 

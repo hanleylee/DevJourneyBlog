@@ -1,5 +1,6 @@
 /* every thing about code highlight*/
 
+/* inline code */
 code {
     color: var(--inline-code-text-color-light);
     background-color: var(--inline-code-background-light);
@@ -28,6 +29,43 @@ code {
 /*    }*/
 }
 
+.codeSection {
+    min-width: 600px;
+    border-radius: 8px;
+    background: #fafafa;
+    align-self: center;
+}
+
+.codeHeader {
+    display: block flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: #111111;
+}
+
+.codeHeader .codeLanguage {
+    background: #fafafa;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.codeHeader .copyButton {
+    background-color: transparent;
+    background-image: url("/img/copyCodeBtn.svg");
+    background-size: 22px 22px;
+    width: 22px;
+    height: 22px;
+/*    padding-left: 20px;*/
+    margin-right: 10px;
+}
+.codeHeader .copyButton:hover {
+    cursor: pointer;
+    fill: #fff;
+/*    background-image: url("/img/buttonTwitterColor.svg");*/
+/*    background-size: 22px 22px;*/
+}
+
 pre {
 /*    font-family: 'Fira Code', 'LXGW WenKai Mono';*/
 }
@@ -49,11 +87,9 @@ pre code {
     color: #a9bcbc;
     background-color: black;
     line-height: 1.5em;
-    font-size: 13px;
+    font-size: 1em;
     overflow-x: auto;
     white-space: pre;
-    border-radius: 8px;
-/*    padding: 20px;*/
     padding: 15px 12px;
     -webkit-overflow-scrolling: touch;
 }
@@ -67,7 +103,6 @@ pre code .highlight {
     display: inline-block;
     padding: 0 4px 2px 4px;
     border: 1px solid #546AFF;
-    border-radius: 5px;
     background-color: #1A1721;
     margin-left: -5px;
 }
@@ -120,7 +155,6 @@ pre code .preprocessing {
 }
 
 @media (prefers-color-scheme: dark) {
-
     .content pre code {
         background-color: #1a1a1a;
     }
@@ -147,8 +181,8 @@ hue-6-2: #c18401
 */
 
 .hljs {
-  color: #383a42;
-  background: #fafafa;
+/*  color: #383a42;*/
+/*  background: #fafafa;*/
 }
 
 .hljs-comment,
@@ -235,11 +269,21 @@ hue-6-2: #c18401
      hue-5-2: #be5046
      hue-6:   #d19a66
      hue-6-2: #e6c07b
-
      */
-    .hljs {
-        color: #abb2bf;
+    .codeSection {
         background: #282c34;
+    }
+     .codeHeader {
+         background: #111111;
+     }
+
+     .codeHeader .codeLanguage {
+         background: #282c34;
+     }
+
+    .hljs {
+/*        color: #abb2bf;*/
+/*        background: #282c34;*/
     }
 
     .hljs-comment,

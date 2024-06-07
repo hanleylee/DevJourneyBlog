@@ -97,7 +97,6 @@ private let siteCSS: [Path] = [
     "/css/nav.css",
     "/css/sidebar.css",
     "/css/toc.css",
-    "/css/blockquote.css",
     "/css/search.css",
     "/css/sponsor.css",
     "/css/supporter.css",

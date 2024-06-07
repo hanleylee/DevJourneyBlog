@@ -18,7 +18,7 @@
 .menu-root .h1-link {
     display: block;
     color: var(--memu-h1-text-color-light);
-    font-size: 12px;
+    font-size: 0.9em;
     font-weight: 420;
     height: auto;
     line-height: 16px;
@@ -37,7 +37,7 @@
 .menu-root .h2-link {
     color: var(--memu-h2-text-color-light);
     cursor: pointer;
-    font-size: 12px;
+    font-size: 0.8em;
     height: auto;
     line-height: 16px;
     list-style-type: disc;
