@@ -10,6 +10,8 @@ code {
     border-radius: 3px;
     margin: 1px;
     line-break: auto;
+/*    word-wrap: break-word; /* 或者使用 overflow-wrap */*/
+/*    overflow-wrap: break-word;*/
 }
 
 /* `code`在手机safari中显示不换行 */
@@ -31,9 +33,12 @@ code {
 
 .codeSection {
     min-width: 600px;
-    border-radius: 8px;
+    max-width: 900px;
+    border-radius: 10px;
     background: #fafafa;
     align-self: center;
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
 }
 
 .codeHeader {
@@ -41,20 +46,18 @@ code {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background: #111111;
 }
 
 .codeHeader .codeLanguage {
-    background: #fafafa;
     padding-left: 20px;
     padding-right: 20px;
 }
 
 .codeHeader .copyButton {
     background-color: transparent;
-    background-image: url("/img/copyCodeBtn.svg");
-    background-size: 22px 22px;
-    width: 22px;
+/*    background-image: url("/img/copyCodeBtn.svg");*/
+/*    background-size: 22px 22px;*/
+/*    width: 22px;*/
     height: 22px;
 /*    padding-left: 20px;*/
     margin-right: 10px;
@@ -72,7 +75,7 @@ pre {
 
 .content pre,
 .item-list pre {
-    padding: 10px;
+    padding: 5, 10, 5, 10px;
 }
 
 /* 在一些需要严格等宽的内容中, 不能使用多种等宽字体, 否则会造成整体不等宽. 这是因为每种等宽字体的字符宽度可能不同 */
@@ -271,15 +274,8 @@ hue-6-2: #c18401
      hue-6-2: #e6c07b
      */
     .codeSection {
-        background: #282c34;
+        background: #0C2257;
     }
-     .codeHeader {
-         background: #111111;
-     }
-
-     .codeHeader .codeLanguage {
-         background: #282c34;
-     }
 
     .hljs {
 /*        color: #abb2bf;*/

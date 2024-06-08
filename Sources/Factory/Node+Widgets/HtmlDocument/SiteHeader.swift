@@ -58,6 +58,7 @@ extension Node where Context == HTML.DocumentContext {
                 return .socialImageLink(url)
             },
             .script(.src("/js/jquery.min.js")),
+            .script(.src("/js/copyCode.js")),
 //            .raw(newGoogleAnalytics),
 //            .link(.rel(.stylesheet), .href("/css/heti.min.css")),
             // 工具栏颜色

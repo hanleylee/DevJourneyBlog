@@ -73,8 +73,8 @@
     margin: 0;
     padding: 0;
     border: 0;
-/*    box-sizing: border-box;*/
-/*    font-family: 'Fira Code', 'LXGW WenKai Mono', "Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", Menlo, -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Monaco, Consolas, monospace, SF Mono, Courier New, Helvetica, Arial, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, "source sans pro", "helvetica neue", Arial, sans-serif;*/
+    font-family: 'Fira Code', 'LXGW WenKai Mono', "Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", Menlo, -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Monaco, Consolas, monospace, SF Mono, Courier New, Helvetica, Arial, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, "source sans pro", "helvetica neue", Arial, sans-serif;
+    font-variant-ligatures: none;
 }
 
 body {
@@ -93,7 +93,6 @@ body {
     font-size: 1.2em;
     font-feature-settings: "tnum";
     font-variant: tabular-nums;
-    font-family: 'Fira Code', 'LXGW WenKai Mono', "Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", Menlo, -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Monaco, Consolas, monospace, SF Mono, Courier New, Helvetica, Arial, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, "source sans pro", "helvetica neue", Arial, sans-serif;
     /* letter-spacing:2px; */
     height: 100%;
 }
@@ -126,6 +125,15 @@ blockquote {
 *:target {
     background-color: yellow;
     animation: restoreColor 3s forwards;
+}
+
+@keyframes restoreColor {
+    from {
+        background-color: yellow;
+    }
+    to {
+        background-color: var(--article-background-color-dark);
+    }
 }
 
 input {
@@ -188,8 +196,8 @@ div .publishDate {
 p {
     line-height: 1.6em;
     display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
+    margin-block-start: 0.8em;
+    margin-block-end: 0.8em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     text-align: left;

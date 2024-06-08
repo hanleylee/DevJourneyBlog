@@ -42,35 +42,35 @@ public extension Modifier {
 
             let highlighted = highlighter.highlight(code, as: String(language))
 
-            let randomId = Int.random(in: 1...100000000)
-            let codeNode = Node<HTML.BodyContext>.div(
-                .class("codeSection"),
-                .div(
-                    .class("codeHeader"),
-                    .div(
-                        .class("codeLanguage"),
-                        .text(String(language))
-                    ),
-                    .button(.class("copyButton"),
-                            .id("copyButton_\(randomId)"),
-//                            .onclick("const text = `\(escapeForJavaScript(code))`; navigator.clipboard.writeText(text);")
-                            .script(.raw("""
-document.getElementById('copyButton_\(randomId)').addEventListener('click', () => {
-const text = `\(code)`;
-navigator.clipboard.writeText(text);
-})
-
-"""))
-                    )
-                ),
-                .pre(
-                    .data(named: "language", value: "\(highlighted.language)"),
-                    .class("hljs"),
-                    .code(.raw(highlighted.value))
-                )
+//            let randomId = Int.random(in: 1...100000000)
+            let codeNode = Node<HTML.BodyContext>.div(.class("codeSection"),
+                                                      .div(.class("codeHeader"),
+                                                           .div(.class("codeLanguage"),
+                                                                .text(String(language))
+                                                           ),
+                                                           .button(.class("copyButton"), .onclick("copyCode(this, event)"), .style("display: flex; align-items: center"),
+                                                                   .div(.class("copied-text"), .style("display: none; margin-right: 10px; color: white; font-family: 'Fira Code';"),
+                                                                        .text("Copied!")
+                                                                   ),
+                                                                   .img(.src("/img/copyCodeBtn.svg"), .height(22))
+                                                           )
+                                                      //                        .id("copyButton_\(randomId)"),
+                                                      //                            .script(.raw("""
+                                                      // document.getElementById('copyButton_\(randomId)').addEventListener('click', () => {
+                                                      // const text = `\(code)`;
+                                                      // navigator.clipboard.writeText(text);
+                                                      // })
+                                                      //
+                                                      // """))
+                                                      ),
+                                                      .pre(
+                                                        .data(named: "language", value: "\(highlighted.language)"),
+                                                        .class("hljs"),
+                                                        .code(.raw(highlighted.value))
+                                                      )
             )
             return codeNode.render()
-//            return Node<HTML.BodyContext>.div().render() + "<pre data-language=\"\(highlighted.language)\" class=\"hljs\"><code>\(highlighted.value)\n</code></pre>"
+            //            return Node<HTML.BodyContext>.div().render() + "<pre data-language=\"\(highlighted.language)\" class=\"hljs\"><code>\(highlighted.value)\n</code></pre>"
         }
     }
 }
