@@ -17,10 +17,10 @@ extension Node where Context == HTML.BodyContext {
     ) -> Node {
         let sectionIDs = T.SectionID.allCases
         return .header(
-            .wrapper(
+            .div(.style("padding: 20px 40px 30px 40px; display: flex; flex-direction: column; align-items: center"),
                 .headerLogo(),
                 .headerIcons(),
-                headerSections(for: context, selectedSection: selectedSection)
+                .headerSections(for: context, selectedSection: selectedSection)
             )
         )
     }

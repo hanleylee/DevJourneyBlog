@@ -99,9 +99,9 @@ body {
 
 blockquote {
     font-style: normal;
-    text-align: justify;
-    margin-top: 10px;
-    margin-bottom: 10px;
+/*    text-align: justify;*/
+/*    margin-top: 10px;*/
+    margin-bottom: 20px;
     margin-left: 0px;
     margin-right: -10px;
     padding: 10px;
@@ -110,6 +110,10 @@ blockquote {
     border-bottom-right-radius: 5px;
     border-left: var(--blockquote-headline-color-dark);
     display: block;
+}
+
+blockquote p {
+    margin-block-end: 0.8em;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -178,7 +182,7 @@ input {
 /* 中间内容 */
 .centerContent {
     display: flex;
-    max-width: 1000px;
+    max-width: 1200px;
     position: relative;
     margin-right: 10px;
     margin-left: 10px;
@@ -196,7 +200,10 @@ div .publishDate {
 p {
     line-height: 1.6em;
     display: block;
-    margin-block-start: 0.8em;
+    /* 这个属性很重要, 允许在任意字符处断词换行. 中文不像英文不能换行分割单词, 本博客使用到英文的时候基本也是英文命令, 因此 break-all 最合适 */
+    word-break: break-all;
+/*    overflow-wrap: break-word;*/
+/*    margin-block-start: 0.8em;*/
     margin-block-end: 0.8em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;

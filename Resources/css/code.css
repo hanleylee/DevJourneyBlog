@@ -36,9 +36,9 @@ code {
     max-width: 900px;
     border-radius: 10px;
     background: #fafafa;
-    align-self: center;
-    margin-top: 0.6em;
-    margin-bottom: 0.6em;
+/*    align-self: center;*/
+/*    margin-top: 0.6em;*/
+    margin-bottom: 1.0em;
 }
 
 .codeHeader {

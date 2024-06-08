@@ -11,7 +11,7 @@
 }
 
 .content ol {
-    margin-top: 10px;
+/*    margin-top: 10px;*/
     margin-bottom: 10px;
     line-height: 1.6em;
     list-style: decimal;
@@ -29,7 +29,7 @@
 .content ul li {
     margin-left: 20px;
     margin-right: 20px;
-    margin-top: 10px;
+/*    margin-top: 10px;*/
     margin-bottom: 10px;
     line-height: 1.6em;
 }
@@ -38,7 +38,7 @@
 .content ol ol,
 .content ul ol,
 .content ul ul {
-    margin-top: 10px;
+/*    margin-top: 10px;*/
     margin-left: 10px;
 }
 

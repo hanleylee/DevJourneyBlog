@@ -6,11 +6,11 @@
 
 import Files
 
-internal extension Folder {
-    struct Group {
-        let root: Folder
-        let output: Folder
-        let `internal`: Folder
-        let caches: Folder
+public extension Folder {
+    public struct Group {
+        public let root: Folder
+        public let output: Folder
+        public let `internal`: Folder
+        public let caches: Folder
     }
 }

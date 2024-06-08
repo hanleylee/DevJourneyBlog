@@ -33,7 +33,7 @@ public struct PublishingContext<Site: Website> {
     /// Any date when the website was last generated.
     public private(set) var lastGenerationDate: Date?
 
-    private let folders: Folder.Group
+    public let folders: Folder.Group
     private var tagCache = TagCache()
     private var stepName: String
 

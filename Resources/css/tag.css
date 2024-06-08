@@ -29,6 +29,7 @@
 .tagResult {
     max-width: 960px;
     margin: auto;
+    margin-bottom: 20px;
 }
 
 .tag-list {

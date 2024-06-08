@@ -6,6 +6,7 @@
 
 import Files
 import CollectionConcurrencyKit
+import QuartzCore
 
 internal struct MarkdownFileHandler<Site: Website> {
     func addMarkdownFiles(

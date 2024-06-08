@@ -303,9 +303,9 @@ int main(void) {
     if (1 == data.s.a) {
         // 走该 case 说明 data.b 的 MSB 是被存储在 union 所占内存的低地址中,
         // 符合大端序的特征
-        printf("Big_Endian");
+        printf("Big_Endian\n");
     } else {
-        printf("Little_Endian");
+        printf("Little_Endian\n");
     }
     return 0;
 }

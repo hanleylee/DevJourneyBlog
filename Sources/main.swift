@@ -1,6 +1,7 @@
 import Foundation
 import Plot
 import Publish
+import QuartzCore
 
 struct DevJourneyBlog: Website {
     enum SectionID: String, WebsiteSectionID {
@@ -42,6 +43,7 @@ struct DevJourneyBlog: Website {
  这两种入口不能同时存在. 如果在 *main.swift* 文件中再使用 `@main`, 就会报错
   */
 
+let t1 = CACurrentMediaTime()
 try DevJourneyBlog()
     .publish(
         using: [
@@ -62,8 +64,10 @@ try DevJourneyBlog()
 //        .generateSearchIndex(includeCode: false),
             .generateSiteMap(),
 //        .unwrap(.git("ssh://root@81.68.187.219:66/home/hanleylee.com/web.git", branch: "master"), PublishingStep.deploy),
+            .copyOuput(to: ".browsersync"),
             .unwrap(.git("ssh://Ctyun-1C2G/home/hanleylee.com/web.git", branch: "master"), PublishingStep.deploy),
         ]
     )
 
+print("time cost: \(CACurrentMediaTime() - t1)s")
 // print(ProcessInfo.processInfo.environment["hello"])

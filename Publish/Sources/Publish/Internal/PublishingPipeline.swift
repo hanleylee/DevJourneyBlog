@@ -5,6 +5,7 @@
 */
 
 import Files
+import QuartzCore
 
 #if canImport(Cocoa)
 import Cocoa
@@ -49,10 +50,14 @@ extension PublishingPipeline {
 
         for (index, step) in steps.enumerated() {
             do {
+                let t0 = CACurrentMediaTime()
                 let message = "[\(index + 1)/\(steps.count)] \(step.name)"
                 CommandLine.output(message, as: .info)
                 context.prepareForStep(named: step.name)
                 try await step.closure(&context)
+                let timeCost = CACurrentMediaTime() - t0
+                let message2 = "[\(index + 1)/\(steps.count)] \(step.name) - \(timeCost)s"
+                CommandLine.output(message2, as: .info)
             } catch let error as PublishingErrorConvertible {
                 throw error.publishingError(forStepNamed: step.name)
             } catch {
@@ -83,7 +88,7 @@ private extension PublishingPipeline {
     func setUpFolders(withExplicitRootPath path: Path?,
                       shouldEmptyOutputFolder: Bool) throws -> Folder.Group {
         let root = try resolveRootFolder(withExplicitPath: path)
-        let outputFolderName = "Output"
+        let outputFolderName = ".output"
 
         if shouldEmptyOutputFolder {
             try? root.subfolder(named: outputFolderName).empty(includingHidden: true)

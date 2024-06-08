@@ -281,7 +281,7 @@ s.preserve_paths = "Alamofire", "script"
 
 我认为第二种是很适合我们的方式, 因为在上一节的 swiftsourceinfo 设置中, 我们也需要使用 cocoapods 的 prepare_command 配置一些下载后执行的命令, 我们可以再多加一些设置 `{UUID}.plist` 内容的命令. 但是第三种方案经过实践有一个很惊人的发现: 只要设置好 swiftsourceinfo 路径能正常跳转, 然后编译时再加上 `OTHER_SWIFT_FLAGS="-debug-prefix-map $PWD=."`, 那么总是能断点到源码位置. 我猜测 `-debug-prefix-map $PWD=.` 中的 `.` 代表的相对路径会让 Xcode 模糊查找当前在编译系统中已经缓存过的路径, 因此 swiftsourceinfo 指向的路径也被匹配到了, 也就能正常跳转了. 因此最终决定使用第 3 种方案: 编译期增加 flag.
 
-<span id='summary'>
+<span id='summary'></span>
 
 ## 方案汇总
 

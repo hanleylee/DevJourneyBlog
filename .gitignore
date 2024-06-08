@@ -7,3 +7,5 @@
 .publish
 Package.resolved
 xcuserdata/
+.output
+.browsersync

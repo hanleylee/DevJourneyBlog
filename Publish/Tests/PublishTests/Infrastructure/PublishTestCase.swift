@@ -81,7 +81,7 @@ class PublishTestCase: XCTestCase {
                       allowWhitelistedFiles: Bool = true,
                       file: StaticString = #file,
                       line: UInt = #line) throws {
-        let outputFolder = try folder.subfolder(named: "Output")
+        let outputFolder = try folder.subfolder(named: ".output")
 
         let whitelistedPaths: Set<Path> = [
             "index.html",
