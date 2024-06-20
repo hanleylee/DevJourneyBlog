@@ -44,7 +44,7 @@ struct DevJourneyBlog: Website {
   */
 
 let t1 = CACurrentMediaTime()
-try DevJourneyBlog()
+try await DevJourneyBlog()
     .publish(
         using: [
             .addModifier(modifier: hrefOpenNewTab, modifierName: "hrefOpenNewTab"),
