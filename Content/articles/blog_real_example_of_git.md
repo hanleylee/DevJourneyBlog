@@ -461,6 +461,13 @@ Git 的每个 Commit 都有作者 (Author) 跟提交者 (Committer) 两种角色
 
 github 在国内的访问速度不是很理想, 建议将仓库同步到 gitee 上之后使用 gitee 下载链接
 
+## 终端命令 `git commit` 后, 在 vim 中如何中断 commit 流程?
+
+> 此时可能已经将内容写入 `.git/COMMIT_EDITMSG` 文件
+
+- 将已经输入的内容删除, 然后 `:wq` 退出, 这时 git 会提示 `Aborting commit due to empty commit message.`
+- 在 vim 中直接使用 `:cq!` 强制以错误的方式退出
+
 ## Ref
 
 - [Faster way to get git branch](https://gist.github.com/bingzhangdai/dd4e283a14290c079a76c4ba17f19d69)

@@ -800,6 +800,18 @@ echo "eval "$(scmpuff init -s)"" >> ~/.zshrc
 - `gs`: 显示当前所有文件状态, 类似于 `git status`
 - `git add 2 3 5-7`: 按照 `gs` 的序号结果进行 `add`
 
+### [git-filter-repo](https://github.com/newren/git-filter-repo)
+
+用于批量修改或删除历史记录中的内容
+
+#### 使用
+
+- `git filter-repo --path badfile --invert-paths --force`: 删除单个文件的所有历史提交
+- `git filter-repo --path output/*.dylib --invert-paths --force`: 删除多个文件的所有历史提交
+- `git filter-repo --path output --invert-paths --force`: 删除文件夹的所有历史提交
+
+删除完之后使用 `git push -f` 强制推送到远端
+
 ## GitHub
 
 ### GitHub(或其他 git 管理平台) 使用流程

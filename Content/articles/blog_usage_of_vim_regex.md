@@ -1,5 +1,5 @@
 ---
-title: 神级编辑器 Vim 使用-正则替换篇
+title: 神级编辑器 Vim 使用 - 正则替换篇
 date: 2021-01-15
 comments: true
 path: usage-of-vim-editor-regex
@@ -8,7 +8,7 @@ updated:
 tags: ⦿vim, ⦿regex, ⦿tool
 ---
 
-Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配, 可以很快速地完成我们很多需要大量人力操作的工作, 而且可对多文件使用查找/替换功能.
+Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配, 可以很快速地完成我们很多需要大量人力操作的工作, 而且可对多文件使用查找 / 替换功能.
 
 ![himg](https://a.hanleylee.com/HKMS/2020-01-09-vim8.png?x-oss-process=style/WaMa)
 
@@ -16,11 +16,11 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 
 本系列教程共分为以下五个部分:
 
-1. [神级编辑器 Vim 使用-基础篇](https://www.hanleylee.com/usage-of-vim-editor-basic.html) <!-- ./blog_usage_of_vim_basic.md -->
-2. [神级编辑器 Vim 使用-操作篇](https://www.hanleylee.com/usage-of-vim-editor.html) <!-- ./blog_usage_of_vim_operation.md -->
-3. [神级编辑器 Vim 使用-插件篇](https://www.hanleylee.com/usage-of-vim-editor-plugin.html) <!-- ./blog_usage_of_vim_plugin.md -->
-4. [神级编辑器 Vim 使用-正则操作篇](https://www.hanleylee.com/usage-of-vim-editor-regex.html) <!-- ./blog_usage_of_vim_regex.md -->
-5. [神级编辑器 Vim 使用-最后](https://www.hanleylee.com/usage-of-vim-editor-last.html) <!-- ./blog_usage_of_vim_final.md -->
+1. [神级编辑器 Vim 使用 - 基础篇](https://www.hanleylee.com/usage-of-vim-editor-basic.html) <!-- ./blog_usage_of_vim_basic.md -->
+2. [神级编辑器 Vim 使用 - 操作篇](https://www.hanleylee.com/usage-of-vim-editor.html) <!-- ./blog_usage_of_vim_operation.md -->
+3. [神级编辑器 Vim 使用 - 插件篇](https://www.hanleylee.com/usage-of-vim-editor-plugin.html) <!-- ./blog_usage_of_vim_plugin.md -->
+4. [神级编辑器 Vim 使用 - 正则操作篇](https://www.hanleylee.com/usage-of-vim-editor-regex.html) <!-- ./blog_usage_of_vim_regex.md -->
+5. [神级编辑器 Vim 使用 - 最后](https://www.hanleylee.com/usage-of-vim-editor-last.html) <!-- ./blog_usage_of_vim_final.md -->
 
 ## 正则匹配的模式
 
@@ -33,20 +33,20 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 
 其实, very magic 和 very nomagic 搜索模式分别是 Vim 对正则表达式特殊字符的两种极端处理方式. 一个通用的原则是: **如果想按正则表达式查找, 就用模式开关 \v, 如果想按原义查找文本, 就用原义开关 \V**
 
-本文只讨论默认模式下(`\m` 模式)下的正则匹配, 其他模式下的原理类似, 读者可自行研究
+本文只讨论默认模式下 (`\m` 模式) 下的正则匹配, 其他模式下的原理类似, 读者可自行研究
 
 ## 元字符
 
 完整的正则表达式由两种字符构成:
 
-- 元字符(metacharacters): 特殊字符 (special characters, 例如文件名例子中的 `*`)
-- 文字(literal): 即普通文本字符 (normal text characters).
+- 元字符 (metacharacters): 特殊字符 (special characters, 例如文件名例子中的 `*`)
+- 文字 (literal): 即普通文本字符 (normal text characters).
 
 ### 字符 / 字符组
 
 - `.`: 表示匹配任意 **一个** 字符. 例: `c..l` 表示任意以 c 开头, 中间有两个任意字符, l 结尾的字段.
-- `.*`: 表示匹配 **任意多个** 字符. 例: `c.*l` 表示任意以 c 开头 l 结尾的字段(不会将一个字段进行跨行处理, 因此非常智能, 很频繁使用)
-- `\_.*`: 表示匹配 **任意多个** 字符(包括换行符!)
+- `.*`: 表示匹配 **任意多个** 字符. 例: `c.*l` 表示任意以 c 开头 l 结尾的字段 (不会将一个字段进行跨行处理, 因此非常智能, 很频繁使用)
+- `\_.*`: 表示匹配 **任意多个** 字符 (包括换行符!)
 - `[adz]`: 匹配 `a`, `d`, `z` 中的任意 **一个**, 括号内也可是数字, 如 `[2-5]` 表示匹配 `2`, `3`, `4`, `5` 中的任意一个数字
 - `[^a]`: 匹配除 `a` 以外的任意 **字符**
 - `[a-c]`: 匹配 `a`, `b`, `c` 中的任意一个, 递增的顺序
@@ -87,9 +87,9 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 - `\e`: match `<ESC>`
 - `\b`: match `<BS>`
 - `\_x`: where *x* is any of the character above: character class with end-of-line included
-- `\_s`: 匹配换行或空白(空格或 tab)
-- `\_.`: 匹配任何字符(包括换行)
-- `\_a`: 匹配换行或单词(因为是单词, vim 不会匹配中文)
+- `\_s`: 匹配换行或空白 (空格或 tab)
+- `\_.`: 匹配任何字符 (包括换行)
+- `\_a`: 匹配换行或单词 (因为是单词, vim 不会匹配中文)
 - `/\%dnnn`: match specified **decimal character**(eg `/\%d123`)
 - `/\%onnn`: match **octal character**(eg`/\%o053` will match char `+` which ascii code is `43`)
 - `/\%xnn` / `/\%Xnn`: match **hex character**, point range is `00~FF, aka 00~255`(eg `/\%x2a`)
@@ -102,12 +102,12 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 - `*`: 表示其前字符可以重复 *0~无数* 次. 如 `/be*` 会匹配到 `b`, `be`, `bee` ..., 因为 e 重复零次就是没有, 所以会返回 b, **greedy**
 - `\+`: 表示其前字符必须重复 1~无数 次, 如 `/be\+` 会匹配到 `be`, `bee`, `beee` ..., **greedy**
 - `\?` 或 `\=`: 代表其前字符必须重复 0 或者 1 次, **greedy**
-- `\{n,m}`: 其前字符必须重复 n 到 m 次, **greedy**. (`\{n,}` 表示右边界范围为无限, `{,m}` 表示左边界范围为0)
+- `\{n,m}`: 其前字符必须重复 n 到 m 次, **greedy**. (`\{n,}` 表示右边界范围为无限, `{,m}` 表示左边界范围为 0)
 - `{n}`: n, **exactly**
 - `{n,}`: at least n, **greedy**
 - `{,m}`: 0 to m, **greedy**
 - `{}`: 0 or more, **greedy**(same as `*`)
-- `\{-n,m}`: 其前字符必须重复 n 到 m 次, **lazy**. (`\{-n,}` 表示右边界范围为无限, `{-,m}` 表示左边界范围为0)
+- `\{-n,m}`: 其前字符必须重复 n 到 m 次, **lazy**. (`\{-n,}` 表示右边界范围为无限, `{-,m}` 表示左边界范围为 0)
 - `\{-n}`: n, exactly
 - `\{-n,}`: at least n, **lazy**
 - `\{-,m}`: 0 to m, **lazy**
@@ -152,7 +152,7 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 - `~`: matches the last given substitute string
 - `\1`: 匹配到的第一个 `\(...\)`
 - `\2`: 匹配到的第二个 `\(...\)`
-- `&`: 它代表与搜索模式想匹配的整个文本, 即重现搜索串. 这在试图避免重复输入文本时很有用(for substitute)
+- `&`: 它代表与搜索模式想匹配的整个文本, 即重现搜索串. 这在试图避免重复输入文本时很有用 (for substitute)
 - `\0`: 同 `&`(for substitute)
 
 ### Modifier
@@ -163,7 +163,7 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 - `\V`: the following chars in the pattern are "very no magic"
 - `\%#=`: select regexp engine, zero-width
 - `\C`: 区分大小写地查找或替换, 例: `/\CText` 表示只会查找`Text`, 不会查找 `text` 或 `tExt` 等
-- `\c`: 不区分大小写地查找替换(已经在 vim 中设置了默认不区分了)
+- `\c`: 不区分大小写地查找替换 (已经在 vim 中设置了默认不区分了)
 - `\l`: next character made lowercase(for substitute)
 - `\u`: next character made uppercase(for substitute)
 - `\U`: 将跟在后面的匹配串全部变成大写, 直至 `\E`(for substitute)
@@ -214,7 +214,7 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 
 - `/view`: 全文查找 view 关键字 (n 为向下方向)
 - `?view`: 全文查找 view 关键字 (n 为向上方向)
-- `/\cview`: 全文查找 view 关键字(大小写不敏感)
+- `/\cview`: 全文查找 view 关键字 (大小写不敏感)
 - `:100,235g/foo/#`: 在区间 `100 ~ 235` 搜索, 在控制台输出结果
 - `:100,235il foo`: 同上
 - `/view/e`: 默认的查找会将光标置于单词首部, 使用 `e` 保证光标位于尾部, 方便 `.` 命令的调用
@@ -265,12 +265,24 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 - `/printer_\@!`: find any `printer` that is not followed by an `_`
 - `/_\@<!printer`: find any `printer` that is not begin with an `_`
 - `` `[^`]\_.\{-0,}` ``: 以 <code>&#96;</code> 开头, 以 <code>&#96;</code> 结尾, 且中间内容超过一个字符, 且内容可以跨行
-- `/\%d123`: 查找 unicode 字符点为 20 的字符(20 为十六进制, 对应十进制为 32, 起 ASCII 值为 `SP`, 也就是空格)
+- `/\%d123`: 查找 unicode 字符点为 20 的字符 (20 为十六进制, 对应十进制为 32, 起 ASCII 值为 `SP`, 也就是空格)
 - `/\%x2a`
 - `/\%o040`
-- `/\%u20`: 查找 unicode 字符点为 20 的字符(20 为十六进制, 对应十进制为 32, 起 ASCII 值为 `SP`, 也就是空格)
+- `/\%u20`: 查找 unicode 字符点为 20 的字符 (20 为十六进制, 对应十进制为 32, 起 ASCII 值为 `SP`, 也就是空格)
 - `/\%u6c60`: 查找 unicode 字符点为 6c60 的字符
 - `/\%U65536`: 查找 unicode 字符点为 65536 的字符
+- `/[^\x00-\x7f]`: search non-ascii characters
+- `/[\u4e00-\u9fa5]\+`: search chinese characters
+    - GBK (GB2312/GB18030)
+        - `\x00-\xff`: GBK双字节编码范围
+        - `\x20-\x7f`: ASCII
+        - `\xa1-\xff`: 中文
+        - `\x80-\xff`: 中文
+    - UTF-8 (Unicode)
+        - `\u4e00-\u9fa5`: 中文
+        - `\x3130-\x318F`: 韩文
+        - `\xAC00-\xD7A3`: 韩文
+        - `\u0800-\u4e00`: 日文
 
 还有一种是使用 `global` 命令: `:g/pattern/d` , 含义是对 patter 进行匹配搜索, 然后执行命令 `delete`, 也是基于查找的
 
@@ -302,27 +314,27 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
     - `.`: 光标所在的当前行
     - `N`: 第 N 行
     - `$`: 最后一行
-    - `'a`: 标记 `a` 所在的行(使用 `ma` 标记的)
+    - `'a`: 标记 `a` 所在的行 (使用 `ma` 标记的)
     - `.+1`: 当前光标的下面一行
     - `$-1`: 倒数第二行
-    - `22,23`: 第22 ~ 23行
+    - `22,23`: 第 22 ~ 23 行
     - `1,$`: 第一行到最后一行
     - `1,.`: 第一行到当前行
     - `.,$`: 当前行到最后一行
     - `'a, 'b`: 标记 `a` 所在的行到 标记 `b` 所在的行
-    - `%`: 所有行(与 `1,$` 等价)
-    - `?str?`: 从当前位置向上搜索, 找到的第一个 str 所在的行(str 可以为正则表达式)
+    - `%`: 所有行 (与 `1,$` 等价)
+    - `?str?`: 从当前位置向上搜索, 找到的第一个 str 所在的行 (str 可以为正则表达式)
     - `/str/`: 从当前位置向下搜索, 找到的第一个 str 所在的行
-    - `1,7` 指第一行至第七行. 也可以使用 `%` 代表当前的文章(也可以理解为全部的行), `#` 代表前一次编辑的文章(基本不用)
+    - `1,7` 指第一行至第七行. 也可以使用 `%` 代表当前的文章 (也可以理解为全部的行), `#` 代表前一次编辑的文章 (基本不用)
 - `s`: 代表当前的模式为替换
 - `/`: 作为分隔符, 如果确实要替换文中的 `/`, 那么可以使用 `#` 代替作为分隔符. 例如 `:s#vi/#vim#g`, 代表替换 `vi/` 为 `vim`, 常用的分隔符还有 `:`, `_`, `|`
 - `pattern`: 要被替换掉的字符
 - `string`: 将要使用的字符
 - `flags`
     - `无`: 只对指定范围内的每一行的第一个匹配项进行替换
-    - `g`: global, 整行替换(基本上是必加的, 否则只会替换每一行的第一个符合字符)
+    - `g`: global, 整行替换 (基本上是必加的, 否则只会替换每一行的第一个符合字符)
     - `c`: confirm, 每次替换前会询问
-    - `e`: ignore, 忽略错误(默认找不到会提示 `pattern not found`, 但是如果设置 vim 设置批量替换命令的话某一个项未匹配到不能影响到下一项的执行, 可以使用此关键字, `:silent %s/x/y/g` == `:%s/x/y/ge` )
+    - `e`: ignore, 忽略错误 (默认找不到会提示 `pattern not found`, 但是如果设置 vim 设置批量替换命令的话某一个项未匹配到不能影响到下一项的执行, 可以使用此关键字, `:silent %s/x/y/g` == `:%s/x/y/ge` )
     - `i`: ignore, 不区分大小写
     - `I`: 区分大小写
 
@@ -358,9 +370,9 @@ Vim 的替换查找是其核心功能, 功能极其强大, 通过其规则匹配
 - `:s:\s\+$::`: a simple regexp I use quite often to clean up a text: it drops the blanks at the end of the line.
 - `:122,250s/\(201\d*\)\.\(\d*\)\.\(\d*\)\s/\1-\2-\3_/gc`: 替换 `2017.12.31`类型的字段为`2017-12-31_`
 - `:%s/\(\](http:.*com\/\)\(HK.*\))/\](https:\/\/a.hanleylee.com\/\2?x-oss-process=style\/WaMa)/gc`: 将`[](http: ....com)` 替换成 https 并且尾部带有样式参数
-- `:%s/\(a.*bc\)\(<.*>\)\(xy.*z\)/\3\2\1/gc`: 使用缓冲块实现对前后区域匹配并翻转位置(需要时再理解)
-- `:%s/hello/&, world/`: 将会把hello替换成hello, wolrd
-- `:%s/.*/(&)/`: 将会把所有行用()包含起来
+- `:%s/\(a.*bc\)\(<.*>\)\(xy.*z\)/\3\2\1/gc`: 使用缓冲块实现对前后区域匹配并翻转位置 (需要时再理解)
+- `:%s/hello/&, world/`: 将会把 hello 替换成 hello, wolrd
+- `:%s/.*/(&)/`: 将会把所有行用 () 包含起来
 - `:s/world/\U&/`: 把 world 变成 WORLD
 - `:%s ; /user1/tim;/home/time;g`: `/user1/tim`改为`/home/time`, 除了 `/` 字符外, 还可以使用除反斜杆 `\`, 双引号`"`, 和竖直线 `|` 之外的任何非字母表, 非空白字符作为分隔符, 在对路径名进行修改时, 这点尤其便利
 - `:s`: 与 `:s//~/`相同, 重复上次替换
@@ -464,7 +476,7 @@ global 语法有两种
 - `:g/TODO/t$`: 将结果匹配到 `TODO` 的行复制到本缓冲区的尾部
 - `:g/{/.+1,/}/-1 sort`: 会在每个 `{` 开始找, 然后在之后一直执行到 `}` 为止, 进行排序
 - `:g/{/sil.+1,/}/-1 >`: 会在每个 `{` 开始找, 然后在之后一直执行到 `}` 为止, 进行缩进 (加入 sil 是为了屏蔽提示信息)
-- `:g/从这里删除/.,$ d`: 从内容中搜出的第一个 `从这里删除` 开始, 一直删除到文章结尾
+- `:g/ 从这里删除 /.,$ d`: 从内容中搜出的第一个 `从这里删除` 开始, 一直删除到文章结尾
 - `:g/^\(.*\)$\n\1$/d`: 去除重复行
 - `:g/\%(^\1$\n\)\@<=\(.*\)$/d`: 去除重复行
 - `:g/\%(^\1\>.*$\n\)\@<=\(\k\+\).*$/d`: 去除重复行
@@ -547,7 +559,7 @@ global 语法有两种
 | 3          | `abc\t\.\w`         | sequence of characters/ metacharacters, not containing quantifiers or grouping operators |
 | 4          | `\|`                | alternation                                                                              |
 
-## 零宽度断言 (前后预查/环视)
+## 零宽度断言 (前后预查 / 环视)
 
 | PCRE 正则符号 | vim 正则符号 | 描述                           | PCRE 示例 | vim 示例     |
 |---------------|--------------|--------------------------------|-----------|--------------|
@@ -626,12 +638,12 @@ global 语法有两种
 - `range`: 搜索的文件范围
     - `%`: 在当前文件中查找
     - `**/*.md`: 在当前目录即子目录下的所有 .md 文件中
-    - `*`: 当前目录下查找所有(不涉及子目录)
+    - `*`: 当前目录下查找所有 (不涉及子目录)
     - `**`: 当前目录及子目录下所有
     - `*.md`: 当前目录下所有.md 文件
     - `**/*`: 只查找子目录
 
-查找的结果使用 `quick-fix` 来进行展示, 可使用 `:copen` 查看所有结果项并进行相应跳转, 具体操作参考 [神级编辑器 Vim 使用-操作篇](https://www.hanleylee.com/usage-of-vim-editor.html)
+查找的结果使用 `quick-fix` 来进行展示, 可使用 `:copen` 查看所有结果项并进行相应跳转, 具体操作参考 [神级编辑器 Vim 使用 - 操作篇](https://www.hanleylee.com/usage-of-vim-editor.html)
 
 #### 实例
 
@@ -646,11 +658,11 @@ location-list 只是一个局部的显示区域, 只能简单显示查找结果�
 ### 多文件替换
 
 多文件替换所依赖的是 vim 中的参数列表概念, 这里仅对流程命令进行演示, 具体的参数列表操作参考 [神级编辑器 Vim
-使用-操作篇](https://www.hanleylee.com/usage-of-vim-editor.html)
+使用 - 操作篇](https://www.hanleylee.com/usage-of-vim-editor.html)
 
 - `:args`: 显示当前的所有参数列表
 - `:args *.md aa/**/*.md` 表示添加子文件夹下的 `md` 文件及 `aa` 文件夹下的和其子文件夹下的 `md` 文件到参数列表中
-- `:argdo %s/oldword/newword/egc | update`: 对所有存在参数列表中的文件执行命令, `s` 代表替换, `%` 指对所有行进行匹配, `g` 代表整行替换(必用), `e` 指使用正则表达式, `c` 代表每次替换前都会进行确认, `update` 表示对文件进行读写
+- `:argdo %s/oldword/newword/egc | update`: 对所有存在参数列表中的文件执行命令, `s` 代表替换, `%` 指对所有行进行匹配, `g` 代表整行替换 (必用), `e` 指使用正则表达式, `c` 代表每次替换前都会进行确认, `update` 表示对文件进行读写
 - `:argdo %s/!\[.*\]/!\[img\]/gc`: 将所有参数列表中的以 `![` 开头, 以 `]` 结尾的所有字段改为 `[img]`
 - `:argdo write`: 将所有参数列表中的内容进行缓冲区保存
 
@@ -658,21 +670,35 @@ location-list 只是一个局部的显示区域, 只能简单显示查找结果�
 
 ### `<EOL>` 与 `newline`
 
+当 Vim 加载文件时, 会首先在打开文件时会检查文件中的换行符, 以确定文件的 `fileformat`:
+
+- 如果文件包含 `\r\n`, 则 Vim 会将 `fileformat` 设置为 `dos`.
+- 如果文件只包含 `\n`, 则 Vim 会将 `fileformat` 设置为 `unix`.
+- 对于旧的 Macintosh 系统, 它使用的是回车符 `\r`, 如果检测到这种换行符, `fileformat` 会被设置为 mac.
+
+然后根据 `fileformat` 进而确定出 `<EOL>` 是什么字符
+
 EOL does not mean "there is an empty line after here", it means **this marks the end of the line, any further characters are to be displayed on another line**
 
-当 Vim 加载文件时, 会首先确定文件的 `fileformat`, 然后根据 `fileformat` 进而确定出 `<EOL>` 是什么字符, `<EOL>` 代表每行的结束, `<EOL>` 字符之后的字符就位于一个新的行. 这样, vim 就展示出了多行的效果.
+`<EOL>` 代表每行的结束, `<EOL>` 字符之后的字符就位于一个新的行. 这样, vim 就展示出了多行的效果.
 
-`<EOL>`(end-of-line) 在不同的 `fileformat` 下有着不同的定义(通过 `set ff?` 查看), `newline` 是 vim 内部用来存储换行的符号, 在不同的 `fileformat` 下是不同的值:
+`<EOL>`(end-of-line) 在不同的 `fileformat` 下有着不同的定义 (通过 `set ff?` 查看). `newline` 是 **vim 内部用来存储换行的符号**, 在不同的 `fileformat` 下也对应着不同的值:
 
-| `fileformat` | 对应的 `<EOL>`        | 对应的 `newline` 值 |
-|--------------|-----------------------|---------------------|
-| `dos`        | `<CR><LF>`(0x0d 0x0a) | `<CR>`(0x0d)        |
-| `unix`       | `<LF>`(0x0a)          | `<CR>`(0x0d)        |
-| `mac`        | `<CR>`(0x0d)          | `<LF>`(0x0a)        |
+| `fileformat` | 对应的 `<EOL>`              | 对应的 `newline` 值 |
+|--------------|-----------------------------|---------------------|
+| `dos`        | `<CR><LF>`(0x0d 0x0a)`\r\n` | `<CR>`(0x0d)        |
+| `unix`       | `<LF>`(0x0a)`\n`            | `<CR>`(0x0d)        |
+| `mac`        | `<CR>`(0x0d)`\r`            | `<LF>`(0x0a)        |
 
-可见, `newline` 的定义刻意地避开了与 `<EOL>` 的内容相同
+> 可见, `newline` 的定义刻意地避开了与 `<EOL>` 的内容相同
 
 使用 `<C-V><C-M>` / `<C-V><ENTER>` 可以输入 `newline`, 使用 `<C-V><C-J>` 输入 `<NUL>`
+
+### 如何将 fileformat 已经确定为 mac 的文件转换为 `unix`
+
+使用 `:e ++ff=unix` 可以重新打开文件, 并指定使用 `unix` 换行符格式, 如果打开后实际的换行符格式与指定的格式不匹配, 那么vim会显示警告信息, 且布局错乱
+
+这时可以再使用 `:s/^M/\r/g` 命令将 `<CR>` 替换为 `<LF>`(`^M` 表示 `<CR>`, 在 vim 中使用 `<C-V><C-M>` 来输入), 然后保存即可. 该文件下次被打开时, vim 就会将其检测为 `unix` 文件格式了
 
 ### `\n` 与 `\r` 的区别到底是什么
 

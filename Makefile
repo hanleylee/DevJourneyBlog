@@ -9,7 +9,7 @@ copy_origin:
 	# rm -r ${HOME}/repo/hanleylee.com/source/_posts/* || true
 	# fd -t f -e md blog ${HOME}/repo/hkms/ -x cp -irv {} "${HOME}/repo/hanleylee.com/source/_posts/{/}"
 	rm -r Content/articles/* || true
-	fd -t f -e md '^blog' ${HOME}/repo/hkms/ -x cp -irv {} "Content/articles/{/}"
+	fd -t f -e md '^blog_' ${HOME}/repo/hkms/ -x cp -irv {} "Content/articles/{/}"
 	# find . -type f -name "blog_*" -exec cp -irv {} "Content/articles/" \;
 	# for file in **/*.md; do # Whitespace-safe and recursive
 	#    filename=$(echo "$file" | sed 's/^.*\///')

@@ -163,7 +163,7 @@ updated:
 | u          | hexadecimal | 4               | `<C-v>u002a`            | ffff (65535)          |
 | U          | hexadecimal | 8               | `<C-v>U0000002a`        | 7fffffff (2147483647) |
 
->:h i_CTRL-V_digit
+> check usage by enter `:h i_CTRL-V_digit` in vim
 
 ## ASCII 与 unicode 关系
 

@@ -104,6 +104,9 @@ $ ls -lhia
 - `git submodule`: 显示所有 `submodule`, 等同于`git submodule status`
 - 添加 submodule 到现有项目
     1. Run `git submodule add -b <branch> --name <name> <repo-url> <local dir>`
+
+        如果要添加本地 repo 作为 submodule, 可以这样使用: `git submodule add $PWD/hanleylee/vim-cocoapods hanleylee/vim-cocoapods`
+
     2. Commit both files on the superproject
 - 从当前项目移除 submodule
     1. `git submodule deinit -f <submodule_path>`

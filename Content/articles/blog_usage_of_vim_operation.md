@@ -528,7 +528,7 @@ vim 中 mark 分为三种:
 - `:tabnew|put=execute('scriptnames')`: 新开一个 `tab`, 将输出 `put` 到该 `buffer` 上
 - `:redir @">|silent scriptnames|redir END|enew|put`: 使用重定向到 `"` 寄存器, 然后在新 `buffer` 上 `put`
 - `:!ls`: 显示当前工作目录下的所有文件 (此操作属于调用系统进程, 使用! 来调用系统操作是 Vim 的一大特点)
-- `:[range]write!sh`: 将当前缓冲区的内容, 在 shell 中逐行执行, 与 `read!<command>` 作用正好相反, `!` 表示外部程序
+- `:[range]write! sh`: 将当前缓冲区的内容, 在 shell 中逐行执行, 与 `read!<command>` 作用正好相反, `!` 表示外部程序
 - `:[range]write! sh`: 将当前缓冲区的内容, 在 shell 中逐行执行, `!` 表示外部程序
 - `:[range]write! sh`: 将当前缓存区内容写入到一个名为 sh 的文件, `!` 表示强制覆盖式写入
 - `:[range]write! filename`: 将当前缓冲区内容另存为到 filename 文件中
@@ -541,8 +541,11 @@ vim 中 mark 分为三种:
     - `o`: 八进制排序
     - `x`: 十六进制排序
     - `u`: 移除重复行, `:sort! u` 会倒序去重排序 (`!` 控制正反序, 默认是正序)
-    - `pattern`: When `pattern` is specified and there is no `r` flag the text matched with `pattern` is skipped, so that you sort on what comes after the match.
+    - `r`: sorting is done on the matching `{pattern}`
+    - `pattern`: **When `pattern` is specified and there is no `r` flag the text matched with `pattern` is skipped, so that you sort on what comes after the match.**
 - `:sort /.*\%2v/`: sort all lines on second column
+<!-- - `:%sort /: \zs.\{-}\ze:/ nu`: sort `.zsh_history` file by timestamp -->
+- `:%sort /^: / nu`: sort `.zsh_history` file by timestamp
 - `:2,$!sort -t',' -k2`: 使用外部 `sort` 程序进行排序, 以 `,` 为分隔符, 以第二项进行排序
 - `:%!tac`: 将整个文档翻转
 - `:%!sort -R`: 随机排序
@@ -665,7 +668,7 @@ vim 为我们提供了一些可以使用的宏用来表示相关路径或文件�
 
     从 `"0` 到 `"9` 共 10 个, `"0` 保存着拷贝来的字符串, `"1` 保存着上次删除掉的字符串, `"2` 保存着上上次删除掉的字符串, 依次类推, vim 会保存最近的 9 次删除. 删除操作包括 `s`, `c`, `d`, `x`. 只有整行整行的删除才会放入 `"1` 中.
 
-    使用 `y` 复制后内容会被放到 `"0` 寄存器及无名寄存器中, 但是复制寄存器是稳定的, 无名寄存器的内容会时刻被重置替换. 其标志符是 `"0`
+    使用 `y` 复制后内容会被放到 `"0` 寄存器及无名寄存器中, 但是复制寄存器 `"0`是稳定的, 无名寄存器的内容会时刻被重置替换
 
 - 粘贴板寄存器
 
@@ -679,9 +682,11 @@ vim 为我们提供了一些可以使用的宏用来表示相关路径或文件�
 
     以单个小写字母命名的寄存器, 可用于自定义存储空间, 一共有 26 个
 
-- 小删除寄存器
+- 小删除寄存器: `"-`
 
-    不足一行的小删除会被放到小删除寄存器中, 删除操作包括 `s`, `c`, `d`, `x`.
+    **不足一行的小删除会被放到小删除寄存器中**, 以及无名寄存器中, 删除操作包括 `s`, `c`, `d`, `x`.
+
+    大于等于一行的删除会被放到 `"1` 寄存器中, 并将所有数字寄存器中的内容顺序往后移动
 
 - 只读寄存器
 

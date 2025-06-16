@@ -68,7 +68,7 @@ updated:
 
 | Stat | Title           | Author       | Link                                                   |
 |:----:|:----------------|:-------------|:-------------------------------------------------------|
-|  ✅  | Ruby            | 易百教程     | <https://www.yiibai.com/ruby/quick-start.html>         |
+|  ✅  | Ruby            | 易百教程     | <https://www.unknown.com/ruby/quick-start.html>         |
 |  ✅  | Python          | RUNOOB.com   | <https://www.runoob.com/python3/python3-tutorial.html> |
 |  ✅  | JavaScript 教程 | 网道 (阮一峰) | <https://wangdoc.com/javascript/>                      |
 |  ✅  | HTML 教程       | 网道 (阮一峰) | <https://wangdoc.com/html/index.html>                  |

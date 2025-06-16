@@ -61,29 +61,46 @@ dispatchMain()
 
 之后在需要退出的地方调用 `exit()` 即可退出程序
 
-## `@main`
+<!-- ## `@main` -->
 
-swift 5.5 之后支持了通过使用 `@main` 关键字指定程序启动入口, 因此我们可以结合 `@main` 与异步静态方法 `main()` 实现
+<!-- swift 5.5 之后支持了通过使用 `@main` 关键字指定程序启动入口, 因此我们可以结合 `@main` 与异步静态方法 `main()` 实现 -->
+
+<!-- ```swift -->
+<!-- import Foundation -->
+
+<!-- @main -->
+<!-- struct AsyncCLI { // the name is arbitrary --> 
+<!--     static func main() async throws { -->
+<!--         setbuf(stdout, nil) -->
+<!--         while true { -->
+<!--             sleep(1) -->
+<!--             print(123) -->
+<!--         } -->
+<!--         // your code goes here -->
+<!--     } -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- 使用这种方式要注意, 如果编译时报错 "'main' attribute cannot be used in a module that contains top-level code", 那么要使用 `swiftc -parse-as-library main.swift && ./main` 的方式编译执行 -->
+
+<!-- bug: <https://github.com/apple/swift/issues/55127> -->
+
+## `await`
 
 ```swift
 import Foundation
 
-@main
-struct AsyncCLI { // the name is arbitrary 
-    static func main() async throws {
-        setbuf(stdout, nil)
-        while true {
-            sleep(1)
-            print(123)
-        }
-        // your code goes here
+setbuf(stdout, nil)
+
+DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+    while true {
+        print(Date().timeIntervalSince1970)
+        sleep(1)
     }
 }
+
+try await Task.sleep(for: .seconds(100_000_000))
 ```
-
-使用这种方式要注意, 如果编译时报错 "'main' attribute cannot be used in a module that contains top-level code", 那么要使用 `swiftc -parse-as-library main.swift && ./main` 的方式编译执行
-
-bug: <https://github.com/apple/swift/issues/55127>
 
 ## 信号量
 

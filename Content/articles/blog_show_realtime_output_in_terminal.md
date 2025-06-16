@@ -65,7 +65,7 @@ setvbuf(fp, buffer, _IOFBF, BUFSIZ)
 
 ## 如何让输出实时刷新
 
-回到我们开头的问题, 为什么使用 `nohup swift main.swift &>output.txt &` 后不能实时看到 `output.txt` 内容的输出? 因为在这个命令里, 我们的 stdout 被重定向到了 `output.txt` 这个文件, 而不是 TTY, 因此根据上面的规则, `stdout(not a TTY)` 会使用 `fully-buffered` 的方式 (这里推测 Swift 与 C 语言有相同的处理逻辑)
+回到我们开头的问题, 为什么使用 `nohup swift main.swift &>output.txt &` 后不能实时看到 `output.txt` 内容的输出? 因为在这个命令里, 我们的 `stdout` 被重定向到了 `output.txt` 这个文件, 而不是 TTY, 因此根据上面的规则, `stdout(not a TTY)` 会使用 `fully-buffered` 的方式 (这里推测 Swift 与 C 语言有相同的处理逻辑)
 
 分析出来原因后, 我们再想解决就简单了, 可以使用如下这些方式:
 
@@ -85,7 +85,7 @@ setvbuf(fp, buffer, _IOFBF, BUFSIZ)
 - 禁用 stdout 的缓存能力
 
     ```c
-    setvbuf(stdout, nil, _IONBF, 0)
+    setvbuf(stdout, nil, _IONBF, 0) // or setbuf(stdout, nil)
     print("123")
     ```
 
@@ -104,13 +104,6 @@ setvbuf(fp, buffer, _IOFBF, BUFSIZ)
 
 另外, python 支持环境变量 `PYTHONUNBUFFERED` 以禁用 stdout 缓冲. 所以, 如果你想在不调用 `flush()` 的情况下查看 python 的实时输出, 你可以在 `.zshrc` / `.bashrc` 中添加 `export PYTHONUNBUFFERED=1`
 
-## Ref
-
-- [Stdout Buffering](https://eklitzke.org/stdout-buffering)
-- [Why does printf not flush after the call unless a newline is in the format string?](https://stackoverflow.com/a/1716621/11884593)
-- [linux man setbuf](https://man7.org/linux/man-pages/man3/setbuf.3.html#DESCRIPTION)
-- [Can't see the realtime output when running a python script](https://github.com/skywind3000/asyncrun.vim/wiki/FAQ#cant-see-the-realtime-output-when-running-a-python-script)
-
 ## Example
 
 这里列举一些终端组合命令时, 何时会 line-buffered, 何时会 fully-buffered
@@ -122,3 +115,10 @@ setvbuf(fp, buffer, _IOFBF, BUFSIZ)
 - `tac /var/log/mylog.txt | grep RAREPATTERN`: line-buffered, 因为 stdout 是 tty
 - `grep RAREPATTERN /var/log/mylog.txt | cut -f1`: fully-buffered, 因为 grep 的 stdout 现在是一个管道描述符 (file descriptor for a pipe), **Pipes are not TTYs**
 - `grep --line-buffered RAREPATTERN /var/log/mylog.txt | cut -f1`: line-buffered, 使用 `--line-buffered` 参数强制 grep 为 line-buffered
+
+## Ref
+
+- [Stdout Buffering](https://eklitzke.org/stdout-buffering)
+- [Why does printf not flush after the call unless a newline is in the format string?](https://stackoverflow.com/a/1716621/11884593)
+- [linux man setbuf](https://man7.org/linux/man-pages/man3/setbuf.3.html#DESCRIPTION)
+- [Can't see the realtime output when running a python script](https://github.com/skywind3000/asyncrun.vim/wiki/FAQ#cant-see-the-realtime-output-when-running-a-python-script)

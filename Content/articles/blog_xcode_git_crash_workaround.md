@@ -52,7 +52,7 @@ Timestamp: 2023-04-01T16:48:26+08:00
 
 ## 后记
 
-因为我是使用 homebrew 安装了新版 git, 且其在 $PATH 的顺序比 `/usr/bin/git` 靠前, 如果在终端中执行 `git reset` 相关动作的话, 那么 `.git/index` 文件又会被生成为最新的, 进而 Xcode 又会报错. 因此如果想彻底解决这个问题, 可以有以下方案:
+因为我是使用 homebrew 安装了新版 git, 且其在 `$PATH` 的顺序比 `/usr/bin/git` 靠前, 如果在终端中执行 `git reset` 相关动作的话, 那么 `.git/index` 文件又会被生成为最新的, 进而 Xcode 又会报错. 因此如果想彻底解决这个问题, 可以有以下方案:
 
 - 等到 Xcode 升级相关 git 解析库
 - 等后续的新版 git 兼容旧版本
