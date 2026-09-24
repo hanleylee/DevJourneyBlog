@@ -1195,22 +1195,17 @@ fugitive 插件操作的对象名为 `fugitive object`, 可以是文件也可以
         added, or where it was removed if a count was given. If the line is still in the work tree version, passing a count takes you to it.
     - `o`: Open the file or `fugitive-object` under the cursor in a new split.
     - `gO`: Open the file or `fugitive-object` under the cursor in a new vertical split.
-    - `O`: Open the file or `fugitive-object` under the cursor in a new tab.
+    - `O`: **Open the file or `fugitive-object` under the cursor in a new tab.**
     - `p`: Open the file or `fugitive-object` under the cursor in a preview window. In the status buffer, 1p is required to bypass the legacy usage instructions.
     - `~`: Open the current file in the [count]th first ancestor.
     - `P`: Open the current file in the [count]th parent.
     - `C`: Open the commit containing the current file.
+    - `]m` / `[m`: Jump to the next / previous modified file in log interface.(`foldmethod=syntax` and `foldlevel=1` is required)
 
 ### 常用流程
 
-- 查看当前 head 的 diff
-
-`:Gdiffsplit HEAD`
-
-- 查看当前 file 的所有相关 commit
-
-`:0Gclog!`
-
+- 查看当前 head 的 diff: `:Gdiffsplit HEAD`
+- 查看当前 file 的所有相关 commit: `:0Gclog!`
 - 查看当前 file 之前某个版本与现在版本的差异
 
     1. `:0Gclog!` 列出所有本 file 相关的 commit

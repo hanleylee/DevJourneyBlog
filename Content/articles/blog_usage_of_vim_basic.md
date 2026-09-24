@@ -251,27 +251,27 @@ Vim 默认模式, 又称为命令模式, 可使用 hjkl 进行移动和简单编
     nnoremap  j   h
     ```
 
-- `<Leader>`: 意思就是在各种快捷键的最前面加上 `<leader>`, 避免了二义性. 如下所示, 在普通模式按下##w 时, 就完成了文件的保存工作
+- `<Leader>`: 意思就是在各种快捷键的最前面加上 `<leader>`, 避免了二义性. 如下所示, 在普通模式按下 `##w` 时, 就完成了文件的保存工作
     (如果不进行自定义设置的话, 默认的 leader 键为反斜杠 `\`)
 
     ```vim
     let mapleader="##"
-    nmap `<leader>` w:w<CR>
+    nmap <leader>w :w<CR>
     ```
 
-| Command    | Nor | Ins | Cmd | Vis | Sel | Opr | Term | Lang |
-|:-----------|:---:|:---:|:---:|:---:|:---:|:---:|:----:|:----:|
-| [nore]map  | yes |  -  |  -  | yes | yes | yes |   -  |   -  |
-| n[nore]map | yes |  -  |  -  |  -  |  -  |  -  |   -  |   -  |
-| [nore]map! |  -  | yes | yes |  -  |  -  |  -  |   -  |   -  |
-| i[nore]map |  -  | yes |  -  |  -  |  -  |  -  |   -  |   -  |
-| c[nore]map |  -  |  -  | yes |  -  |  -  |  -  |   -  |   -  |
-| v[nore]map |  -  |  -  |  -  | yes | yes |  -  |   -  |   -  |
-| x[nore]map |  -  |  -  |  -  | yes |  -  |  -  |   -  |   -  |
-| s[nore]map |  -  |  -  |  -  |  -  | yes |  -  |   -  |   -  |
-| o[nore]map |  -  |  -  |  -  |  -  |  -  | yes |   -  |   -  |
-| t[nore]map |  -  |  -  |  -  |  -  |  -  |  -  |  yes |   -  |
-| l[nore]map |  -  | yes | yes |  -  |  -  |  -  |   -  |  yes |
+| Command      | Normal | Insert | Command | Visual | Select | Operate | Terminal | Lang |
+|:-------------|:------:|:------:|:-------:|:------:|:------:|:-------:|:--------:|:----:|
+| `[nore]map`  |   yes  |    -   |    -    |   yes  |   yes  |   yes   |     -    |   -  |
+| `n[nore]map` |   yes  |    -   |    -    |    -   |    -   |    -    |     -    |   -  |
+| `[nore]map!` |    -   |   yes  |   yes   |    -   |    -   |    -    |     -    |   -  |
+| `i[nore]map` |    -   |   yes  |    -    |    -   |    -   |    -    |     -    |   -  |
+| `c[nore]map` |    -   |    -   |   yes   |    -   |    -   |    -    |     -    |   -  |
+| `v[nore]map` |    -   |    -   |    -    |   yes  |   yes  |    -    |     -    |   -  |
+| `x[nore]map` |    -   |    -   |    -    |   yes  |    -   |    -    |     -    |   -  |
+| `s[nore]map` |    -   |    -   |    -    |    -   |   yes  |    -    |     -    |   -  |
+| `o[nore]map` |    -   |    -   |    -    |    -   |    -   |   yes   |     -    |   -  |
+| `t[nore]map` |    -   |    -   |    -    |    -   |    -   |    -    |    yes   |   -  |
+| `l[nore]map` |    -   |   yes  |   yes   |    -   |    -   |    -    |     -    |  yes |
 
 ### 实际修改举例
 

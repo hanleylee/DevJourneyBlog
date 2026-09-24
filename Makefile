@@ -4,7 +4,7 @@ SHELL:=/usr/bin/env bash
 
 all: copy_origin generate preview
 
-copy_origin:
+copy-origin:
 	shopt -s globstar # 开启通配符模式
 	# rm -r ${HOME}/repo/hanleylee.com/source/_posts/* || true
 	# fd -t f -e md blog ${HOME}/repo/hkms/ -x cp -irv {} "${HOME}/repo/hanleylee.com/source/_posts/{/}"

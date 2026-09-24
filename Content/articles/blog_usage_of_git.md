@@ -168,7 +168,7 @@ updated:
     - `git pull orign test`: 从服务器拉取远端名为 `test` 的 `branch` 并与本地当前的 `branch` 合并 (这个命令适用于在本地 `git branch <name>` 或 `git checkout -b <name>` 刚建立了一个新的本地分支, 然后从服务器的指定分支拉取 `commit` 到本地此新分支上)
     - `git pull origin master --rebase`: 以变基方式拉取远端主分支到本地 `master` 分支, 主要用于第一次拉取远端分支
     - `git pull origin branch1:branch2`: 从服务器远端拉取 `branch1` 分支合并到本地的 `branch2` 分支, 如果本地没有 `branch2` 分支的话则新建.  然后将拉取到的分支合并到当前所处的分支上
-    - `git pull origin master:master`: 从服务器拉取远程 `master` 到本地 `master` 上, 然后合并, **然后将 master 分支 merge 到当前所处的分支上**. 这个比 `git fetch` 多了一步 (合并 `master` 到本分支), 因此要慎用, 最好用 `git fetch`, 然后自行判断
+    - `git pull origin master:master`: 从服务器拉取远程 `master` 到本地 `master` 上, 然后合并, **然后将 master 分支 merge 到当前所处的分支上**. 这个比 `git fetch` 多了一步 (合并 `master` 到本分支), 因此要慎用. 如果只想拉取远程 `master` 分支到本地 `master` 分支上, 但是不想合并到当前分支(`feature/xxx`)上, 那么可以使用 `git fetch origin master:master` 命令
     - `git pull origin master:master --rebase`: 与上一种功能类似, 不过是将当前分支 `rebase` 到 `master` 分支上
 
 - `git remote`: 远程仓库

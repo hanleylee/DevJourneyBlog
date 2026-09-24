@@ -45,7 +45,7 @@ extension Node where Context == HTML.DocumentContext {
                 else: .twitterCardType(location.imagePath == nil ? .summary : .summaryLargeImage)),
             .meta(.name("twitter:site"), .content("@Hanley_Lei")),
             .meta(.name("twitter:creator"), .content("@Hanley_Lei")),
-            .meta(.name("referrer"), .content("no-referrer")),
+            .meta(.name("referrer"), .content("strict-origin-when-cross-origin")),
             .forEach(stylesheetPaths) { .stylesheet($0) },
             .viewport(.accordingToDevice),
             .unwrap(site.favicon) { .favicon($0) },

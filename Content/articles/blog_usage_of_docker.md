@@ -332,7 +332,7 @@ root@1sdaf124232: ping test1
 
 ref: <https://stackoverflow.com/a/32774347/11884593>
 
-## docker-compose
+## docker compose
 
 Docker Compose 使用 YAML 格式的配置文件 `docker-compose.yaml`, 该文件中定义了应用程序的各个组件, 每个组件对应的 Docker 镜像, 相应的服务, 网络等.
 
@@ -391,18 +391,18 @@ services:
 
 ### 一些常用的 Docker Compose 命令
 
-我们可以在包含 `docker-compose.yaml` 文件的目录下直接执行 `docker-compose up -d` 来创建并启动相关服务, 常用的 `docker-compose` 命令如下:
+我们可以在包含 `docker-compose.yaml` 文件的目录下直接执行 `docker compose up -d` 来创建并启动相关服务, 常用的 `docker compose` 命令如下:
 
-- `docker-compose up -d`: 创建并启动容器, 后台运行
-- `docker-compose down`: 停止并移除相关资源(会移除已创建的 container)
-- `docker-compose stop`: 停止所有服务
-- `docker-compose start`: 启动所有服务
-- `docker-compose restart` 重启所有服务
-- `docker-compose build`: 构建 Compose 文件中定义的服务
-- `docker-compose build <service_name>`: 只构建 Compose 文件中的某个服务
-- `docker-compose up --build`: 重新构建服务并强制重新生成镜像
-- `docker-compose up --force-recreate --build`: 在需要升级服务时, 使用此命令强制重新构建并启动服务(将删除并重新创建所有容器)
-- `docker-compose -f docker-compose.yml up -d`
+- `docker compose up -d`: 创建并启动容器, 后台运行
+- `docker compose down`: 停止并移除相关资源(会移除已创建的 container)
+- `docker compose stop`: 停止所有服务
+- `docker compose start`: 启动所有服务
+- `docker compose restart` 重启所有服务
+- `docker compose build`: 构建 Compose 文件中定义的服务
+- `docker compose build <service_name>`: 只构建 Compose 文件中的某个服务
+- `docker compose up --build`: 重新构建服务并强制重新生成镜像
+- `docker compose up --force-recreate --build`: 在需要升级服务时, 使用此命令强制重新构建并启动服务(将删除并重新创建所有容器)
+- `docker compose -f docker-compose.yaml up -d`
 
 ## 参考
 
